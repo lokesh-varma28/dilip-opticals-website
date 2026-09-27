@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0B2545;
+  --color-primary-50: #f0f4f9;
+  --color-primary-100: #dce5f1;
+  --color-primary-200: #b8cde2;
+  --color-primary-300: #8baecd;
+  --color-primary-400: #5989b4;
+  --color-primary-500: #386b9b;
+  --color-primary-600: #29537e;
+  --color-primary-700: #204164;
+  --color-primary-800: #17324d;
+  --color-primary-900: #0B2545;
+  --color-primary-950: #07172c;
+
+  --color-accent: #D4A017;
+  --color-accent-50: #fdfaf0;
+  --color-accent-100: #f9f2db;
+  --color-accent-200: #f3e3b3;
+  --color-accent-300: #ebd084;
+  --color-accent-400: #dfb84b;
+  --color-accent-500: #D4A017;
+  --color-accent-600: #b8830f;
+  --color-accent-700: #93620e;
+  --color-accent-800: #784e12;
+  --color-accent-900: #654114;
+  --color-accent-950: #3b2207;
+
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+
+  --shadow-soft: 0 4px 20px -2px rgba(11, 37, 69, 0.08), 0 2px 6px -1px rgba(11, 37, 69, 0.04);
+  --shadow-card: 0 10px 25px -3px rgba(11, 37, 69, 0.08), 0 4px 10px -2px rgba(11, 37, 69, 0.04);
+  --shadow-hover: 0 20px 35px -5px rgba(11, 37, 69, 0.12), 0 10px 15px -3px rgba(11, 37, 69, 0.06);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #ffffff;
+    color: #0B2545;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
