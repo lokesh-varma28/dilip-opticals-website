@@ -1,13 +1,14 @@
+import { Link } from 'react-router-dom'
 import { Glasses, MapPin, Clock, ArrowUp, Navigation, Star } from 'lucide-react'
 import business from '../data/business'
 
 export default function Footer() {
   const quickLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About Us', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Visit Us', href: '#visit-us' },
-    { name: 'Book Appointment', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Products & Eyewear', href: '/products' },
+    { name: 'Book Appointment & Visit', href: '/contact' },
   ]
 
   const scrollToTop = () => {
@@ -22,8 +23,8 @@ export default function Footer() {
           {/* Column 1: Brand & Heritage (4 cols) */}
           <div className="lg:col-span-4 space-y-5">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-accent">
+            <Link to="/" className="inline-flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary transition-colors">
                 <Glasses className="w-5 h-5" />
               </div>
               <div className="flex flex-col">
@@ -34,13 +35,13 @@ export default function Footer() {
                   Since {business.establishedYear}
                 </span>
               </div>
-            </div>
+            </Link>
 
             <p className="font-body text-slate-300/90 text-sm leading-relaxed max-w-sm">
               Rajahmundry’s trusted optical destination for over {business.yearsInBusiness} years. Providing computerized eye testing, luxury spectacle frames, and high-precision prescription lenses.
             </p>
 
-            {/* Social Icons Placeholders */}
+            {/* Social Icons */}
             <div className="pt-2">
               <p className="font-heading text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
                 Follow Our Collections
@@ -66,7 +67,7 @@ export default function Footer() {
                   </a>
                 )}
 
-                {/* Facebook Placeholder (Hidden until valid URL is in business.js) */}
+                {/* Facebook Placeholder */}
                 {business.social?.facebook && (
                   <a
                     href={business.social.facebook}
@@ -97,13 +98,13 @@ export default function Footer() {
             <ul className="space-y-2.5 font-body text-sm">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-slate-300 hover:text-accent transition-colors duration-150 inline-flex items-center gap-1.5"
                   >
                     <span className="w-1 h-1 rounded-full bg-accent/60"></span>
                     <span>{link.name}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
