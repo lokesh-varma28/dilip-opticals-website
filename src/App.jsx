@@ -4,10 +4,11 @@ import Hero from './components/Hero'
 import TrustedBrands from './components/TrustedBrands'
 import Services from './components/Services'
 import AboutSection from './components/AboutSection'
-import Branches from './components/Branches'
+import VisitOurStore from './components/VisitOurStore'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import { CheckCircle2, X } from 'lucide-react'
+import business from './data/business'
 
 export default function App() {
   const [appointmentModalOpen, setAppointmentModalOpen] = useState(false)
@@ -21,11 +22,6 @@ export default function App() {
     }
   }
 
-  const handleScrollToBranches = () => {
-    const el = document.getElementById('branches')
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <div className="min-h-screen bg-white text-primary flex flex-col font-body selection:bg-accent/20 selection:text-primary">
       {/* Sticky Responsive Navbar */}
@@ -33,11 +29,8 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1">
-        {/* Dilip Opticals Hero Section */}
-        <Hero
-          onBookEyeTest={handleOpenAppointment}
-          onFindBranch={handleScrollToBranches}
-        />
+        {/* Dilip Optics Grand Hero Section */}
+        <Hero onBookEyeTest={handleOpenAppointment} />
 
         {/* Trusted Brands Strip */}
         <TrustedBrands />
@@ -48,9 +41,8 @@ export default function App() {
         {/* About Us Section */}
         <AboutSection />
 
-        {/* Branches Section */}
-        <Branches />
-
+        {/* Visit Our Store Section */}
+        <VisitOurStore />
 
         {/* Contact & Appointment Booking Section */}
         <ContactSection />
@@ -75,7 +67,7 @@ export default function App() {
               </div>
               <div>
                 <h3 className="font-heading text-xl font-bold text-primary">Book an Appointment</h3>
-                <p className="font-body text-xs text-slate-500">Dilip Opticals • Rajahmundry</p>
+                <p className="font-body text-xs text-slate-500">{business.name} • Rajahmundry</p>
               </div>
             </div>
 
@@ -86,6 +78,12 @@ export default function App() {
             <form
               onSubmit={(e) => {
                 e.preventDefault()
+                const formEl = e.currentTarget
+                const name = formEl.elements.namedItem('name')?.value || ''
+                const phone = formEl.elements.namedItem('phone')?.value || ''
+                const today = new Date().toISOString().split('T')[0]
+                const messageText = `Hi, I'd like to book an eye test. Name: ${name.trim()}, Phone: ${phone.trim()}, Preferred date: ${today}, Notes: None`
+                window.open(`https://wa.me/919676955558?text=${encodeURIComponent(messageText)}`, '_blank', 'noopener,noreferrer')
                 setAppointmentModalOpen(false)
               }}
               className="space-y-4"

@@ -7,24 +7,17 @@ import {
   CheckCircle2,
   Sparkles,
   Send,
-  Building2,
   Phone,
+  Star,
+  ExternalLink,
 } from 'lucide-react'
-
+import business from '../data/business'
 
 export default function ContactSection() {
-  const branchesList = [
-    'AV Appa Rao Road Branch (Near Naveen Emergency)',
-    'Dilip Optics Grand (JN Road / Gandhipuram)',
-    'Vikas Nagar Branch (Near Reliance Digital)',
-    'T Nagar Branch (Near Ambedkar Bomma)',
-  ]
-
-  // Form State
+  // Form State without branch field
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    branch: branchesList[0],
     date: '',
     message: '',
   })
@@ -41,7 +34,16 @@ export default function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
+  const getAppointmentWhatsAppUrl = (data = formData) => {
+    const name = data.name.trim()
+    const phone = data.phone.trim()
+    const date = data.date.trim()
+    const notes = data.message.trim() || 'None'
+    const messageText = `Hi, I'd like to book an eye test. Name: ${name}, Phone: ${phone}, Preferred date: ${date}, Notes: ${notes}`
+    return `https://wa.me/919676955558?text=${encodeURIComponent(messageText)}`
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     setErrorMessage('')
 
@@ -58,45 +60,22 @@ export default function ContactSection() {
 
     setIsSubmitting(true)
 
+    // Build URL and open in a new tab
+    const waUrl = getAppointmentWhatsAppUrl()
     try {
-      /**
-       * =========================================================================
-       * FIREBASE INTEGRATION PLACEHOLDER
-       * =========================================================================
-       * When ready to connect to Firebase Firestore:
-       * 
-       * import { db } from '../firebase'
-       * import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
-       * 
-       * await addDoc(collection(db, 'appointments'), {
-       *   name: formData.name,
-       *   phone: formData.phone,
-       *   branch: formData.branch,
-       *   date: formData.date,
-       *   message: formData.message,
-       *   createdAt: serverTimestamp(),
-       *   status: 'pending',
-       * })
-       * =========================================================================
-       */
-
-      // Simulated network delay for smooth UX
-      await new Promise((resolve) => setTimeout(resolve, 800))
-
-      setIsSubmitting(false)
-      setSubmitted(true)
+      window.open(waUrl, '_blank', 'noopener,noreferrer')
     } catch (err) {
-      console.error('Submission error:', err)
-      setIsSubmitting(false)
-      setErrorMessage('Something went wrong. Please try again or call us directly.')
+      console.error('Failed to open WhatsApp window:', err)
     }
+
+    setIsSubmitting(false)
+    setSubmitted(true)
   }
 
   const handleReset = () => {
     setFormData({
       name: '',
       phone: '',
-      branch: branchesList[0],
       date: '',
       message: '',
     })
@@ -104,8 +83,8 @@ export default function ContactSection() {
     setErrorMessage('')
   }
 
-  const whatsappUrl = `https://wa.me/919676955558?text=${encodeURIComponent(
-    'Hello Dilip Opticals, I would like to schedule an eye test / frame consultation.'
+  const defaultWhatsappUrl = `${business.whatsapp}?text=${encodeURIComponent(
+    `Hello ${business.name}, I would like to schedule an eye test / frame consultation.`
   )}`
 
   return (
@@ -113,9 +92,28 @@ export default function ContactSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
-            <Calendar className="w-3.5 h-3.5 text-accent" />
-            Appointments & Inquiries
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
+              <Calendar className="w-3.5 h-3.5 text-accent" />
+              Appointments & Inquiries
+            </div>
+
+            {/* Google Trust Badge near Contact Section Header (No extra star character) */}
+            <a
+              href={business.googleListingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100/90 border border-amber-200/80 text-slate-800 text-xs sm:text-sm font-medium transition-colors shadow-xs group"
+              title="View Google Reviews for Dilip Optics Grand"
+            >
+              <div className="flex items-center text-amber-500">
+                <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
+              </div>
+              <span className="font-semibold text-slate-900">{business.googleRating}</span>
+              <span className="text-slate-400">·</span>
+              <span>{business.reviewCount} Google reviews</span>
+              <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-primary transition-colors ml-0.5" />
+            </a>
           </div>
 
           <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
@@ -129,14 +127,14 @@ export default function ContactSection() {
 
         {/* Two-Column Layout on Desktop, Stacked on Mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left Column: Booking Form (White Card with Navy Accents) */}
+          {/* Left Column: Booking Form */}
           <div className="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-10 border border-slate-200/90 shadow-card">
             <div className="border-b border-slate-100 pb-5 mb-6">
               <div className="flex items-center gap-2 text-primary font-heading font-bold text-xl sm:text-2xl">
                 <span>Appointment Booking Form</span>
               </div>
               <p className="font-body text-slate-500 text-xs sm:text-sm mt-1">
-                Fill out the form below. Our team in Rajahmundry will confirm your preferred slot promptly.
+                Fill out the form below. We'll confirm your slot on WhatsApp or by phone.
               </p>
             </div>
 
@@ -147,19 +145,33 @@ export default function ContactSection() {
                   <CheckCircle2 className="w-9 h-9" />
                 </div>
                 <h3 className="font-heading text-2xl font-bold text-primary">
-                  Appointment Request Received!
+                  Opening WhatsApp to send your request
                 </h3>
                 <p className="font-body text-slate-600 text-sm max-w-md mx-auto leading-relaxed">
-                  Thank you, <strong className="text-primary">{formData.name}</strong>. We have registered your request for{' '}
-                  <strong className="text-primary">{formData.date}</strong> at our{' '}
-                  <strong className="text-primary">{formData.branch}</strong>. Our optometrist team will call you at{' '}
-                  <strong className="text-primary">{formData.phone}</strong> to confirm.
+                  Thank you, <strong className="text-primary">{formData.name}</strong>. If WhatsApp did not open automatically,{' '}
+                  <a
+                    href={getAppointmentWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-700 font-semibold underline hover:text-emerald-800"
+                  >
+                    click here to send your message
+                  </a>. We'll confirm your slot on WhatsApp or by phone.
                 </p>
-                <div className="pt-4">
+                <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+                  <a
+                    href={getAppointmentWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-heading font-bold text-sm px-6 py-2.5 rounded-xl shadow-xs transition-colors inline-flex items-center gap-2"
+                  >
+                    <MessageCircle className="w-4 h-4 text-slate-950" />
+                    <span>Open WhatsApp</span>
+                  </a>
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-sm px-6 py-2.5 rounded-xl shadow-xs transition-colors cursor-pointer"
+                    className="bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-xl shadow-xs transition-colors cursor-pointer"
                   >
                     Book Another Slot
                   </button>
@@ -219,54 +231,25 @@ export default function ContactSection() {
                   </div>
                 </div>
 
-                {/* Branch Selection & Date */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {/* Preferred Branch Dropdown */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="branch"
-                      className="block font-heading text-xs font-bold text-primary tracking-wide uppercase"
-                    >
-                      Preferred Branch <span className="text-red-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="branch"
-                        name="branch"
-                        value={formData.branch}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50 appearance-none cursor-pointer"
-                      >
-                        {branchesList.map((branch) => (
-                          <option key={branch} value={branch}>
-                            {branch}
-                          </option>
-                        ))}
-                      </select>
-                      <Building2 className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Preferred Date */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="date"
-                      className="block font-heading text-xs font-bold text-primary tracking-wide uppercase"
-                    >
-                      Preferred Date <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="date"
-                      name="date"
-                      type="date"
-                      autoComplete="off"
-                      min={todayStr}
-                      required
-                      value={formData.date}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50 cursor-pointer"
-                    />
-                  </div>
+                {/* Preferred Date */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="date"
+                    className="block font-heading text-xs font-bold text-primary tracking-wide uppercase"
+                  >
+                    Preferred Date <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="date"
+                    name="date"
+                    type="date"
+                    autoComplete="off"
+                    min={todayStr}
+                    required
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50 cursor-pointer"
+                  />
                 </div>
 
                 {/* Message / Specific Needs */}
@@ -299,7 +282,7 @@ export default function ContactSection() {
                     {isSubmitting ? (
                       <>
                         <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-                        <span>Processing Request...</span>
+                        <span>Opening WhatsApp...</span>
                       </>
                     ) : (
                       <>
@@ -309,14 +292,14 @@ export default function ContactSection() {
                     )}
                   </button>
                   <p className="font-body text-xs text-slate-600 text-center mt-2.5 font-medium">
-                    No advance payment required. We will confirm your slot via SMS or phone.
+                    We'll confirm your slot on WhatsApp or by phone.
                   </p>
                 </div>
               </form>
             )}
           </div>
 
-          {/* Right Column: Direct Call, WhatsApp & Clinic Highlights */}
+          {/* Right Column: Direct Call, WhatsApp & Single Location Highlights */}
           <div className="lg:col-span-5 space-y-6">
             {/* Instant Contact Action Card */}
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-card space-y-6">
@@ -331,7 +314,7 @@ export default function ContactSection() {
 
               {/* WhatsApp-only CTA: Message us for appointment */}
               <a
-                href={whatsappUrl}
+                href={defaultWhatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-heading font-bold text-base p-4 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 flex items-center justify-between group active:scale-[0.99] cursor-pointer"
@@ -352,29 +335,28 @@ export default function ContactSection() {
 
               {/* Direct Phone Call Button */}
               <a
-                href="tel:+919676955558"
+                href={`tel:${business.phone}`}
                 className="w-full bg-slate-50 hover:bg-slate-100 text-primary font-heading font-bold text-sm py-3 px-4 rounded-xl border border-slate-200 shadow-xs transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
               >
                 <Phone className="w-4 h-4 text-primary" />
-                <span>Call Us Directly: +91 96769 55558</span>
+                <span>Call Us Directly: {business.phoneDisplay}</span>
               </a>
 
-
-              {/* Clinic Timings & Trust Points */}
+              {/* Single Store Hours & Address */}
               <div className="pt-2 space-y-3 border-t border-slate-100 text-xs sm:text-sm text-slate-600">
                 <div className="flex items-start gap-2.5">
                   <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div>
                     <strong className="text-primary block font-heading">Showroom & Clinic Hours</strong>
-                    <span>Monday to Saturday: 9:30 AM – 8:30 PM (Sunday: 9:30 AM – 1:30 PM)</span>
+                    <span>{business.hours}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-primary block font-heading">Central Locations</strong>
-                    <span>AV Appa Rao Rd • JN Rd Gandhipuram • Vikas Nagar • T Nagar</span>
+                    <strong className="text-primary block font-heading">Store Location</strong>
+                    <span className="text-slate-600">{business.address}</span>
                   </div>
                 </div>
 
@@ -385,7 +367,6 @@ export default function ContactSection() {
                     <span className="text-slate-600">Booking ahead lets our team prepare and reduce your wait at the store.</span>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -395,9 +376,9 @@ export default function ContactSection() {
                 <Sparkles className="w-6 h-6 text-accent" />
               </div>
               <div className="space-y-0.5">
-                <h4 className="font-heading font-bold text-base text-white">58+ Years of Optical Trust</h4>
+                <h4 className="font-heading font-bold text-base text-white">{business.yearsInBusiness}+ Years of Optical Trust</h4>
                 <p className="font-body text-xs text-primary-200 leading-relaxed">
-                  Trusted by generations of families in Rajahmundry for genuine branded lenses and computerized eye tests.
+                  Serving Rajahmundry since {business.establishedYear} with genuine branded lenses and computerized eye tests.
                 </p>
               </div>
             </div>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { MapPin, Sparkles, CheckCircle2, ShieldCheck, MessageCircle, Glasses } from 'lucide-react'
-import heroStorefrontPhoto from '../assets/dilip-opticals-real-storefront.jpg'
+import { Sparkles, CheckCircle2, ShieldCheck, MessageCircle, Glasses, Navigation, Star, ExternalLink } from 'lucide-react'
+import ShowroomIllustration from './ShowroomIllustration'
+import business from '../data/business'
 
-export default function Hero({ onFindBranch }) {
+export default function Hero() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -11,21 +12,8 @@ export default function Hero({ onFindBranch }) {
     return () => clearTimeout(timer)
   }, [])
 
-  const handleFindBranchClick = (e) => {
-    if (onFindBranch) {
-      e.preventDefault()
-      onFindBranch()
-    } else {
-      const el = document.getElementById('branches')
-      if (el) {
-        e.preventDefault()
-        el.scrollIntoView({ behavior: 'smooth' })
-      }
-    }
-  }
-
-  const whatsappAppointmentUrl = `https://wa.me/919676955558?text=${encodeURIComponent(
-    'Hello Dilip Opticals, I would like to message you for an appointment / eye testing.'
+  const whatsappAppointmentUrl = `${business.whatsapp}?text=${encodeURIComponent(
+    `Hello ${business.name}, I would like to message you for an appointment / eye testing.`
   )}`
 
   return (
@@ -51,37 +39,57 @@ export default function Hero({ onFindBranch }) {
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
             }`}
           >
-            {/* Heritage / Trust Pill */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-primary-50 border border-primary-100/80 text-primary shadow-xs">
-              <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-              <span className="font-heading text-xs sm:text-sm font-semibold tracking-wide uppercase">
-                Rajahmundry’s Pioneer in Optical Care
-              </span>
+            {/* Heritage / Trust Pill & Google Trust Badge */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-primary-50 border border-primary-100/80 text-primary shadow-xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                <span className="font-heading text-xs sm:text-sm font-semibold tracking-wide uppercase">
+                  Trusted Eye Care in Rajahmundry
+                </span>
+              </div>
+
+              {/* Google Reviews Trust Badge */}
+              <a
+                href={business.googleListingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100/90 border border-amber-200/80 text-slate-800 text-xs sm:text-sm font-medium transition-colors shadow-xs group"
+                title="View Dilip Optics Grand on Google Maps"
+              >
+                <div className="flex items-center text-amber-500">
+                  <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
+                </div>
+                <span className="font-semibold text-slate-900">{business.googleRating}</span>
+                <span className="text-slate-400">·</span>
+                <span>{business.reviewCount} Google reviews</span>
+                <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-primary transition-colors ml-0.5" />
+              </a>
             </div>
 
             {/* Main Hero Heading */}
             <div className="space-y-2">
               <h1 className="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl text-primary tracking-tight leading-[1.12]">
-                Clear Vision Since 1967
+                Clear Vision Since {business.establishedYear}
               </h1>
               <div className="w-20 h-1.5 bg-accent rounded-full mt-3" />
             </div>
 
             {/* Subheading */}
             <p className="font-body text-slate-600 text-lg sm:text-xl lg:text-xl leading-relaxed max-w-2xl font-normal">
-              Trusted eye care & eyewear across Rajahmundry — computerized eye testing, prescription glasses, contact lenses, and branded frames.
+              Trusted eye care & eyewear in Rajahmundry — computerized eye testing, prescription glasses, contact lenses, and branded frames.
             </p>
 
             {/* Action CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-              {/* Primary CTA: Find a Branch (Filled gold) */}
+              {/* Primary CTA: Get Directions linking to Google Maps */}
               <a
-                href="#branches"
-                onClick={handleFindBranchClick}
+                href={business.googleListingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-accent hover:bg-accent-400 active:scale-95 text-primary font-heading font-bold text-base sm:text-lg px-7 py-4 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer group"
               >
-                <MapPin className="w-5 h-5 text-primary transition-transform group-hover:scale-110" />
-                <span>Find a Branch</span>
+                <Navigation className="w-5 h-5 text-primary transition-transform group-hover:scale-110" />
+                <span>Get Directions</span>
               </a>
 
               {/* Secondary CTA: Message us for appointment (Outlined navy) */}
@@ -113,7 +121,7 @@ export default function Hero({ onFindBranch }) {
             </div>
           </div>
 
-          {/* Right Column: Real Storefront Photo Container */}
+          {/* Right Column: Line-Art Eyewear Illustration */}
           <div
             className={`lg:col-span-5 transition-all duration-700 delay-150 ease-out ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -123,29 +131,8 @@ export default function Hero({ onFindBranch }) {
               {/* Decorative background framing */}
               <div className="absolute -inset-2 sm:-inset-3 bg-gradient-to-tr from-accent/20 via-primary-100/30 to-accent-100/40 rounded-3xl blur-lg opacity-70 transform -rotate-1 pointer-events-none" />
 
-              {/* Real Storefront Photo Container */}
-              <div className="relative group bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-card hover:shadow-hover transition-all duration-300">
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-slate-100">
-                  <img
-                    src={heroStorefrontPhoto}
-                    alt="Dilip Opticals — Est. 1967, Rajahmundry"
-                    width="800"
-                    height="600"
-                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading="eager"
-                  />
-                  {/* Subtle Gradient Overlay for text contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent pointer-events-none" />
-
-                  {/* Caption Overlay */}
-                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 flex items-center justify-between text-white pointer-events-none">
-                    <div className="flex items-center gap-2 bg-primary/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15 text-xs sm:text-sm font-medium shadow-sm">
-                      <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
-                      <span className="truncate">Dilip Opticals — Est. 1967, Rajahmundry</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {/* Brand-neutral Line-art Showroom Illustration */}
+              <ShowroomIllustration />
 
               {/* Stacked Badge Cards with Proper Vertical Spacing & Zero Overlap */}
               <div className="mt-4 sm:mt-5 space-y-3">
@@ -178,15 +165,15 @@ export default function Hero({ onFindBranch }) {
                     </div>
                     <div className="min-w-0">
                       <p className="font-heading text-xs sm:text-sm font-bold text-white truncate leading-tight">
-                        58+ Years of Optical Trust
+                        {business.yearsInBusiness}+ Years of Optical Trust
                       </p>
                       <p className="font-body text-[11px] text-primary-200 truncate mt-0.5">
-                        Generations of Families • Rajahmundry
+                        Trusted Eyewear & Care • Rajahmundry
                       </p>
                     </div>
                   </div>
                   <span className="shrink-0 inline-flex items-center text-[10px] sm:text-[11px] font-heading font-bold uppercase tracking-wider text-accent bg-accent/15 px-2.5 py-1 rounded-md border border-accent/25">
-                    Est. 1967
+                    Est. {business.establishedYear}
                   </span>
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import { ScanEye, Glasses, Droplets, Wrench, ArrowRight } from 'lucide-react'
+import business from '../data/business'
 
 export default function Services({ onSelectService }) {
   const services = [
@@ -47,7 +48,7 @@ export default function Services({ onSelectService }) {
           </h2>
 
           <p className="font-body text-slate-600 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Combining over 58 years of clinical precision in Rajahmundry with modern diagnostic technology and curated global eyewear.
+            Combining over {business.yearsInBusiness} years of clinical precision in Rajahmundry with modern diagnostic technology and curated global eyewear.
           </p>
         </div>
 
