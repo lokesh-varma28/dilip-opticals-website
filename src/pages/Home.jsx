@@ -5,8 +5,6 @@ import {
   ShieldCheck,
   Sparkles,
   ArrowRight,
-  Sun,
-  Laptop,
   CheckCircle2,
   Calendar,
   MessageCircle,
@@ -18,56 +16,87 @@ import Hero from '../components/Hero'
 import TrustedBrands from '../components/TrustedBrands'
 import business from '../data/business'
 
+const productImages = import.meta.glob('../assets/products/*.webp', { eager: true })
+
+function getProductPhotoUrl(filename, aliases = []) {
+  if (!filename) return null
+  const candidates = [filename, ...aliases].filter(Boolean)
+
+  for (const candidate of candidates) {
+    const targetName = candidate.split('/').pop().toLowerCase()
+    const targetBase = targetName.replace(/\.(webp|jpe?g|png|avif)$/i, '')
+
+    for (const [filePath, module] of Object.entries(productImages)) {
+      const entryFile = filePath.split('/').pop().toLowerCase()
+      const entryBase = entryFile.replace(/\.webp$/i, '')
+
+      if (entryFile === targetName || entryBase === targetBase) {
+        return module.default || module
+      }
+    }
+  }
+
+  return null
+}
+
 export default function Home() {
-  const featuredCollections = [
+  const rawFeaturedCollections = [
     {
-      title: 'Titanium & Premium Frames',
-      desc: 'Featherlight, corrosion-resistant frames engineered for all-day comfort and long-lasting durability.',
-      icon: Glasses,
-      badge: 'Lightweight & Strong',
-      tag: 'Best Seller',
+      category: 'frames',
+      title: 'Spectacles & Frames',
+      desc: 'Lightweight titanium and handcrafted acetate frames engineered for everyday durability and all-day comfort.',
+      photo: 'st-marks-titanium.webp',
+      bgColor: '#e4e7e3',
+      alt: "Titanium spectacle frame",
     },
     {
-      title: 'Digital Blue-Cut Glasses',
-      desc: 'Advanced blue light filtration lenses designed to prevent eye fatigue from computer and mobile screens.',
-      icon: Laptop,
-      badge: 'Screen Protection',
-      tag: 'Digital Life',
+      category: 'blue-cut',
+      title: 'Blue-Cut Computer Glasses',
+      desc: 'Advanced blue light filtration lenses designed to prevent eye fatigue from computer and phone screens.',
+      photo: 'crizal-shield.webp',
+      aliases: ['crizal-bluecut.webp', 'crizal-blue-cut.webp'],
+      bgColor: '#efefef',
+      alt: 'Blue-cut computer protection glasses',
     },
     {
+      category: 'sunglasses',
       title: 'Polarized Sunglasses',
-      desc: 'High-contrast 100% UV400 polarized shades for sun protection, driving clarity, and elevated style.',
-      icon: Sun,
-      badge: 'UV400 Glare Shield',
-      tag: 'Outdoor & Style',
+      desc: '100% UV400 polarized shades for sun protection, driving glare reduction, and elevated outdoor style.',
+      photo: 'fastrack-aviator.webp',
+      bgColor: '#dedede',
+      alt: 'Polarized sunglasses',
     },
     {
-      title: 'Contact Lenses & Solutions',
-      desc: 'Breathable daily and monthly disposable lenses with premium sterile hydration solutions.',
-      icon: Sparkles,
-      badge: 'Daily & Monthly',
-      tag: 'Comfort Vision',
+      category: 'contacts',
+      title: 'Contact Lenses & Care',
+      desc: 'Breathable daily and monthly disposable contact lenses with hydrating lens disinfection solutions.',
+      photo: 'bausch-lomb-purevision.webp',
+      aliases: ['bausch-lomb.webp', 'bausch-lomb-contacts.webp'],
+      bgColor: '#f3f4f6',
+      alt: 'Bausch + Lomb PureVision contact lenses',
     },
   ]
+
+  const featuredCollections = rawFeaturedCollections.map((item) => ({
+    ...item,
+    photoUrl: getProductPhotoUrl(item.photo, item.aliases),
+  }))
 
   const featuredServices = [
     {
       title: 'Computerized Eye Testing',
-      desc: 'Digital auto-refraction and visual acuity assessments performed by certified senior optometrists.',
+      desc: 'Digital auto-refraction and visual acuity assessments for accurate prescription power.',
       icon: ScanEye,
-      metric: 'Clinical Precision',
     },
     {
-      title: 'Precision Progressive Fitting',
-      desc: 'Laser-calibrated pupil distance and progressive optical center alignment for distortion-free reading.',
+      title: 'Progressive Lens Fitting',
+      desc: 'Pupil distance and optical center alignment for comfortable distance and reading vision.',
       icon: ShieldCheck,
-      metric: 'Zero Distortion',
     },
     {
-      title: 'Complimentary In-Store Servicing',
-      desc: 'Ultrasonic deep ultrasonic frame cleaning, nose pad replacement, and temple adjustments at no cost.',
+      title: 'In-Store Frame Servicing',
+      desc: 'Deep ultrasonic frame cleaning, nose pad replacement, and temple adjustments at no cost.',
       icon: CheckCircle2,
-      metric: 'Free Lifetime Support',
     },
   ]
 
@@ -80,15 +109,15 @@ export default function Home() {
       <TrustedBrands />
 
       {/* 3. Featured Eyewear Collections */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
                 <Glasses className="w-3.5 h-3.5 text-accent" />
                 Featured Eyewear
               </div>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
                 Curated Collections for Every Lifestyle
               </h2>
               <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
@@ -105,49 +134,59 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {featuredCollections.map((item) => {
-              const Icon = item.icon
-              return (
-                <div
-                  key={item.title}
-                  className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-stretch">
+            {featuredCollections.map((item) => (
+              <div
+                key={item.category}
+                className="bg-white rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col h-full overflow-hidden group"
+              >
+                {/* 1. Large aspect-[4/3] product image container matching product background, no visible inner box */}
+                <Link
+                  to={`/products?category=${item.category}`}
+                  className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center border-b border-slate-100 block"
+                  style={{ backgroundColor: item.bgColor }}
+                  aria-label={`View ${item.title}`}
                 >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary group-hover:bg-primary group-hover:text-accent transition-colors flex items-center justify-center border border-primary-100/80 shadow-xs">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <span className="font-heading text-[10px] uppercase font-bold tracking-wider text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200/70">
-                        {item.tag}
-                      </span>
-                    </div>
+                  <img
+                    src={item.photoUrl}
+                    alt={item.alt || item.title}
+                    className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+                    loading="lazy"
+                  />
+                </Link>
 
-                    <h3 className="font-heading text-lg font-bold text-primary group-hover:text-primary transition-colors">
-                      {item.title}
+                {/* Card Body: title -> description -> View link */}
+                <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
+                  <div className="space-y-2">
+                    {/* 2. Title */}
+                    <h3 className="font-serif text-lg sm:text-xl font-semibold text-primary leading-snug group-hover:text-accent-700 transition-colors">
+                      <Link to={`/products?category=${item.category}`}>
+                        {item.title}
+                      </Link>
                     </h3>
 
+                    {/* 3. One-line description (max 15 words, no text truncation) */}
                     <p className="font-body text-slate-600 text-xs sm:text-sm leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
 
-                  <div className="pt-5 mt-5 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="font-medium text-slate-500">{item.badge}</span>
+                  {/* 4. "View" link */}
+                  <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
                     <Link
-                      to="/products"
-                      className="font-heading font-semibold text-primary group-hover:text-accent inline-flex items-center gap-1 transition-colors"
+                      to={`/products?category=${item.category}`}
+                      className="font-heading font-semibold text-xs sm:text-sm text-primary group-hover:text-accent inline-flex items-center gap-1.5 transition-colors"
                     >
                       <span>View</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   </div>
                 </div>
-              )
-            })}
+              </div>
+            ))}
           </div>
 
-          <div className="mt-10 text-center sm:hidden">
+          <div className="mt-8 text-center sm:hidden">
             <Link
               to="/products"
               className="w-full inline-flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-primary font-heading font-bold text-sm py-3 px-6 rounded-xl border border-slate-200 transition-colors"
@@ -160,19 +199,19 @@ export default function Home() {
       </section>
 
       {/* 4. Featured Services Preview */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-slate-50/70 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-12 gap-6">
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
                 <ScanEye className="w-3.5 h-3.5 text-accent" />
                 Optical Excellence
               </div>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
                 Advanced Eye Care & Testing
               </h2>
               <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
-                From precision digital eye checkups to custom progressive alignment, our optometrists ensure clear and comfortable vision.
+                From computerized eye checkups to custom progressive alignment, we ensure clear and comfortable vision.
               </p>
             </div>
 
@@ -185,7 +224,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
             {featuredServices.map((svc) => {
               const Icon = svc.icon
               return (
@@ -198,7 +237,7 @@ export default function Home() {
                       <Icon className="w-6 h-6" />
                     </div>
 
-                    <h3 className="font-heading text-xl font-bold text-primary">
+                    <h3 className="font-serif text-xl font-bold text-primary">
                       {svc.title}
                     </h3>
 
@@ -207,13 +246,11 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
-                    <span className="font-heading text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">
-                      {svc.metric}
-                    </span>
+                  <div className="pt-5 mt-5 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-xs text-slate-400 font-medium">In-Store Service</span>
                     <Link
                       to="/services"
-                      className="font-heading font-semibold text-xs text-primary group-hover:text-accent inline-flex items-center gap-1 transition-colors"
+                      className="font-heading font-semibold text-xs sm:text-sm text-primary group-hover:text-accent inline-flex items-center gap-1 transition-colors"
                     >
                       <span>Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -227,53 +264,57 @@ export default function Home() {
       </section>
 
       {/* 5. Heritage & Clinical Trust Teaser (About Preview) */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-primary-50/70 via-white to-amber-50/40 rounded-3xl p-8 sm:p-12 lg:p-16 border border-slate-200/90 shadow-soft">
+          <div className="bg-gradient-to-br from-primary-50/70 via-white to-amber-50/40 rounded-3xl p-8 sm:p-12 lg:p-14 border border-slate-200/90 shadow-soft">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
               {/* Left Content */}
               <div className="lg:col-span-7 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-primary-100 text-primary text-xs font-semibold tracking-wider uppercase shadow-2xs">
                   <Sparkles className="w-3.5 h-3.5 text-accent" />
-                  Our Legacy in Rajahmundry
+                  Our Heritage in Rajahmundry
                 </div>
 
-                <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-primary leading-[1.18]">
-                  Trusted by Generations of Rajahmundry Families Since {business.establishedYear}
+                <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-primary leading-[1.18]">
+                  Trusted Eye Care & Eyewear in Rajahmundry{business.claims.establishedYear ? ` Since ${business.claims.establishedYear}` : ''}
                 </h2>
 
                 <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
                   Located on JN Road in Gandhipuram, {business.name} is dedicated to honest eye care, clinical accuracy, and curated authentic eyewear. Every frame and lens is inspected to rigorous optical standards.
                 </p>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
                   <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
-                    <div className="font-heading text-2xl sm:text-3xl font-bold text-primary">
-                      {business.yearsInBusiness}+
-                    </div>
-                    <div className="font-body text-xs text-slate-500 font-medium mt-0.5">
-                      Years of Service
-                    </div>
-                  </div>
-
-                  <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
-                    <div className="font-heading text-2xl sm:text-3xl font-bold text-primary flex items-center gap-1">
+                    <div className="font-serif text-2xl sm:text-3xl font-bold text-primary flex items-center gap-1.5">
                       <Star className="w-5 h-5 fill-amber-400 text-amber-500 shrink-0" />
                       <span>{business.googleRating}</span>
                     </div>
-                    <div className="font-body text-xs text-slate-500 font-medium mt-0.5">
-                      Google Rating ({business.reviewCount}+)
+                    <div className="font-body text-xs text-slate-500 font-medium mt-1">
+                      Google Rating ({business.reviewCount} verified reviews)
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs col-span-2 sm:col-span-1">
-                    <div className="font-heading text-2xl sm:text-3xl font-bold text-primary">
-                      10,000+
+                  {business.claims.yearsInBusiness != null && (
+                    <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
+                      <div className="font-serif text-2xl sm:text-3xl font-bold text-primary">
+                        {business.claims.yearsInBusiness}+
+                      </div>
+                      <div className="font-body text-xs text-slate-500 font-medium mt-1">
+                        Years of Service
+                      </div>
                     </div>
-                    <div className="font-body text-xs text-slate-500 font-medium mt-0.5">
-                      Happy Eyes Fitted
+                  )}
+
+                  {business.claims.happyEyes != null && (
+                    <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs">
+                      <div className="font-serif text-2xl sm:text-3xl font-bold text-primary">
+                        {business.claims.happyEyes}
+                      </div>
+                      <div className="font-body text-xs text-slate-500 font-medium mt-1">
+                        Happy Eyes Fitted
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -306,10 +347,12 @@ export default function Home() {
                     />
                   </div>
                   <div className="pt-3 px-1 flex items-center justify-between text-xs text-slate-600">
-                    <span className="font-heading font-semibold text-primary">
+                    <span className="font-medium text-slate-800">
                       JN Road Dispensary & Clinic
                     </span>
-                    <span className="text-amber-700 font-medium">Est. {business.establishedYear}</span>
+                    {business.claims.establishedYear != null && (
+                      <span className="text-amber-700 font-medium">Est. {business.claims.establishedYear}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -319,7 +362,7 @@ export default function Home() {
       </section>
 
       {/* 6. Primary Action Banner: Visit Us & Book Consultation */}
-      <section className="bg-primary text-white py-16 sm:py-20 relative overflow-hidden">
+      <section className="bg-primary text-white py-12 sm:py-14 lg:py-16 relative overflow-hidden">
         {/* Background ambient accents */}
         <div
           className="pointer-events-none absolute -top-24 -right-24 w-80 h-80 rounded-full bg-accent/15 blur-3xl"
@@ -337,7 +380,7 @@ export default function Home() {
               Easy Consultation & Walk-ins Welcome
             </div>
 
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
               Ready for Crystal Clear Vision?
             </h2>
 

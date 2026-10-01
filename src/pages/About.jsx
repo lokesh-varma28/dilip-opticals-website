@@ -1,31 +1,32 @@
 import { Link } from 'react-router-dom'
 import {
   Sparkles,
-  Award,
   ShieldCheck,
   HeartHandshake,
-  Star,
-  CheckCircle2,
-  MapPin,
-  ArrowRight,
-  Glasses,
+  Award,
   Users,
+  CheckCircle2,
+  Glasses,
+  Star,
+  ArrowRight,
 } from 'lucide-react'
 import business from '../data/business'
 
 export default function About() {
-  const yearsSinceEst = business.yearsInBusiness
-
   const pillars = [
     {
       icon: Award,
-      title: `${yearsSinceEst}+ Years of Dedication`,
-      description: `Serving Rajahmundry since ${business.establishedYear} with clinical integrity, high-precision eyewear, and optical dedication.`,
+      title: business.claims.yearsInBusiness != null
+        ? `${business.claims.yearsInBusiness}+ Years of Dedication`
+        : 'Optical Dedication & Quality',
+      description: business.claims.establishedYear != null
+        ? `Serving Rajahmundry since ${business.claims.establishedYear} with clinical integrity, high-precision eyewear, and optical dedication.`
+        : 'Serving Rajahmundry with clinical integrity, high-precision eyewear, and optical dedication.',
     },
     {
       icon: ShieldCheck,
       title: 'Clinical Precision',
-      description: 'Every prescription is checked using computerized auto-refractometers and verified by certified senior optometrists.',
+      description: 'Every prescription is checked using computerized auto-refractometers and verified for optical accuracy.',
     },
     {
       icon: HeartHandshake,
@@ -43,10 +44,10 @@ export default function About() {
       title: '100% Genuine Lenses',
       description: 'Direct authorization from Crizal, Essilor, Bausch + Lomb, and top optical laboratories.',
     },
-    {
-      title: 'Lifetime Free Adjustments',
+    ...(business.claims.lifetimeAdjustments ? [{
+      title: business.claims.lifetimeAdjustments,
       description: 'Complimentary frame realignment, screw tightening, and ultrasonic cleaning for all customers.',
-    },
+    }] : []),
     {
       title: 'Transparent Pricing',
       description: 'Honest options for every budget, from student spectacles to luxury titanium frames.',
@@ -56,7 +57,7 @@ export default function About() {
   return (
     <div className="space-y-0">
       {/* 1. Page Header & Hero Banner */}
-      <section className="bg-gradient-to-b from-primary-50/70 to-white py-16 sm:py-20 lg:py-24 border-b border-slate-100">
+      <section className="bg-gradient-to-b from-primary-50/70 to-white py-12 sm:py-14 lg:py-16 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
@@ -64,8 +65,8 @@ export default function About() {
               Our Story & Heritage
             </div>
 
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
-              A Legacy of Vision Care Since {business.establishedYear}
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
+              A Legacy of Vision Care{business.claims.establishedYear != null ? ` Since ${business.claims.establishedYear}` : ' in Rajahmundry'}
             </h1>
 
             <p className="font-body text-slate-600 text-lg sm:text-xl leading-relaxed">
@@ -74,63 +75,65 @@ export default function About() {
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-sm text-slate-700">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-accent shrink-0" />
-                <span className="font-medium">JN Road, Gandhipuram, Rajahmundry</span>
+                <ShieldCheck className="w-4 h-4 text-accent" />
+                <span className="font-medium">100% Genuine Branded Optics</span>
               </div>
-              <div className="flex items-center gap-1.5 font-medium">
-                <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
-                <span>{business.googleRating}</span>
-                <span className="text-slate-400">({business.reviewCount}+ Google Reviews)</span>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-accent" />
+                <span className="font-medium">Computerized Eye Testing</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Main Heritage Story with Real Dispensary Photos */}
-      <section className="py-16 sm:py-20 bg-white border-b border-slate-100">
+      {/* 2. Heritage Story & Storefront Visual Showcase */}
+      <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Story Text */}
             <div className="lg:col-span-7 space-y-6">
               <div className="space-y-4">
-                <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-primary tracking-tight leading-snug">
+                <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-primary tracking-tight leading-snug">
                   Precision Optics Grounded in Genuine Care
                 </h2>
                 <div className="w-16 h-1 bg-accent rounded-full" />
               </div>
 
               <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
-                Founded in {business.establishedYear}, <strong className="text-primary font-semibold">{business.name}</strong> was created with a clear objective: to bring world-class refractive diagnostics and designer optical quality to Rajahmundry under one roof.
+                {business.claims.establishedYear != null ? `Founded in ${business.claims.establishedYear}, ` : ''}
+                <strong className="text-primary font-semibold">{business.name}</strong> was created with a clear objective: to bring world-class refractive diagnostics and designer optical quality to Rajahmundry under one roof.
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-                Over the past {yearsSinceEst} years, we have served students, working professionals, and seniors with tailored visual solutions. Whether fitting high-index progressive lenses with custom corridor adjustments or helping a customer choose a lightweight titanium frame that complements their face shape, we dedicate unhurried attention to every detail.
+                {business.claims.yearsInBusiness != null ? `Over the past ${business.claims.yearsInBusiness} years, we` : 'We'} have served students, working professionals, and seniors with tailored visual solutions. Whether fitting high-index progressive lenses with custom corridor adjustments or helping a customer choose a lightweight titanium frame that complements their face shape, we dedicate unhurried attention to every detail.
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses certified diagnostic auto-refractometers, an on-site lens fitting laboratory, and a vast collection of frames.
+                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses diagnostic auto-refractometers, an on-site lens fitting laboratory, and a vast collection of frames.
               </p>
 
               {/* Quick Heritage Trust Metrics */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-200">
-                <div className="border-l-2 border-accent pl-3 sm:pl-4">
-                  <div className="font-heading text-2xl sm:text-3xl font-bold text-primary">
-                    {yearsSinceEst}+
+                {business.claims.yearsInBusiness != null && (
+                  <div className="border-l-2 border-accent pl-3 sm:pl-4">
+                    <div className="font-serif text-2xl sm:text-3xl font-bold text-primary">
+                      {business.claims.yearsInBusiness}+
+                    </div>
+                    <div className="font-body text-xs text-slate-500 font-medium">Years in Rajahmundry</div>
                   </div>
-                  <div className="font-body text-xs text-slate-500 font-medium">Years in Rajahmundry</div>
-                </div>
+                )}
 
                 <div className="border-l-2 border-accent pl-3 sm:pl-4">
-                  <div className="font-heading text-2xl sm:text-3xl font-bold text-primary flex items-center gap-1.5">
+                  <div className="font-serif text-2xl sm:text-3xl font-bold text-primary flex items-center gap-1.5">
                     <Star className="w-5 h-5 fill-amber-400 text-amber-500 shrink-0" />
                     <span>{business.googleRating}</span>
                   </div>
-                  <div className="font-body text-xs text-slate-500 font-medium">Google Rating</div>
+                  <div className="font-body text-xs text-slate-500 font-medium">Google Rating ({business.reviewCount} reviews)</div>
                 </div>
 
                 <div className="border-l-2 border-accent pl-3 sm:pl-4 col-span-2 sm:col-span-1">
-                  <div className="font-heading text-2xl sm:text-3xl font-bold text-primary">
+                  <div className="font-serif text-2xl sm:text-3xl font-bold text-primary">
                     100%
                   </div>
                   <div className="font-body text-xs text-slate-500 font-medium">Authentic Branded Lenses</div>
@@ -150,7 +153,7 @@ export default function About() {
                   />
                 </div>
                 <div className="pt-3 px-1 text-center">
-                  <p className="font-heading text-xs sm:text-sm font-semibold text-primary">
+                  <p className="font-medium text-xs sm:text-sm text-slate-800">
                     Showroom & Clinical Examination Facility
                   </p>
                   <p className="font-body text-[11px] text-slate-500">
@@ -169,7 +172,7 @@ export default function About() {
                       loading="lazy"
                     />
                   </div>
-                  <p className="pt-2 text-center font-heading text-xs font-medium text-slate-600">
+                  <p className="pt-2 text-center text-xs font-medium text-slate-600">
                     Storefront on JN Road (Near Ravindra Bharathi School)
                   </p>
                 </div>
@@ -180,10 +183,10 @@ export default function About() {
       </section>
 
       {/* 3. Three Core Pillars */}
-      <section className="py-16 sm:py-20 bg-slate-50/70 border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-slate-50/70 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 space-y-3">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
               Our Core Clinical Pillars
             </h2>
             <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -202,7 +205,7 @@ export default function About() {
                   <div className="w-14 h-14 rounded-xl bg-primary-50 text-accent flex items-center justify-center border border-primary-100 shadow-xs">
                     <Icon className="w-7 h-7 text-accent" />
                   </div>
-                  <h3 className="font-heading text-xl font-bold text-primary">
+                  <h3 className="font-serif text-xl font-bold text-primary">
                     {pillar.title}
                   </h3>
                   <p className="font-body text-slate-600 text-sm leading-relaxed">
@@ -216,7 +219,7 @@ export default function About() {
       </section>
 
       {/* 4. Values & Patient Commitments */}
-      <section className="py-16 sm:py-20 bg-white border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-5 space-y-4">
@@ -224,7 +227,7 @@ export default function About() {
                 <Users className="w-3.5 h-3.5 text-accent" />
                 The Dilip Optics Promise
               </div>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-primary tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary tracking-tight">
                 Why Patients & Families Trust Us
               </h2>
               <p className="font-body text-slate-600 text-base leading-relaxed">
@@ -240,7 +243,7 @@ export default function About() {
                 >
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-5 h-5 text-accent shrink-0" />
-                    <h3 className="font-heading text-base font-bold text-primary">
+                    <h3 className="font-serif text-base font-bold text-primary">
                       {val.title}
                     </h3>
                   </div>
@@ -255,9 +258,9 @@ export default function About() {
       </section>
 
       {/* 5. Navigation CTA to Services & Contact */}
-      <section className="bg-primary text-white py-16 sm:py-20">
+      <section className="bg-primary text-white py-12 sm:py-14 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight">
             Experience the Dilip Optics Grand Difference
           </h2>
           <p className="font-body text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">

@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
+    "optimize:products": "node scripts/optimize-products.js",
     "preview": "vite preview"
   },
   "dependencies": {

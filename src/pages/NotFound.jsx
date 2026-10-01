@@ -4,7 +4,7 @@ import business from '../data/business'
 
 export default function NotFound() {
   return (
-    <div className="min-h-[70vh] flex items-center justify-center py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-slate-50/50">
+    <div className="min-h-[70vh] flex items-center justify-center py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-slate-50/50">
       <div className="max-w-xl w-full text-center space-y-8">
         {/* Optical 404 Visual Icon */}
         <div className="relative inline-block">
@@ -18,7 +18,7 @@ export default function NotFound() {
 
         {/* Heading & Subtitle */}
         <div className="space-y-3">
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
             Can't Find That View
           </h1>
           <p className="font-body text-slate-600 text-sm sm:text-base max-w-md mx-auto leading-relaxed">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Glasses, Calendar, Menu, X, MessageCircle, Clock, MapPin } from 'lucide-react'
 import business from '../data/business'
@@ -6,6 +6,22 @@ import business from '../data/business'
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const headerRef = useRef(null)
+
+  // Dynamically set --navbar-height CSS variable on root for sticky elements like filter bars
+  useEffect(() => {
+    const updateNavbarHeight = () => {
+      if (headerRef.current) {
+        document.documentElement.style.setProperty(
+          '--navbar-height',
+          `${headerRef.current.offsetHeight}px`
+        )
+      }
+    }
+    updateNavbarHeight()
+    window.addEventListener('resize', updateNavbarHeight)
+    return () => window.removeEventListener('resize', updateNavbarHeight)
+  }, [isScrolled])
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -40,6 +56,7 @@ export default function Navbar() {
 
   return (
     <header
+      ref={headerRef}
       className={`sticky top-0 z-50 w-full bg-white transition-all duration-300 ${
         isScrolled
           ? 'shadow-soft border-b border-slate-100/80 py-2.5'
@@ -67,10 +84,14 @@ export default function Navbar() {
                 {business.name}
               </span>
               <div className="flex items-center gap-1.5 mt-1">
-                <span className="font-heading text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase text-amber-700 leading-none">
-                  Since {business.establishedYear}
-                </span>
-                <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                {business.claims.establishedYear != null && (
+                  <>
+                    <span className="font-heading text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase text-amber-700 leading-none">
+                      Since {business.claims.establishedYear}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                  </>
+                )}
                 <span className="font-body text-[10px] text-slate-600 font-medium tracking-wide">
                   Rajahmundry
                 </span>

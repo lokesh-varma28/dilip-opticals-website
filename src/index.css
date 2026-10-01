@@ -29,6 +29,7 @@
 
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
 
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
@@ -39,23 +40,40 @@
   --shadow-hover: 0 20px 35px -5px rgba(11, 37, 69, 0.12), 0 10px 15px -3px rgba(11, 37, 69, 0.06);
 }
 
+:root {
+  --navbar-height: 72px;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: var(--navbar-height);
   }
 
   body {
-    font-family: var(--font-body);
+    font-family: var(--font-body)
+    ;
     background-color: #ffffff;
     color: #0B2545;
     margin: 0;
     min-height: 100vh;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+  }
+
+  h4, h5, h6 {
     font-family: var(--font-heading);
   }
+}
+
+/* Enforce Playfair Display serif display font site-wide for all h1/h2/h3 */
+h1, h2, h3,
+h1.font-heading,
+h2.font-heading,
+h3.font-heading {
+  font-family: var(--font-serif);
 }
 
 
@@ -93,5 +111,41 @@
 
 .animation-delay-300 {
   animation-delay: 300ms;
+}
+
+@keyframes cardFadeIn {
+  from {
+    
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card-enter {
+  opacity: 0;
+  animation: cardFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card-enter,
+  .animate-fade-in,
+  .animate-fade-in-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 

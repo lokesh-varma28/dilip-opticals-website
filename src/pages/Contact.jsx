@@ -88,7 +88,7 @@ export default function Contact() {
   return (
     <div className="space-y-0">
       {/* 1. Header & Trust Banner */}
-      <section className="bg-gradient-to-b from-primary-50/70 to-white py-16 sm:py-20 lg:py-24 border-b border-slate-100">
+      <section className="bg-gradient-to-b from-primary-50/70 to-white py-12 sm:py-14 lg:py-16 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
@@ -96,7 +96,7 @@ export default function Contact() {
               Appointments & Store Visit
             </div>
 
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
               Book an Eye Test or Visit Us
             </h1>
 
@@ -375,26 +375,28 @@ export default function Contact() {
               </div>
 
               {/* Heritage / Assurance Card */}
-              <div className="bg-primary text-white rounded-2xl p-6 shadow-card border border-primary-800 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center shrink-0">
-                  <Sparkles className="w-6 h-6 text-accent" />
+              {business.claims.yearsInBusiness != null && (
+                <div className="bg-primary text-white rounded-2xl p-6 shadow-card border border-primary-800 flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center shrink-0">
+                    <Sparkles className="w-6 h-6 text-accent" />
+                  </div>
+                  <div className="space-y-0.5">
+                    <h4 className="font-serif font-bold text-base text-white">
+                      {business.claims.yearsInBusiness}+ Years of Optical Trust
+                    </h4>
+                    <p className="font-body text-xs text-primary-200 leading-relaxed">
+                      Serving Rajahmundry{business.claims.establishedYear != null ? ` since ${business.claims.establishedYear}` : ''} with genuine branded lenses and computerized eye tests.
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-0.5">
-                  <h4 className="font-heading font-bold text-base text-white">
-                    {business.yearsInBusiness}+ Years of Optical Trust
-                  </h4>
-                  <p className="font-body text-xs text-primary-200 leading-relaxed">
-                    Serving Rajahmundry since {business.establishedYear} with genuine branded lenses and computerized eye tests.
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
       {/* 3. Visit Our Store Section with Map & Directions */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-slate-50/70 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
@@ -402,7 +404,7 @@ export default function Contact() {
               Store Location & Directions
             </div>
 
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
               Visit Our Rajahmundry Showroom
             </h2>
 

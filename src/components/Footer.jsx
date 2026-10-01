@@ -31,14 +31,22 @@ export default function Footer() {
                 <span className="font-heading font-bold text-2xl text-white tracking-tight leading-none">
                   {business.name}
                 </span>
-                <span className="font-heading text-xs font-bold tracking-[0.2em] uppercase text-accent mt-1 leading-none">
-                  Since {business.establishedYear}
-                </span>
+                {business.claims.establishedYear != null ? (
+                  <span className="font-heading text-xs font-bold tracking-[0.2em] uppercase text-accent mt-1 leading-none">
+                    Since {business.claims.establishedYear}
+                  </span>
+                ) : (
+                  <span className="font-heading text-xs font-bold tracking-[0.2em] uppercase text-accent mt-1 leading-none">
+                    JN Road, Rajahmundry
+                  </span>
+                )}
               </div>
             </Link>
 
             <p className="font-body text-slate-300/90 text-sm leading-relaxed max-w-sm">
-              Rajahmundry’s trusted optical destination for over {business.yearsInBusiness} years. Providing computerized eye testing, luxury spectacle frames, and high-precision prescription lenses.
+              {business.claims.yearsInBusiness != null
+                ? `Rajahmundry’s trusted optical destination for over ${business.claims.yearsInBusiness} years. Providing computerized eye testing, luxury spectacle frames, and high-precision prescription lenses.`
+                : 'Rajahmundry’s trusted optical destination on JN Road. Providing computerized eye testing, luxury spectacle frames, and high-precision prescription lenses.'}
             </p>
 
             {/* Social Icons */}
@@ -193,7 +201,9 @@ export default function Footer() {
               © {new Date().getFullYear()} <strong className="text-white font-medium">{business.name}</strong>. All rights reserved.
             </p>
             <p className="text-[11px] text-slate-300/80">
-              Established in {business.establishedYear} in Rajahmundry • Certified Ophthalmic Dispensing & Vision Care
+              {business.claims.establishedYear != null
+                ? `Established in ${business.claims.establishedYear} in Rajahmundry • Certified Ophthalmic Dispensing & Vision Care`
+                : 'Premier Optical Showroom on JN Road, Rajahmundry • Certified Ophthalmic Dispensing & Vision Care'}
             </p>
           </div>
 

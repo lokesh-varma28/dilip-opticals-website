@@ -22,14 +22,14 @@ export default function Services() {
       id: 'eye-testing',
       icon: ScanEye,
       title: 'Computerized Eye Testing',
-      badge: 'Certified Optometrists',
+      badge: 'Digital Refraction',
       description:
         'Accurate digital auto-refraction and comprehensive visual acuity analysis to pinpoint sphere, cylinder, and axis powers with clinical precision.',
       benefits: [
         'Advanced Japanese Auto-Refractometer',
         'Subjective refinement with trial lenses',
         'Pupillary distance (PD) calibration',
-        'Double-checked by senior optometrists',
+        'Double-checked for prescription accuracy',
       ],
     },
     {
@@ -118,7 +118,9 @@ export default function Services() {
     {
       step: '03',
       title: 'Frame Ergonomics & Styling',
-      description: 'Choose from 1,000+ curated frames with guidance on bridge fit, weight distribution, and face harmony.',
+      description: business.claims.inStoreStyles != null
+        ? `Choose from ${business.claims.inStoreStyles} curated frames with guidance on bridge fit, weight distribution, and face harmony.`
+        : 'Choose from our curated frames with guidance on bridge fit, weight distribution, and face harmony.',
     },
     {
       step: '04',
@@ -130,7 +132,7 @@ export default function Services() {
   return (
     <div className="space-y-0">
       {/* 1. Services Header */}
-      <section className="bg-gradient-to-b from-primary-50/70 to-white py-16 sm:py-20 lg:py-24 border-b border-slate-100">
+      <section className="bg-gradient-to-b from-primary-50/70 to-white py-12 sm:py-14 lg:py-16 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
@@ -138,12 +140,14 @@ export default function Services() {
               Clinical & Optical Services
             </div>
 
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
               Dedicated Eye Care & Optical Services
             </h1>
 
             <p className="font-body text-slate-600 text-lg sm:text-xl leading-relaxed">
-              Combining over {business.yearsInBusiness} years of clinical precision in Rajahmundry with modern diagnostic technology and curated global eyewear.
+              {business.claims.yearsInBusiness != null
+                ? `Combining over ${business.claims.yearsInBusiness} years of clinical precision in Rajahmundry with modern diagnostic technology and curated global eyewear.`
+                : 'Combining clinical eye testing in Rajahmundry with modern diagnostic technology and curated global eyewear.'}
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -170,10 +174,10 @@ export default function Services() {
       </section>
 
       {/* 2. Comprehensive Services Grid */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-white border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
               Our Full Range of Optical Services
             </h2>
             <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -248,14 +252,14 @@ export default function Services() {
       </section>
 
       {/* 3. The 4-Step Optical Examination Process */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 border-b border-slate-100">
+      <section className="py-12 sm:py-14 lg:py-16 bg-slate-50/70 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
               <Clock className="w-3.5 h-3.5 text-accent" />
               Patient Experience
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-primary">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
               Your Eye Examination Journey
             </h2>
             <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -272,7 +276,7 @@ export default function Services() {
                 <div className="font-heading font-black text-3xl text-accent/80 tracking-tighter">
                   {step.step}
                 </div>
-                <h3 className="font-heading text-lg font-bold text-primary">
+                <h3 className="font-serif text-lg font-bold text-primary">
                   {step.title}
                 </h3>
                 <p className="font-body text-slate-600 text-xs sm:text-sm leading-relaxed">
@@ -285,14 +289,14 @@ export default function Services() {
       </section>
 
       {/* 4. Commitment / Booking CTA */}
-      <section className="bg-primary text-white py-16 sm:py-20">
+      <section className="bg-primary text-white py-12 sm:py-14 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-accent text-xs font-semibold tracking-wider uppercase">
             <ShieldCheck className="w-3.5 h-3.5 text-accent" />
             Walk-ins & Appointments Welcome
           </div>
 
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             Schedule Your Eye Examination Today
           </h2>
 
