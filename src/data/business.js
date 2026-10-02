@@ -17,7 +17,7 @@ export const business = {
   googleListingUrl:
     "https://www.google.com/maps/search/?api=1&query=Dilip%20Optics%20Grand%20Rajahmundry",
   mapEmbedUrl:
-    "https://www.google.com/maps?q=Dilip+Optics+Grand,+80-31-13+Jawaharlal+Nehru+Rd,+Gandhipuram,+Rajamahendravaram&z=16&output=embed",
+    "https://maps.google.com/maps?width=100%25&height=100%25&hl=en&q=Dilip%20Optics%20Grand&t=&z=18&ie=UTF8&iwloc=B&output=embed",
   // Image paths for easy swapping when new store photos are available (compressed WebP <200KB)
   images: {
     storefront: storefrontImage,

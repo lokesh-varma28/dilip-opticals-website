@@ -519,15 +519,30 @@ export default function Contact() {
             </div>
 
             {/* Right Column: Embedded Google Map */}
-            <div className="lg:col-span-7 bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-card min-h-[380px] sm:min-h-[460px] relative">
+            <div className="lg:col-span-7 bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-card min-h-[380px] sm:min-h-[460px] relative group">
               <iframe
                 src={business.mapEmbedUrl}
                 className="w-full h-full min-h-[380px] sm:min-h-[460px] border-0"
                 loading="lazy"
                 title={`${business.name} Location Map`}
+                frameBorder="0"
+                scrolling="no"
+                marginHeight={0}
+                marginWidth={0}
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
               />
+              <div className="absolute bottom-3 right-3 z-10 pointer-events-auto">
+                <a
+                  href={business.googleListingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/95 backdrop-blur-xs text-primary font-heading font-semibold text-xs shadow-md border border-slate-200/80 hover:bg-white hover:text-accent-700 transition-colors"
+                >
+                  <Navigation className="w-3.5 h-3.5 text-accent" />
+                  <span>Open in Maps</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
