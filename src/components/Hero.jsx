@@ -113,7 +113,7 @@ export default function Hero() {
                     alt="Dilip Optics Grand, JN Road"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]"
                     loading="eager"
-                    fetchpriority="high"
+                    fetchPriority="high"
                   />
                 </div>
                 <p className="pt-2 pb-0.5 text-center text-xs text-slate-600 font-medium">
