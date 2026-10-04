@@ -20,12 +20,12 @@ export default function About() {
         ? `${business.claims.yearsInBusiness}+ Years of Dedication`
         : 'Optical Dedication & Quality',
       description: business.claims.establishedYear != null
-        ? `Serving Rajahmundry since ${business.claims.establishedYear} with clinical integrity, high-precision eyewear, and optical dedication.`
-        : 'Serving Rajahmundry with clinical integrity, high-precision eyewear, and optical dedication.',
+        ? `Serving Rajahmundry since ${business.claims.establishedYear} with honest service, quality eyewear, and optical dedication.`
+        : 'Serving Rajahmundry with honest service, quality eyewear, and optical dedication.',
     },
     {
       icon: ShieldCheck,
-      title: 'Clinical Precision',
+      title: 'Accurate Eye Testing',
       description: 'Every prescription is checked using computerized auto-refractometers and verified for optical accuracy.',
     },
     {
@@ -50,7 +50,7 @@ export default function About() {
     }] : []),
     {
       title: 'Transparent Pricing',
-      description: 'Honest options for every budget, from student spectacles to luxury titanium frames.',
+      description: 'Honest options for every budget, from student spectacles to quality titanium frames.',
     },
   ]
 
@@ -70,7 +70,7 @@ export default function About() {
             </h1>
 
             <p className="font-body text-slate-600 text-lg sm:text-xl leading-relaxed">
-              Serving Rajahmundry and the Godavari region with clinical integrity, computerized accuracy, and personalized eyewear craftsmanship.
+              Serving Rajahmundry and the Godavari region with honest care, computerized accuracy, and personalized eyewear fitting.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-sm text-slate-700">
@@ -102,7 +102,7 @@ export default function About() {
 
               <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
                 {business.claims.establishedYear != null ? `Founded in ${business.claims.establishedYear}, ` : ''}
-                <strong className="text-primary font-semibold">{business.name}</strong> was created with a clear objective: to bring world-class refractive diagnostics and designer optical quality to Rajahmundry under one roof.
+                <strong className="text-primary font-semibold">{business.name}</strong> was created with a clear objective: to bring accurate eye testing and quality eyewear to Rajahmundry under one roof.
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
@@ -110,7 +110,7 @@ export default function About() {
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses diagnostic auto-refractometers, an on-site lens fitting laboratory, and a vast collection of frames.
+                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses computerized auto-refractometers, an on-site lens fitting laboratory, and a vast collection of frames.
               </p>
 
               {/* Quick Heritage Trust Metrics */}
@@ -154,7 +154,7 @@ export default function About() {
                 </div>
                 <div className="pt-3 px-1 text-center">
                   <p className="font-medium text-xs sm:text-sm text-slate-800">
-                    Showroom & Clinical Examination Facility
+                    Showroom & Eye Testing Area
                   </p>
                   <p className="font-body text-[11px] text-slate-500">
                     Gandhipuram, Rajamahendravaram
@@ -187,7 +187,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 space-y-3">
             <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
-              Our Core Clinical Pillars
+              What We Stand For
             </h2>
             <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
               Every pair of glasses that leaves our Rajahmundry store is guided by three non-negotiable standards.

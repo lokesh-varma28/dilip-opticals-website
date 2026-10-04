@@ -92,8 +92,8 @@ const BRANDS = [
   {
     id: 'st-marks',
     name: "St. Mark's",
-    tagline: 'Titanium & Classic Luxury Frames',
-    category: 'Luxury Frames',
+    tagline: 'Titanium & Classic Quality Frames',
+    category: 'Quality Frames',
     accentColor: '#0B2545',
     hoverText: 'group-hover:text-[#0B2545]',
     hoverBorder: 'group-hover:border-[#0B2545]/40',

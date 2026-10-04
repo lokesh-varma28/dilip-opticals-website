@@ -351,7 +351,7 @@ export default function Contact() {
                   <div className="flex items-start gap-2.5">
                     <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-primary block font-heading">Showroom & Clinic Hours</strong>
+                      <strong className="text-primary block font-heading">Showroom & Store Hours</strong>
                       <span>{business.hours}</span>
                     </div>
                   </div>
@@ -426,7 +426,7 @@ export default function Contact() {
                       {business.name}
                     </h3>
                     <p className="font-body text-xs text-slate-500 font-medium">
-                      Eyewear Studio & Diagnostic Vision Care
+                      Eyewear Studio & Vision Care
                     </p>
                   </div>
                 </div>

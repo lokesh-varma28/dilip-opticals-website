@@ -263,7 +263,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Heritage & Clinical Trust Teaser (About Preview) */}
+      {/* 5. Heritage & Eye Care Teaser (About Preview) */}
       <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-br from-primary-50/70 via-white to-amber-50/40 rounded-3xl p-8 sm:p-12 lg:p-14 border border-slate-200/90 shadow-soft">
@@ -280,7 +280,7 @@ export default function Home() {
                 </h2>
 
                 <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
-                  Located on JN Road in Gandhipuram, {business.name} is dedicated to honest eye care, clinical accuracy, and curated authentic eyewear. Every frame and lens is inspected to rigorous optical standards.
+                  Located on JN Road in Gandhipuram, {business.name} offers computerized eye testing, prescription glasses and a wide range of eyewear. Visit our showroom to try frames and get your eyes tested.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
@@ -348,7 +348,7 @@ export default function Home() {
                   </div>
                   <div className="pt-3 px-1 flex items-center justify-between text-xs text-slate-600">
                     <span className="font-medium text-slate-800">
-                      JN Road Dispensary & Clinic
+                      JN Road Dispensary & Showroom
                     </span>
                     {business.claims.establishedYear != null && (
                       <span className="text-amber-700 font-medium">Est. {business.claims.establishedYear}</span>

@@ -128,7 +128,7 @@ export default function ShowroomIllustration() {
             <rect x="180" y="152" width="180" height="14" rx="2" fill="#F8FAFC" stroke="#E2E8F0" strokeWidth="1" />
           </g>
 
-          {/* MAIN HERO EYEWEAR (Middle Shelf - Luxury Navy & Gold Aviator / Wayfarer Blend) */}
+          {/* MAIN HERO EYEWEAR (Middle Shelf - Classic Navy & Gold Aviator / Wayfarer Blend) */}
           <g filter="url(#glassesShadow)" transform="translate(185, 100)">
             <path
               d="M12 18 C12 6, 68 6, 68 18 C68 44, 18 46, 12 18 Z"

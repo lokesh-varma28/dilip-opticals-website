@@ -24,7 +24,7 @@ export default function Services() {
       title: 'Computerized Eye Testing',
       badge: 'Digital Refraction',
       description:
-        'Accurate digital auto-refraction and comprehensive visual acuity analysis to pinpoint sphere, cylinder, and axis powers with clinical precision.',
+        'Accurate digital auto-refraction and comprehensive visual acuity analysis to pinpoint sphere, cylinder, and axis powers with dependable accuracy.',
       benefits: [
         'Advanced Japanese Auto-Refractometer',
         'Subjective refinement with trial lenses',
@@ -113,7 +113,7 @@ export default function Services() {
     {
       step: '02',
       title: 'Computerized Refraction',
-      description: 'Our digital auto-refractometers deliver baseline diagnostic accuracy, refined with trial frames.',
+      description: 'Our digital auto-refractometers deliver accurate baseline readings, refined with trial frames.',
     },
     {
       step: '03',
@@ -137,7 +137,7 @@ export default function Services() {
           <div className="max-w-3xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
               <Sparkles className="w-3.5 h-3.5 text-accent" />
-              Clinical & Optical Services
+              Eye Testing & Optical Services
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
@@ -146,8 +146,8 @@ export default function Services() {
 
             <p className="font-body text-slate-600 text-lg sm:text-xl leading-relaxed">
               {business.claims.yearsInBusiness != null
-                ? `Combining over ${business.claims.yearsInBusiness} years of clinical precision in Rajahmundry with modern diagnostic technology and curated global eyewear.`
-                : 'Combining clinical eye testing in Rajahmundry with modern diagnostic technology and curated global eyewear.'}
+                ? `Over ${business.claims.yearsInBusiness} years of computerized eye testing, prescription glasses and contact lenses in Rajahmundry.`
+                : 'Computerized eye testing, prescription glasses and contact lenses in Rajahmundry.'}
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -301,7 +301,7 @@ export default function Services() {
           </h2>
 
           <p className="font-body text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Booking ahead helps us prepare your diagnostic slot and ensure minimal wait times at our Rajahmundry clinic.
+            Booking ahead helps us prepare your eye test slot and ensure minimal wait times at our Rajahmundry showroom.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">

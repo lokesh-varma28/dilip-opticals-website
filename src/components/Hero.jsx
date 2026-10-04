@@ -34,7 +34,7 @@ export default function Hero() {
             {/* Showroom Status Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span>Optical Showroom & Eye Clinic</span>
+              <span>Optical Showroom & Eye Testing</span>
             </div>
 
             {/* Main Hero Heading */}

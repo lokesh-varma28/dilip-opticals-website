@@ -7,13 +7,18 @@ import {
   Calendar,
   ArrowRight,
   MessageCircle,
-  Layers,
   MapPin,
   X,
   RotateCcw,
+  Shield,
+  Sparkles,
+  SunMedium,
+  Feather,
 } from 'lucide-react'
 import TrustedBrands from '../components/TrustedBrands'
 import business from '../data/business'
+
+const SHOW_BRAND_FILTER = false
 
 const productImages = import.meta.glob('../assets/products/*.webp', { eager: true })
 
@@ -97,8 +102,8 @@ export default function Products() {
       alt: "Titanium round spectacles",
       material: 'Titanium frame',
       tag: null,
-      description: 'Hypoallergenic round eyeglasses with flexible titanium temples designed for lightweight everyday comfort.',
-      features: ['Beta titanium build', 'Flexible spring hinges', 'Hypoallergenic nose pads'],
+      description: 'Round eyeglasses with flexible titanium temples designed for lightweight everyday comfort.',
+      features: ['Beta titanium build', 'Flexible spring hinges', 'Nose pads'],
     },
     {
       id: 2,
@@ -258,31 +263,35 @@ export default function Products() {
 
   const lensTech = [
     {
+      icon: Shield,
       title: 'Digital Blue-Cut Shield',
-      desc: 'Filters harmful 415-455nm blue wavelengths from computer monitors and mobile devices to alleviate digital eye fatigue.',
+      desc: 'Filters harmful blue light from digital screens to alleviate everyday eye strain.',
     },
     {
+      icon: Sparkles,
       title: 'Anti-Reflective Clarity (AR)',
-      desc: 'Multi-layer anti-reflective coatings eliminate oncoming headlight glare during night driving and remove ghost reflections.',
+      desc: 'Eliminates night driving headlight glare and removes distracting surface reflections.',
     },
     {
-      title: 'Photochromic Transitions',
-      desc: 'Intelligent light-reactive lenses that darken swiftly under outdoor sunlight into sunglasses and turn crystal clear indoors.',
+      icon: SunMedium,
+      title: 'Photochromic Lenses',
+      desc: 'Light-reactive lenses that darken under outdoor sunlight and clear swiftly indoors.',
     },
     {
+      icon: Feather,
       title: 'High-Index Ultra Thin',
-      desc: 'Compacted high-refractive resins (1.60, 1.67, 1.74) keeping strong prescriptions exceptionally lightweight and sleek.',
+      desc: 'Refined high-index materials keep stronger prescriptions exceptionally lightweight and sleek.',
     },
   ]
 
   return (
     <div className="space-y-0 bg-white">
-      {/* 1. Header & Hero - Luxury Boutique Aesthetic */}
+      {/* 1. Header & Hero - Optical Showroom Aesthetic */}
       <section className="bg-gradient-to-b from-[#F5F6F8] to-white py-12 sm:py-14 lg:py-16 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto space-y-4">
             <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.22em] uppercase font-body block">
-              Curated Eyewear Studio
+              Optical Showroom & Eye Testing
             </span>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-primary tracking-tight leading-[1.15]">
@@ -325,7 +334,7 @@ export default function Products() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Row 1: Category Underline Tabs */}
-          <div className="border-b border-slate-100 py-3">
+          <div className={`${SHOW_BRAND_FILTER ? 'border-b border-slate-100' : ''} py-3 flex items-center justify-between gap-4`}>
             <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto no-scrollbar scroll-smooth pr-4 sm:pr-0 after:content-[''] after:w-4 after:shrink-0">
               {categories.map((cat) => {
                 const isActive = activeCategory === cat.id
@@ -345,36 +354,8 @@ export default function Products() {
                 )
               })}
             </div>
-          </div>
 
-          {/* Row 2: Brand Underline Selector */}
-          <div className="py-2.5 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4 overflow-x-auto no-scrollbar scroll-smooth flex-1 min-w-0 pr-4 sm:pr-0 after:content-[''] after:w-4 after:shrink-0">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">
-                Brand:
-              </span>
-              <div className="flex items-center gap-4 shrink-0">
-                {brandOptions.map((brand) => {
-                  const isSelected = activeBrand.toLowerCase() === brand.id.toLowerCase()
-                  return (
-                    <button
-                      key={brand.id}
-                      type="button"
-                      onClick={() => handleBrandChange(brand.id)}
-                      className={`font-body text-xs whitespace-nowrap transition-colors pb-1 cursor-pointer border-b-2 shrink-0 ${
-                        isSelected
-                          ? 'font-bold text-[#D4A017] border-[#D4A017]'
-                          : 'font-normal text-slate-500 hover:text-primary border-transparent'
-                      }`}
-                    >
-                      {brand.name}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {(activeCategory !== 'all' || activeBrand !== 'all') && (
+            {!SHOW_BRAND_FILTER && (activeCategory !== 'all' || activeBrand !== 'all') && (
               <button
                 type="button"
                 onClick={handleResetFilters}
@@ -385,6 +366,47 @@ export default function Products() {
               </button>
             )}
           </div>
+
+          {/* Row 2: Brand Underline Selector */}
+          {SHOW_BRAND_FILTER && (
+            <div className="py-2.5 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4 overflow-x-auto no-scrollbar scroll-smooth flex-1 min-w-0 pr-4 sm:pr-0 after:content-[''] after:w-4 after:shrink-0">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">
+                  Brand:
+                </span>
+                <div className="flex items-center gap-4 shrink-0">
+                  {brandOptions.map((brand) => {
+                    const isSelected = activeBrand.toLowerCase() === brand.id.toLowerCase()
+                    return (
+                      <button
+                        key={brand.id}
+                        type="button"
+                        onClick={() => handleBrandChange(brand.id)}
+                        className={`font-body text-xs whitespace-nowrap transition-colors pb-1 cursor-pointer border-b-2 shrink-0 ${
+                          isSelected
+                            ? 'font-bold text-[#D4A017] border-[#D4A017]'
+                            : 'font-normal text-slate-500 hover:text-primary border-transparent'
+                        }`}
+                      >
+                        {brand.name}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {(activeCategory !== 'all' || activeBrand !== 'all') && (
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#D4A017] hover:underline cursor-pointer shrink-0 pl-2 ml-auto"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Reset</span>
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </nav>
 
@@ -673,28 +695,28 @@ export default function Products() {
             </h2>
             {/* Thin gold divider line */}
             <div className="w-12 h-[2px] bg-[#D4A017] mx-auto my-2" />
-            <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-              We partner with global optical innovators to deliver crystal-clear acuity and all-day eye protection.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {lensTech.map((lt) => (
-              <div
-                key={lt.title}
-                className="bg-white rounded-xl p-7 border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] space-y-3"
-              >
-                <div className="w-10 h-10 rounded-lg bg-primary-50 text-accent flex items-center justify-center border border-primary-100/80">
-                  <Layers className="w-5 h-5 text-[#D4A017]" />
+            {lensTech.map((lt) => {
+              const IconComponent = lt.icon
+              return (
+                <div
+                  key={lt.title}
+                  className="bg-white rounded-xl p-7 border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] space-y-3"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary-50 text-accent flex items-center justify-center border border-primary-100/80">
+                    <IconComponent className="w-5 h-5 text-[#D4A017]" />
+                  </div>
+                  <h3 className="font-serif text-lg font-semibold text-primary">
+                    {lt.title}
+                  </h3>
+                  <p className="font-body text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {lt.desc}
+                  </p>
                 </div>
-                <h3 className="font-serif text-lg font-semibold text-primary">
-                  {lt.title}
-                </h3>
-                <p className="font-body text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {lt.desc}
-                </p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

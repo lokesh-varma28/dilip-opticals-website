@@ -1,8 +1,8 @@
 import { useId } from 'react'
 
 /**
- * EyewearArt - High-end bespoke SVG optical boutique artwork.
- * Renders tailored luxury eyewear silhouettes for each frame style,
+ * EyewearArt - Bespoke SVG optical showroom artwork.
+ * Renders tailored eyewear silhouettes for each frame style,
  * lens technology, and contact lens category.
  *
  * @param {Object} props
