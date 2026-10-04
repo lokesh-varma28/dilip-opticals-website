@@ -44,35 +44,35 @@ export default function Home() {
     {
       category: 'frames',
       title: 'Spectacles & Frames',
-      desc: 'Lightweight titanium and handcrafted acetate frames engineered for everyday durability and all-day comfort.',
+      desc: 'Titanium and acetate frames for everyday wear.',
       photo: 'st-marks-titanium.webp',
-      bgColor: '#e4e7e3',
+      bgColor: '#F2F3F5',
       alt: "Titanium spectacle frame",
     },
     {
       category: 'blue-cut',
       title: 'Blue-Cut Computer Glasses',
-      desc: 'Advanced blue light filtration lenses designed to prevent eye fatigue from computer and phone screens.',
+      desc: 'Blue-cut lenses for screen use.',
       photo: 'crizal-shield.webp',
       aliases: ['crizal-bluecut.webp', 'crizal-blue-cut.webp'],
-      bgColor: '#efefef',
+      bgColor: '#F2F3F5',
       alt: 'Blue-cut computer protection glasses',
     },
     {
       category: 'sunglasses',
       title: 'Polarized Sunglasses',
-      desc: '100% UV400 polarized shades for sun protection, driving glare reduction, and elevated outdoor style.',
+      desc: 'Polarized sunglasses for sunny days and driving.',
       photo: 'fastrack-aviator.webp',
-      bgColor: '#dedede',
+      bgColor: '#F2F3F5',
       alt: 'Polarized sunglasses',
     },
     {
       category: 'contacts',
       title: 'Contact Lenses & Care',
-      desc: 'Breathable daily and monthly disposable contact lenses with hydrating lens disinfection solutions.',
+      desc: 'Daily and monthly contact lenses and lens care.',
       photo: 'bausch-lomb-purevision.webp',
       aliases: ['bausch-lomb.webp', 'bausch-lomb-contacts.webp'],
-      bgColor: '#f3f4f6',
+      bgColor: '#F2F3F5',
       alt: 'Bausch + Lomb PureVision contact lenses',
     },
   ]
@@ -140,11 +140,11 @@ export default function Home() {
                 key={item.category}
                 className="bg-white rounded-2xl border border-slate-200/90 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-300 flex flex-col h-full overflow-hidden group"
               >
-                {/* 1. Large aspect-[4/3] product image container matching product background, no visible inner box */}
+                {/* 1. Large aspect-[4/3] product image container with #F2F3F5 background, p-4, and object-contain */}
                 <Link
                   to={`/products?category=${item.category}`}
-                  className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center border-b border-slate-100 block"
-                  style={{ backgroundColor: item.bgColor }}
+                  className="relative w-full aspect-[4/3] p-4 bg-[#F2F3F5] overflow-hidden flex items-center justify-center border-b border-slate-100 block"
+                  style={{ backgroundColor: '#F2F3F5' }}
                   aria-label={`View ${item.title}`}
                 >
                   <img

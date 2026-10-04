@@ -97,7 +97,7 @@ const BRANDS = [
     hoverBorder: 'group-hover:border-[#0B2545]/40',
     hoverBg: 'group-hover:bg-[#0B2545]/[0.03]',
     hoverBadge: 'group-hover:bg-primary-50 group-hover:text-primary',
-    description: 'Aerospace titanium builds and handcrafted architectural temples',
+    description: 'Titanium frames',
     renderWordmark: () => (
       <div className="flex items-center gap-2 transition-transform duration-300 group-hover:scale-105">
         <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-serif font-bold">

@@ -95,7 +95,7 @@ export default function Products() {
       category: 'frames',
       brand: "St. Mark's",
       showBrand: false,
-      bgColor: '#e4e7e3',
+      bgColor: '#F2F3F5',
       name: 'Classic Round Titanium Spectacles',
       photo: 'st-marks-titanium.webp',
       alt: "Titanium round spectacles",
@@ -109,7 +109,7 @@ export default function Products() {
       category: 'frames',
       brand: 'IDEE',
       showBrand: false,
-      bgColor: '#eeeeee',
+      bgColor: '#F2F3F5',
       name: 'Classic Acetate Square Spectacles',
       photo: 'idee-wayfarer.webp',
       aliases: ['idee-round.webp', 'idee-classic.webp'],
@@ -124,7 +124,7 @@ export default function Products() {
       category: 'blue-cut',
       brand: 'Crizal',
       showBrand: false,
-      bgColor: '#efefef',
+      bgColor: '#F2F3F5',
       name: 'Blue-Cut Computer Glasses',
       photo: 'crizal-shield.webp',
       aliases: ['crizal-bluecut.webp', 'crizal-blue-cut.webp'],
@@ -139,7 +139,7 @@ export default function Products() {
       category: 'sunglasses',
       brand: 'Fastrack',
       showBrand: false,
-      bgColor: '#dedede',
+      bgColor: '#F2F3F5',
       name: 'Polarized Aviator Sunglasses',
       photo: 'fastrack-aviator.webp',
       aliases: ['fastrack-navigator.webp'],
@@ -154,7 +154,7 @@ export default function Products() {
       category: 'frames',
       brand: "St. Mark's",
       showBrand: false,
-      bgColor: '#e3e3e3',
+      bgColor: '#F2F3F5',
       name: 'Minimalist Rimless Spectacles',
       photo: 'st-marks-rimless.webp',
       alt: 'Minimalist rimless titanium spectacles',
@@ -168,7 +168,7 @@ export default function Products() {
       category: 'progressives',
       brand: 'Crizal',
       showBrand: false,
-      bgColor: '#ececec',
+      bgColor: '#F2F3F5',
       name: 'Progressive Eyewear Lenses',
       photo: 'crizal-progressive.webp',
       alt: 'Progressive precision optical lenses',
@@ -182,7 +182,7 @@ export default function Products() {
       category: 'blue-cut',
       brand: 'IDEE',
       showBrand: false,
-      bgColor: '#ebebeb',
+      bgColor: '#F2F3F5',
       name: 'Hexagonal Blue-Cut Spectacles',
       photo: 'idee-hexagonal.webp',
       aliases: ['idee-blue-blocker.webp'],
@@ -197,7 +197,7 @@ export default function Products() {
       category: 'contacts',
       brand: 'Bausch + Lomb',
       showBrand: false,
-      bgColor: '#ebebeb',
+      bgColor: '#F2F3F5',
       name: 'Soft Hydrogel Contact Lenses',
       photo: 'bausch-lomb-purevision.webp',
       aliases: ['bausch-lomb.webp', 'bausch-lomb-contacts.webp'],
@@ -301,7 +301,7 @@ export default function Products() {
             <div className="w-12 h-[2px] bg-[#D4A017] mx-auto my-3" />
 
             <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-              Discover lightweight titanium frames, classic handcrafted acetates, digital blue-cut lenses, and polarized sunglasses at {business.name}.
+              Browse titanium frames, acetate frames, blue-cut lenses and sunglasses at {business.name}.
             </p>
 
             <div className="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 font-medium">
@@ -462,10 +462,10 @@ export default function Products() {
                   style={{ animationDelay: `${index * 60}ms` }}
                   className="product-card-enter bg-white rounded-xl border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] hover:shadow-[0_12px_32px_rgba(11,37,69,0.08)] hover:border-slate-300 transition-all duration-300 flex flex-col h-full overflow-hidden group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
                 >
-                  {/* Fixed aspect-[4/3] image container matching product image background with no visible inner rectangle */}
+                  {/* Fixed aspect-[4/3] image container matching product image background with #F2F3F5, p-4, object-contain */}
                   <div
-                    className="relative w-full aspect-[4/3] overflow-hidden flex items-center justify-center border-b border-slate-100"
-                    style={{ backgroundColor: item.bgColor }}
+                    className="relative w-full aspect-[4/3] p-4 bg-[#F2F3F5] overflow-hidden flex items-center justify-center border-b border-slate-100"
+                    style={{ backgroundColor: '#F2F3F5' }}
                   >
                     <img
                       src={item.photo}
@@ -586,12 +586,12 @@ export default function Products() {
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-12">
-              {/* Left Side: Consistent Aspect-[4/3] Image Container matching product background */}
+              {/* Left Side: Consistent Aspect-[4/3] Image Container matching product background with #F2F3F5 and p-4 */}
               <div
-                className="md:col-span-6 p-6 sm:p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 min-h-[260px] sm:min-h-[340px] relative"
-                style={{ backgroundColor: selectedProduct.bgColor }}
+                className="md:col-span-6 p-4 sm:p-6 bg-[#F2F3F5] flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 min-h-[260px] sm:min-h-[340px] relative"
+                style={{ backgroundColor: '#F2F3F5' }}
               >
-                <div className="w-full h-full max-h-[320px] aspect-[4/3] flex items-center justify-center">
+                <div className="w-full h-full max-h-[320px] aspect-[4/3] p-4 bg-[#F2F3F5] flex items-center justify-center">
                   <img
                     src={selectedProduct.photo}
                     alt={selectedProduct.alt || selectedProduct.name}
