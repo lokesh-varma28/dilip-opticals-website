@@ -29,8 +29,6 @@ const BRANDS = [
   {
     id: 'idee',
     name: 'IDEE',
-    tagline: 'Designer Contemporary Frames',
-    category: 'Designer Frames',
     accentColor: '#0F172A',
     hoverText: 'group-hover:text-[#0F172A]',
     hoverBorder: 'group-hover:border-slate-800/40',
@@ -137,7 +135,7 @@ export default function TrustedBrands({ onSelectBrand, selectedBrand }) {
           </h2>
 
           <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-            Authentic frames, precision prescription lenses, and premium eye care solutions from world-renowned optical innovators.
+            Eyewear and lens brands available at our Rajahmundry showroom.
           </p>
         </div>
 
@@ -174,13 +172,15 @@ export default function TrustedBrands({ onSelectBrand, selectedBrand }) {
                 </div>
 
                 {/* Category Pill / Tag */}
-                <div className="mt-4 pt-3 border-t border-slate-100 w-full flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                  <span className={`px-2.5 py-0.5 rounded-md bg-slate-100/90 text-slate-500 transition-colors duration-300 ${brand.hoverBadge}`}>
-                    {brand.category}
-                  </span>
+                {brand.category && (
+                  <div className="mt-4 pt-3 border-t border-slate-100 w-full flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                    <span className={`px-2.5 py-0.5 rounded-md bg-slate-100/90 text-slate-500 transition-colors duration-300 ${brand.hoverBadge}`}>
+                      {brand.category}
+                    </span>
 
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-accent transform group-hover:translate-x-1 transition-all duration-300" />
-                </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-accent transform group-hover:translate-x-1 transition-all duration-300" />
+                  </div>
+                )}
               </>
             )
 
@@ -200,7 +200,7 @@ export default function TrustedBrands({ onSelectBrand, selectedBrand }) {
                   type="button"
                   onClick={() => onSelectBrand(brand.name)}
                   className={`${baseCardClasses} text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
-                  aria-label={`Filter eyewear by ${brand.name} (${brand.category})`}
+                  aria-label={`Filter eyewear by ${brand.name}${brand.category ? ` (${brand.category})` : ''}`}
                 >
                   {cardInner}
                 </button>
@@ -213,7 +213,7 @@ export default function TrustedBrands({ onSelectBrand, selectedBrand }) {
                 key={brand.id}
                 to={`/products?brand=${encodeURIComponent(brand.name)}`}
                 className={`${baseCardClasses} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
-                aria-label={`Explore ${brand.name} eyewear collection - ${brand.category}`}
+                aria-label={`Explore ${brand.name} eyewear collection${brand.category ? ` - ${brand.category}` : ''}`}
                 title={`Explore ${brand.name} - ${brand.description}`}
               >
                 {cardInner}

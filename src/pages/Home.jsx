@@ -121,7 +121,7 @@ export default function Home() {
                 Curated Collections for Every Lifestyle
               </h2>
               <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed">
-                Explore hand-selected spectacle frames, blue-cut computer lenses, and designer sunglasses at Dilip Optics Grand.
+                Explore spectacle frames, blue-cut computer lenses, and sunglasses at Dilip Optics Grand.
               </p>
             </div>
 

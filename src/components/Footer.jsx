@@ -45,8 +45,8 @@ export default function Footer() {
 
             <p className="font-body text-slate-300/90 text-sm leading-relaxed max-w-sm">
               {business.claims.yearsInBusiness != null
-                ? `Rajahmundry’s trusted optical destination for over ${business.claims.yearsInBusiness} years. Providing computerized eye testing, quality spectacle frames, and high-precision prescription lenses.`
-                : 'Rajahmundry’s trusted optical destination on JN Road. Providing computerized eye testing, quality spectacle frames, and high-precision prescription lenses.'}
+                ? `Rajahmundry’s trusted optical destination for over ${business.claims.yearsInBusiness} years. Providing computerized eye testing, quality spectacle frames, and prescription lenses.`
+                : 'Rajahmundry’s trusted optical destination on JN Road. Providing computerized eye testing, quality spectacle frames, and prescription lenses.'}
             </p>
 
             {/* Social Icons */}
@@ -202,8 +202,8 @@ export default function Footer() {
             </p>
             <p className="text-[11px] text-slate-300/80">
               {business.claims.establishedYear != null
-                ? `Established in ${business.claims.establishedYear} in Rajahmundry • Certified Ophthalmic Dispensing & Vision Care`
-                : 'Premier Optical Showroom on JN Road, Rajahmundry • Certified Ophthalmic Dispensing & Vision Care'}
+                ? `Established in ${business.claims.establishedYear} in Rajahmundry • Eye Testing & Eyewear`
+                : 'Optical Showroom on JN Road, Rajahmundry • Eye Testing & Eyewear'}
             </p>
           </div>
 

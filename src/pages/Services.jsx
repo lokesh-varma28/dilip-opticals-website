@@ -4,8 +4,6 @@ import {
   Glasses,
   Droplets,
   Wrench,
-  Laptop,
-  Heart,
   CheckCircle2,
   Calendar,
   ArrowRight,
@@ -26,80 +24,48 @@ export default function Services() {
       description:
         'Accurate digital auto-refraction and comprehensive visual acuity analysis to pinpoint sphere, cylinder, and axis powers with dependable accuracy.',
       benefits: [
-        'Advanced Japanese Auto-Refractometer',
+        'Computerized auto-refractometer',
         'Subjective refinement with trial lenses',
         'Pupillary distance (PD) calibration',
-        'Double-checked for prescription accuracy',
       ],
     },
     {
       id: 'prescription-glasses',
       icon: Glasses,
-      title: 'Prescription Glasses & Custom Fitting',
+      title: 'Prescription Glasses',
       badge: 'Single & Progressive',
       description:
-        'Crafted ophthalmic lenses paired with hand-selected designer frames, matched specifically to your facial anatomy and daily visual demands.',
+        'Crafted ophthalmic lenses paired with quality frames, matched to your facial anatomy and daily visual needs.',
       benefits: [
-        'Single vision, bifocal & digital progressive options',
-        'High-index ultra-thin lenses for high powers',
-        'Scratch-resistant & anti-reflective coatings',
-        'Custom beveling & laser edge finishing',
-      ],
-    },
-    {
-      id: 'blue-cut',
-      icon: Laptop,
-      title: 'Blue-Cut & Anti-Glare Digital Lenses',
-      badge: 'Screen Protection',
-      description:
-        'Engineered to filter high-energy blue-violet light emitted by laptops, mobile phones, and artificial LED lighting, relieving digital eye strain.',
-      benefits: [
-        'Reduces eye fatigue & dry eye discomfort',
-        'Anti-reflective coating for crisp night driving',
-        'UV400 full ultraviolet spectrum protection',
-        'Easy-to-clean hydrophobic & oleophobic surface',
+        'Single vision and progressive options',
+        'Scratch-resistant and anti-reflective coatings',
+        'Frame fitting and lens edging',
       ],
     },
     {
       id: 'contact-lenses',
       icon: Droplets,
-      title: 'Contact Lenses & Care Solutions',
+      title: 'Contact Lenses',
       badge: 'Daily & Monthly',
       description:
-        'Expert contact lens fitting for spherical, astigmatic (toric), and cosmetic needs using breathable, high-oxygen hydrogel lenses.',
+        'Expert contact lens fitting for spherical, astigmatic, and cosmetic needs using breathable hydrogel lenses.',
       benefits: [
-        'Daily disposable and monthly replacement modalities',
-        'Trial lenses & hygiene guidance for first-time wearers',
-        'Leading brands including Bausch + Lomb',
-        'Sterile multi-purpose contact lens solutions in stock',
+        'Daily and monthly replacement lenses',
+        'Trial lenses and wearing guidance',
+        'Multi-purpose lens solutions in stock',
       ],
     },
     {
       id: 'frame-maintenance',
       icon: Wrench,
-      title: 'Frame Realignment & Ultrasonic Cleaning',
-      badge: 'Complimentary In-Store',
+      title: 'Frame Adjustment and Cleaning',
+      badge: 'In-Store Service',
       description:
-        'Keep your favorite glasses feeling brand new. Bring your frames into our Rajahmundry store anytime for complimentary precision maintenance.',
+        'Bring your frames into our Rajahmundry store for alignment, nose pad adjustments, and ultrasonic cleaning.',
       benefits: [
-        'Ultrasonic deep sanitizing & grime removal',
-        'Nose pad replacements & screw tightening',
-        'Temple curvature alignment & ear-contour balancing',
-        'Always free for our customers',
-      ],
-    },
-    {
-      id: 'senior-pediatric',
-      icon: Heart,
-      title: 'Senior & Pediatric Vision Consultations',
-      badge: 'Family Focused',
-      description:
-        'Specialized optical dispensing tailored for growing children needing flexible, shatter-resistant eyewear and seniors transitioning to progressives.',
-      benefits: [
-        'Shatterproof TR90 flexible frames for kids',
-        'Comfort-focused progressive corridor calibration',
-        'Patient, unhurried trial sessions for elderly clients',
-        'Clear guidance on adapting to new prescriptions',
+        'Ultrasonic deep sanitizing and cleaning',
+        'Nose pad replacement and tightening',
+        'Temple curvature and frame alignment',
       ],
     },
   ]
@@ -125,7 +91,7 @@ export default function Services() {
     {
       step: '04',
       title: 'Precision Fitting & Verification',
-      description: 'Lenses are laser-fitted on-site. We inspect optical centers and ensure a snug, comfortable fit before you leave.',
+      description: 'We check the fit and comfort before you leave.',
     },
   ]
 
@@ -181,7 +147,7 @@ export default function Services() {
               Our Full Range of Optical Services
             </h2>
             <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-              Each service is performed in-house at our Rajahmundry showroom using certified equipment and experienced optical technicians.
+              Each service is performed in-house at our Rajahmundry showroom.
             </p>
           </div>
 

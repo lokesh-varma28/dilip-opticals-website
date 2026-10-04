@@ -385,7 +385,7 @@ export default function Contact() {
                       {business.claims.yearsInBusiness}+ Years of Optical Trust
                     </h4>
                     <p className="font-body text-xs text-primary-200 leading-relaxed">
-                      Serving Rajahmundry{business.claims.establishedYear != null ? ` since ${business.claims.establishedYear}` : ''} with genuine branded lenses and computerized eye tests.
+                      Serving Rajahmundry{business.claims.establishedYear != null ? ` since ${business.claims.establishedYear}` : ''} with computerized eye tests and eyewear.
                     </p>
                   </div>
                 </div>

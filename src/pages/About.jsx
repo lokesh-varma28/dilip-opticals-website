@@ -41,12 +41,12 @@ export default function About() {
       description: 'We prioritize ocular health and exact refractive accuracy over mere retail sales.',
     },
     {
-      title: '100% Genuine Lenses',
-      description: 'Direct authorization from Crizal, Essilor, Bausch + Lomb, and top optical laboratories.',
+      title: 'Quality Lenses',
+      description: 'Prescription lenses fitted to your eye test results.',
     },
     ...(business.claims.lifetimeAdjustments ? [{
       title: business.claims.lifetimeAdjustments,
-      description: 'Complimentary frame realignment, screw tightening, and ultrasonic cleaning for all customers.',
+      description: 'Frame realignment, screw tightening and ultrasonic cleaning.',
     }] : []),
     {
       title: 'Transparent Pricing',
@@ -75,10 +75,6 @@ export default function About() {
 
             <div className="pt-2 flex flex-wrap items-center gap-6 text-sm text-slate-700">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-accent" />
-                <span className="font-medium">100% Genuine Branded Optics</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-accent" />
                 <span className="font-medium">Computerized Eye Testing</span>
               </div>
@@ -95,7 +91,7 @@ export default function About() {
             <div className="lg:col-span-7 space-y-6">
               <div className="space-y-4">
                 <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-primary tracking-tight leading-snug">
-                  Precision Optics Grounded in Genuine Care
+                  Honest Eye Care in Rajahmundry
                 </h2>
                 <div className="w-16 h-1 bg-accent rounded-full" />
               </div>
@@ -106,15 +102,15 @@ export default function About() {
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-                {business.claims.yearsInBusiness != null ? `Over the past ${business.claims.yearsInBusiness} years, we` : 'We'} have served students, working professionals, and seniors with tailored visual solutions. Whether fitting high-index progressive lenses with custom corridor adjustments or helping a customer choose a lightweight titanium frame that complements their face shape, we dedicate unhurried attention to every detail.
+                {business.claims.yearsInBusiness != null ? `Over the past ${business.claims.yearsInBusiness} years, we` : 'We'} have served students, working professionals, and seniors with tailored visual solutions, whether fitting progressive lenses or choosing a frame that suits their face.
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses computerized auto-refractometers, an on-site lens fitting laboratory, and a vast collection of frames.
+                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses computerized auto-refractometers, an eye testing area, and a vast collection of frames.
               </p>
 
               {/* Quick Heritage Trust Metrics */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-200">
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200">
                 {business.claims.yearsInBusiness != null && (
                   <div className="border-l-2 border-accent pl-3 sm:pl-4">
                     <div className="font-serif text-2xl sm:text-3xl font-bold text-primary">
@@ -130,13 +126,6 @@ export default function About() {
                     <span>{business.googleRating}</span>
                   </div>
                   <div className="font-body text-xs text-slate-500 font-medium">Google Rating ({business.reviewCount} reviews)</div>
-                </div>
-
-                <div className="border-l-2 border-accent pl-3 sm:pl-4 col-span-2 sm:col-span-1">
-                  <div className="font-serif text-2xl sm:text-3xl font-bold text-primary">
-                    100%
-                  </div>
-                  <div className="font-body text-xs text-slate-500 font-medium">Authentic Branded Lenses</div>
                 </div>
               </div>
             </div>

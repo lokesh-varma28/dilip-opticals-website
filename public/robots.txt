@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dilipopticsgrand.com/sitemap.xml
+Sitemap: https://dilip-opticals-website.vercel.app/sitemap.xml

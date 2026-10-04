@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
-  ShieldCheck,
   Eye,
   CheckCircle2,
   Calendar,
@@ -313,10 +312,6 @@ export default function Products() {
                 </div>
               )}
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#D4A017]" />
-                <span>100% Genuine Branded Optics</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#D4A017]" />
                 <span>Try In-Person on JN Road</span>
               </div>
@@ -426,7 +421,7 @@ export default function Products() {
               Displaying <strong className="font-semibold text-primary">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'eyewear style' : 'eyewear styles'}
             </span>
             <span className="hidden sm:inline-block font-body text-slate-400">
-              All frames available for complimentary trial at Rajahmundry showroom
+              Visit our showroom to try frames.
             </span>
           </div>
 
@@ -688,10 +683,10 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
             <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.2em] uppercase font-body block">
-              Lens Engineering
+              Lens Options
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-primary">
-              High-Precision Lens Technologies
+              Choose the right lenses
             </h2>
             {/* Thin gold divider line */}
             <div className="w-12 h-[2px] bg-[#D4A017] mx-auto my-2" />
