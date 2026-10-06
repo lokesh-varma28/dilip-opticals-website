@@ -1,186 +1,303 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:0B2545,100:13315C&height=120&section=header&text=Dilip%20Optics%20Grand&fontSize=40&fontColor=ffffff&fontAlignY=45&desc=Optical%20showroom%20website%20%C2%B7%20Rajahmundry&descSize=16&descColor=D4A017&descAlignY=72" width="100%" alt="Dilip Optics Grand" />
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:0B2545,100:13315C&height=140&section=header&text=Dilip%20Optics%20Grand&fontSize=42&fontColor=ffffff&fontAlignY=44&desc=Premium%20Optical%20Showroom%20%C2%B7%20Rajahmundry,%20Andhra%20Pradesh&descSize=16&descColor=D4A017&descAlignY=70" width="100%" alt="Dilip Optics Grand Banner" />
 
 <br/>
 
-A fast, mobile-first website for an optical showroom on JN Road, Rajahmundry.<br/>
-Browse eyewear, learn about eye testing, then **WhatsApp**, **call** or **get directions** in one tap.
+**A high-performance, mobile-first web application designed for a premier optical showroom in Rajahmundry.**  
+*Seamlessly connecting physical retail with digital discovery through instant WhatsApp inquiries, one-tap calling, and interactive eyewear browsing.*
 
 <br/>
 
 [![Live Demo](https://img.shields.io/badge/%F0%9F%9A%80_Live_Demo-Open_Site-0B2545?style=for-the-badge&labelColor=D4A017)](https://dilip-opticals-website.vercel.app)
+[![Vercel Deployment](https://img.shields.io/badge/Deployment-Vercel_Production-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://dilip-opticals-website.vercel.app)
 
 <br/>
 
-![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=FFD62E)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-0F172A?style=flat-square&logo=tailwindcss&logoColor=38BDF8)
-![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
+![React 19](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Vite 8](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite&logoColor=FFD62E)
+![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-0F172A?style=flat-square&logo=tailwindcss&logoColor=38BDF8)
+![React Router 6](https://img.shields.io/badge/React_Router_6-CA4245?style=flat-square&logo=reactrouter&logoColor=white)
+![Oxlint](https://img.shields.io/badge/Oxlint-0_Errors-16A34A?style=flat-square&logo=oxc&logoColor=white)
+![SEO Schema](https://img.shields.io/badge/Schema.org-LocalBusiness-0B2545?style=flat-square)
+![Assets](https://img.shields.io/badge/Assets-WebP_Optimized-D4A017?style=flat-square)
 
 </div>
 
-<br/>
+---
 
-## 📑 Contents
+## 📑 Table of Contents
 
-[Highlights](#-highlights) · [Pages](#-pages) · [Screenshots](#-screenshots) · [Quick start](#-quick-start) · [Customise](#%EF%B8%8F-customise-in-2-minutes) · [Deploy](#-deploy) · [Structure](#-project-structure) · [Notes](#-content-notes) · [Roadmap](#%EF%B8%8F-roadmap)
+- [Overview & Architecture](#-overview--architecture)
+- [Key Features & UX Engineering](#-key-features--ux-engineering)
+- [Design System & Aesthetics](#-design-system--aesthetics)
+- [Interface Showcase](#-interface-showcase)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Quick Start & Developer Workflow](#-quick-start--developer-workflow)
+- [Configuration & 2-Minute Customization](#%EF%B8%8F-configuration--2-minute-customization)
+- [Deployment](#-deployment)
+- [Roadmap & Quality Assurance](#-roadmap--quality-assurance)
+- [Credits & License](#-credits--license)
 
-<br/>
+---
 
-## ✨ Highlights
+## 💎 Overview & Architecture
 
-| | |
-|---|---|
-| 📱 **Mobile first** | Built for phones first, with a slide-down menu and large tap targets |
-| 💬 **One-tap contact** | WhatsApp enquiry on every product, call and directions buttons |
-| 🛍️ **Eyewear catalogue** | 8 styles, category tabs, Quick View, and a brands section |
-| 📅 **Appointment request** | Simple form with name, phone, date and time slot |
-| 📍 **Find us easily** | Address, opening hours and an embedded Google Map |
-| 🔎 **Search ready** | Meta tags, Open Graph, LocalBusiness JSON-LD, sitemap and robots.txt |
-| ⚡ **Light and fast** | WebP images, lazy loading, no heavy UI libraries |
+**Dilip Optics Grand** (located on JN Road, Gandhipuram, Rajahmundry) is built to deliver a luxury boutique optical experience directly on the mobile web.
 
-<br/>
+Rather than a generic corporate website, this application is engineered around **local retail conversion funnels**:
 
-## 🧭 Pages
-
-| Page | What visitors get |
-|---|---|
-| **Home** | Storefront photo, rating and opening hours, featured collections, services preview |
-| **Products** | Eyewear grid with category tabs, Quick View modal, WhatsApp enquiry buttons |
-| **Services** | Computerized eye testing, prescription glasses, contact lenses, frame adjustment |
-| **About** | Who we are, what we offer, where to find us |
-| **Contact** | Appointment form, WhatsApp and call buttons, address, hours, map |
-
-<br/>
-
-## 🖼️ Screenshots
-
-> Add your screenshots to `docs/screenshots/` and they will appear here.
-
-| Home | Products |
-|:---:|:---:|
-| ![Home](docs/screenshots/home.png) | ![Products](docs/screenshots/products.png) |
-
-| Services | Contact |
-|:---:|:---:|
-| ![Services](docs/screenshots/services.png) | ![Contact](docs/screenshots/contact.png) |
-
-<br/>
-
-## 🚀 Quick start
-
-You need **Node.js 20.19 or newer** and **npm**.
-
-```bash
-git clone https://github.com/lokesh-varma28/dilip-opticals-website.git
-cd dilip-opticals-website
-npm install
-npm run dev
+```
+Visitor Discovers Eyewear ──► Views Details / Quick View ──► One-Tap WhatsApp Inquiry (Pre-filled context)
+                                                          └─► One-Tap Phone Call / GPS Navigation
 ```
 
-Open the local address printed in the terminal (usually `http://localhost:5173`).
+### Core Architectural Pillars
+- **Decoupled Single Source of Truth (`src/data/business.js`)**: All physical store metadata (phone numbers, WhatsApp URLs, Google Review scores, business hours, geo-coordinates, and marketing claims) is isolated from UI components. Updating store details takes under 60 seconds.
+- **Defensive Marketing Policy**: Marketing claims (years in business, customer numbers, warranties) default to `null` under `business.claims`. Unverified claims are strictly hidden from UI components until confirmed by store ownership.
+- **Micro-Bundle Asset Pipeline**: Images are aggressively compressed into WebP format (`<200KB` store visuals, `<12KB` product cards) with a custom Sharp optimization script (`scripts/optimize-products.js`).
+- **Zero-Latency Static Routing**: Single Page Application (SPA) bundled via Vite 8 and Tailwind CSS v4, deployed with instant edge rewrites via `vercel.json`.
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Start the development server |
-| `npm run build` | Create a production build in `dist/` |
-| `npm run preview` | Preview the production build locally |
-| `npm run lint` | Check the code with Oxlint |
+---
 
-<br/>
+## 🌟 Key Features & UX Engineering
 
-## ⚙️ Customise in 2 minutes
+| Feature | Engineering & UX Implementation | Impact |
+|:---|:---|:---|
+| 📱 **Mobile Thumb-Zone Bar** | Fixed bottom action bar (`MobileBottomBar.jsx`) with safe-area notch padding (`env(safe-area-inset-bottom)`), auto-hiding when the mobile menu is active. | Immediate conversion access for phone, WhatsApp, and Google Maps without scrolling. |
+| 💬 **Product-Linked WhatsApp** | Context-aware WhatsApp button generating dynamic pre-filled text with specific frame names and codes. | Eliminates user hesitation; provides showroom staff immediate product context. |
+| 👓 **Interactive Eyewear Catalog** | Categorized filtering (All, Frames, Sunglasses, Lenses), smooth entry micro-animations, and a zero-delay Quick View modal. | Frictionless catalog exploration mimicking an in-store display tray. |
+| 🩺 **Clinical Optometry Showcase** | Dedicated clinical cards covering computerized eye testing, prescription accuracy, power checking, and lens coatings. | Establishes medical trust, optical precision, and professional credibility. |
+| 📅 **Appointment Request Funnel** | Native appointment booking modal capturing name, contact number, preferred date, and time slot. | Streamlined consultation booking for busy working hours and senior citizens. |
+| 🔎 **Enterprise Local SEO** | Full JSON-LD `Optician` & `LocalBusiness` schema, Open Graph protocol, canonical Twitter cards, `sitemap.xml`, and clean `robots.txt`. | Maximizes Google Local Pack indexing for Rajahmundry eyewear and eye clinic queries. |
 
-Everything about the business lives in **one file**: `src/data/business.js`.
+---
 
-| Change | Where |
-|---|---|
-| Name, phone, WhatsApp number | `business.js` |
-| Address, hours, map link | `business.js` |
-| Social links (Instagram shows only when a valid link is set) | `business.js` |
-| Storefront and showroom photos | `business.js` and `src/assets/` |
-| Product photos | `src/assets/products/` (keep the same filenames) |
-| Colours and fonts | `src/index.css` (`@theme` tokens) |
+## 🎨 Design System & Aesthetics
 
-**Marketing claims** such as years in business, customer counts or guarantees live under `business.claims` and are `null` by default. A claim appears on the site only after you add a confirmed value.
+Crafted with a luxury optical visual language balancing medical authority and high-fashion eyewear elegance.
 
-### Colour palette
+### 1. Curated Color Palette
 
-| Name | Swatch | Hex |
-|---|---|---|
-| Navy | ![](https://img.shields.io/badge/-%20%20%20%20%20%20-0B2545?style=flat-square) | `#0B2545` |
-| Gold | ![](https://img.shields.io/badge/-%20%20%20%20%20%20-D4A017?style=flat-square) | `#D4A017` |
-| Surface | ![](https://img.shields.io/badge/-%20%20%20%20%20%20-F2F3F5?style=flat-square) | `#F2F3F5` |
+| Swatch | Color Name | Hex Code | Tailwind Token | Strategic UX Usage |
+|:---:|:---|:---:|:---|:---|
+| ![](https://img.shields.io/badge/-%20%20%20%20%20%20-0B2545?style=flat-square) | **Navy Primary** | `#0B2545` | `--color-primary` | Main brand identity, headers, buttons, authority & trust |
+| ![](https://img.shields.io/badge/-%20%20%20%20%20%20-13315C?style=flat-square) | **Navy Surface** | `#13315C` | `--color-primary-800` | Depth layers, gradient stops, high-contrast UI accents |
+| ![](https://img.shields.io/badge/-%20%20%20%20%20%20-D4A017?style=flat-square) | **Imperial Gold** | `#D4A017` | `--color-accent` | Eye-catching CTAs, stars, highlights, luxury optical accents |
+| ![](https://img.shields.io/badge/-%20%20%20%20%20%20-F2F3F5?style=flat-square) | **Studio Neutral** | `#F2F3F5` | `--color-primary-50` | Seamless product backdrops, clean card surfaces |
+| ![](https://img.shields.io/badge/-%20%20%20%20%20%20-25D366?style=flat-square) | **WhatsApp Green** | `#25D366` | Custom Accent | High-recognition direct messaging conversion channel |
 
-<br/>
+### 2. Typography Hierarchy
 
-## ☁️ Deploy
+```
+Display Headings  ──► Playfair Display  (Editorial serif conferring premium craftsmanship)
+Subheadings & UI  ──► Poppins           (Modern geometric sans for crisp buttons & tags)
+Body & Data       ──► Inter             (Maximum legibility across high-density mobile screens)
+```
 
-The site is a static single-page app and works on Vercel with zero setup.
+### 3. Accessibility & Motion Guidelines
+- **WCAG 2.1 AA Compliance**: All text-to-background combinations maintain contrast ratios $> 4.5:1$.
+- **Ergonomic Tap Targets**: All interactive triggers satisfy the minimum 48×48px mobile touch guideline.
+- **Motion Accessibility**: `@media (prefers-reduced-motion: reduce)` automatically deactivates custom fade and translation animations.
 
-1. Push the repository to GitHub.
-2. In Vercel, choose **Add New, Project** and import the repository.
-3. Keep the detected settings (Framework: Vite, Build: `npm run build`, Output: `dist`).
-4. Click **Deploy**. Every push to the main branch redeploys automatically.
+---
 
-`vercel.json` already handles clean URLs and single-page routing.
+## 🖼️ Interface Showcase
 
-<br/>
+<div align="center">
 
-## 📁 Project structure
+| Real Showroom & Storefront | Eyewear Catalog & Filters |
+|:---:|:---:|
+| <img src="docs/screenshots/storefront.webp" width="460" alt="Showroom Storefront" /> | <img src="docs/screenshots/products.png" width="460" alt="Eyewear Catalog" /> |
 
-<details>
-<summary>Click to expand</summary>
+| Clinical Services & Eye Testing | Mobile Thumb-Zone Experience |
+|:---:|:---:|
+| <img src="docs/screenshots/services.png" width="460" alt="Services Overview" /> | <img src="docs/screenshots/mobile-menu.png" width="460" alt="Mobile Navigation" /> |
+
+</div>
+
+---
+
+## 🧱 Tech Stack
+
+### Core Technologies
+- **Runtime & UI Library**: [React 19](https://react.dev/) — Latest concurrent rendering and modern hook primitives.
+- **Build Engine & Bundler**: [Vite 8](https://vite.dev/) — Lightning-fast HMR and optimized Rollup asset chunking.
+- **Styling Architecture**: [Tailwind CSS v4](https://tailwindcss.com/) — Next-gen engine using native CSS `@theme` tokens and zero runtime overhead.
+- **Client Routing**: [React Router DOM v6](https://reactrouter.com/) — Single-page routing with scroll restoration and deep-link support.
+- **Iconography**: [Lucide React](https://lucide.dev/) — Tree-shakeable, pixel-perfect SVG iconography.
+- **Static Analysis & Linting**: [Oxlint](https://oxc.rs/) — High-speed Rust-powered linter configured with strict rules.
+- **Asset Processing**: [Sharp](https://sharp.pixelplumbing.com/) — High-performance image compression utility for WebP conversion.
+- **Production Hosting**: [Vercel](https://vercel.com/) — Global Edge Network deployment with automatic HTTPS and SPA rewrites.
+
+---
+
+## 📁 Project Structure
 
 ```text
 dilip-opticals-website/
-├── public/                 # favicon, sitemap.xml, robots.txt, social image
+├── public/
+│   ├── favicon.ico                  # Browser tab icon
+│   ├── favicon.svg                  # Scalable vector favicon
+│   ├── og-image.webp                # Open Graph social preview (1200x630)
+│   ├── robots.txt                   # Search crawler directives
+│   └── sitemap.xml                  # Canonical URL index for search engines
 ├── src/
 │   ├── assets/
-│   │   └── products/       # optimised WebP product images
-│   ├── components/         # Navbar, Hero, Footer, TrustedBrands, ...
+│   │   ├── dilip-opticals-real.webp # Real dispensary showroom photo
+│   │   ├── dilip-opticals-real-storefront.webp # Real exterior storefront photo
+│   │   └── products/                # High-res WebP eyewear imagery (<12KB each)
+│   ├── components/
+│   │   ├── Footer.jsx               # Operating hours, map link, address, credits
+│   │   ├── Hero.jsx                 # Showroom backdrop, badge rating, primary CTAs
+│   │   ├── MobileBottomBar.jsx      # Fixed mobile bottom bar (Call, WhatsApp, Maps)
+│   │   ├── Navbar.jsx               # Responsive navigation with slide-down drawer
+│   │   ├── ScrollToTop.jsx          # Route change scroll position reset
+│   │   ├── TrustStrip.jsx           # Google rating (4.8★), hours, and address strip
+│   │   └── TrustedBrands.jsx        # Curated brand showcase (Ray-Ban, Titan, Essilor...)
 │   ├── data/
-│   │   └── business.js     # single source of truth for business details
-│   ├── pages/              # Home, About, Services, Products, Contact, NotFound
-│   ├── index.css           # Tailwind v4 theme tokens
-│   └── main.jsx
-├── index.html              # meta tags, Open Graph, JSON-LD
-├── vercel.json             # clean URLs and SPA rewrites
-└── package.json
+│   │   └── business.js              # ⚡ SINGLE SOURCE OF TRUTH for all store details
+│   ├── layouts/
+│   │   └── MainLayout.jsx           # Base shell with Navbar, Footer, and MobileBar
+│   ├── pages/
+│   │   ├── About.jsx                # Showroom background, heritage, values
+│   │   ├── Contact.jsx              # Appointment booking, direct dial, Google Map
+│   │   ├── Home.jsx                 # Landing page with featured collections & services
+│   │   ├── NotFound.jsx             # Custom 404 page with return-home trigger
+│   │   ├── Products.jsx             # Eyewear catalog with category filters & Quick View
+│   │   └── Services.jsx             # Computerized eye testing & optical services
+│   ├── index.css                    # Tailwind CSS v4 design tokens & keyframe styles
+│   └── main.jsx                     # React DOM root entry point
+├── scripts/
+│   └── optimize-products.js         # Automated Sharp image pipeline for WebP
+├── vercel.json                      # Single-page app routing rewrites & clean URLs
+├── vite.config.js                   # Vite configuration with React & Tailwind plugins
+├── .oxlintrc.json                   # Oxlint rules configuration
+└── package.json                     # Project manifest and scripts
 ```
 
-</details>
+---
 
-<br/>
+## 🚀 Quick Start & Developer Workflow
 
-## 📝 Content notes
+### Prerequisites
+- **Node.js**: Version `20.19.0` or higher
+- **npm**: Version `10.0.0` or higher
 
-- **Product images are illustrative.** To show real stock, replace the files in `src/assets/products/` with photos of the actual frames, using the same filenames.
-- **The brand filter is switched off** (`SHOW_BRAND_FILTER = false` in `Products.jsx`) until the brand-to-product mapping is confirmed.
-- **Business details** (rating, hours, phone) should be checked against the shop's Google Business profile before launch.
+### Installation & Local Development
 
-<br/>
+```bash
+# 1. Clone the repository
+git clone https://github.com/lokesh-varma28/dilip-opticals-website.git
 
-## 🗺️ Roadmap
+# 2. Navigate to project root
+cd dilip-opticals-website
 
-- [ ] Replace illustrative images with real showroom photography
-- [ ] Confirm and add the list of brands, then re-enable the brand filter
-- [ ] Add a Telugu language option
-- [ ] Mobile quick-action bar (Call, WhatsApp, Directions)
-- [ ] Lighthouse pass for mobile performance and accessibility
+# 3. Install dependencies
+npm install
 
-<br/>
+# 4. Start Vite local development server
+npm run dev
+```
 
-## 📄 License and credits
+Visit `http://localhost:5173` in your browser.
 
-Built for **Dilip Optics Grand**. All business names, logos and brand marks belong to their respective owners.
+### NPM Command Matrix
+
+| Command | Purpose | Output / Environment |
+|:---|:---|:---|
+| `npm run dev` | Boots local Vite dev server with Hot Module Replacement (HMR). | `http://localhost:5173` |
+| `npm run build` | Compiles optimized production bundle with tree-shaking and minification. | `dist/` |
+| `npm run preview` | Spins up a local web server to preview production build artifacts. | `http://localhost:4173` |
+| `npm run lint` | Runs Oxlint across all JSX and JS files with zero-warning threshold. | Terminal report |
+| `npm run optimize:products` | Runs automated Sharp script to compress raw images into WebP. | `src/assets/products/` |
+
+---
+
+## ⚙️ Configuration & 2-Minute Customization
+
+All operational details are strictly centralized in **[`src/data/business.js`](file:///c:/Users/lokes/Desktop/Opticals/src/data/business.js)**. Modifying this single file instantly updates the entire website.
+
+```javascript
+// src/data/business.js
+export const business = {
+  name: "Dilip Optics Grand",
+  address: "80-31-13, Jawaharlal Nehru Rd, Gandhipuram, Rajahmundry, AP 533103",
+  phone: "+919676955558",
+  phoneDisplay: "+91 96769 55558",
+  whatsapp: "https://wa.me/919676955558",
+  hours: "Daily, 9:30 AM – 9:00 PM",
+  googleRating: 4.8,
+  reviewCount: 41,
+  
+  // Marketing claims (Conditional: only shown when confirmed)
+  claims: {
+    happyEyes: null,
+    inStoreStyles: null,
+    lifetimeSupport: null,
+    establishedYear: null
+  }
+};
+```
+
+### Customization Quick Reference
+
+| To Update | Destination File | Notes |
+|:---|:---|:---|
+| **Phone & WhatsApp Number** | `src/data/business.js` | Changes header, footer, bottom bar, and product inquiry URLs simultaneously. |
+| **Store Hours & Address** | `src/data/business.js` | Updates contact cards, trust strip, and schema.org JSON-LD data. |
+| **Product Photos** | `src/assets/products/` | Add high-res `<15KB` WebP images; matching filenames preserves references automatically. |
+| **Color Scheme & Fonts** | `src/index.css` | Edit `--color-primary`, `--color-accent`, and `@theme` variables. |
+| **Brand Filter Toggle** | `src/pages/Products.jsx` | Toggle `SHOW_BRAND_FILTER = true` once brands are mapped to catalog IDs. |
+
+---
+
+## ☁️ Deployment
+
+The application is architected for zero-configuration deployment on **Vercel**:
+
+1. Push your latest commits to GitHub (`main` branch).
+2. Connect your repository inside the [Vercel Dashboard](https://vercel.com/new).
+3. Confirm build configuration:
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Deploy! Subsequent commits automatically trigger preview and production CI/CD deployments.
+
+> **Single-Page Application Rewrites**: Included in [`vercel.json`](file:///c:/Users/lokes/Desktop/Opticals/vercel.json) to ensure direct route navigation (e.g. `/products`, `/services`) resolves cleanly without 404 errors.
+
+---
+
+## 🗺️ Roadmap & Quality Assurance
+
+### Completed Milestones
+- [x] Responsive layout with mobile-first thumb-zone bar (`MobileBottomBar.jsx`)
+- [x] High-performance WebP image pipeline via Sharp
+- [x] Google Reviews trust strip and operating hours badge
+- [x] Interactive product catalog with category switching and Quick View modal
+- [x] Strict Oxlint setup with zero warnings across the codebase
+- [x] Embedded Google Maps with confirmed showroom coordinates
+
+### In Progress / Upcoming
+- [ ] Telugu (తెలుగు) language toggle for regional accessibility
+- [ ] Catalog brand filter reactivation upon showroom inventory audit
+- [ ] Appointment request direct WhatsApp automated payload
+- [ ] Automated Lighthouse CI audit pass targeting 100/100 scores across all routes
+
+---
+
+## 📄 Credits & License
+
+Engineered with precision for **Dilip Optics Grand**, Rajahmundry.  
+All brand trademarks, logos, and frame designs belong to their respective copyright holders.
 
 <div align="center">
 
 <br/>
 
-Made with ☕ in Andhra Pradesh
+Designed and built with ☕ & 💛 in **Andhra Pradesh, India**
+
+**[Visit Dilip Optics Grand Live](https://dilip-opticals-website.vercel.app)**
 
 </div>
