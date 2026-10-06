@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Glasses, MapPin, Clock, ArrowUp, Navigation, Star } from 'lucide-react'
 import business from '../data/business'
 
 export default function Footer() {
+  const location = useLocation()
+  const isContactPage = location.pathname === '/contact'
+
   const quickLinks = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
@@ -15,15 +18,25 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const isInstagramValid = (() => {
+    if (typeof business.instagram !== 'string') return false
+    try {
+      const url = new URL(business.instagram)
+      return url.protocol === 'https:'
+    } catch {
+      return false
+    }
+  })()
+
   return (
     <footer className="bg-[#0B2545] text-slate-300 border-t border-primary-800 relative z-20">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
-          {/* Column 1: Brand & Heritage (4 cols) */}
+          {/* Column 1: Brand & About (4 cols) */}
           <div className="lg:col-span-4 space-y-5">
             {/* Logo */}
-            <Link to="/" className="inline-flex items-center gap-3 group">
+            <Link to="/" className="inline-flex items-center gap-3 group min-h-[44px] py-1">
               <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-primary transition-colors">
                 <Glasses className="w-5 h-5" />
               </div>
@@ -52,16 +65,16 @@ export default function Footer() {
             {/* Social Icons */}
             <div className="pt-2">
               <p className="font-heading text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-                Follow Our Collections
+                Follow us
               </p>
               <div className="flex items-center gap-3">
-                {/* Instagram Link */}
-                {business.social?.instagram && (
+                {/* Instagram Link (rendered only when business.instagram is a valid https URL) */}
+                {isInstagramValid && (
                   <a
-                    href={business.social.instagram}
+                    href={business.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:bg-accent/15 text-slate-300 hover:text-accent flex items-center justify-center transition-all duration-200 active:scale-95"
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:bg-accent/15 text-slate-300 hover:text-accent flex items-center justify-center transition-all duration-200 active:scale-95"
                     aria-label={`Instagram (${business.name})`}
                     title={`Follow ${business.name} on Instagram`}
                   >
@@ -81,7 +94,7 @@ export default function Footer() {
                     href={business.social.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:bg-accent/15 text-slate-300 hover:text-accent flex items-center justify-center transition-all duration-200 active:scale-95"
+                    className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-white/5 border border-white/10 hover:border-accent hover:bg-accent/15 text-slate-300 hover:text-accent flex items-center justify-center transition-all duration-200 active:scale-95"
                     aria-label={`Facebook (${business.name})`}
                     title={`Follow ${business.name} on Facebook`}
                   >
@@ -103,14 +116,14 @@ export default function Footer() {
             <h4 className="font-heading font-bold text-sm text-white uppercase tracking-wider border-b border-white/10 pb-2">
               Quick Links
             </h4>
-            <ul className="space-y-2.5 font-body text-sm">
+            <ul className="space-y-0.5 font-body text-sm">
               {quickLinks.map((link) => (
-                <li key={link.name}>
+                <li key={link.name} className="min-h-11 py-2 flex items-center">
                   <Link
                     to={link.href}
-                    className="text-slate-300 hover:text-accent transition-colors duration-150 inline-flex items-center gap-1.5"
+                    className="text-slate-300 hover:text-accent transition-colors duration-150 inline-flex items-center gap-1.5 w-full"
                   >
-                    <span className="w-1 h-1 rounded-full bg-accent/60"></span>
+                    <span className="w-1 h-1 rounded-full bg-accent/60 shrink-0"></span>
                     <span>{link.name}</span>
                   </Link>
                 </li>
@@ -123,7 +136,7 @@ export default function Footer() {
             <h4 className="font-heading font-bold text-sm text-white uppercase tracking-wider border-b border-white/10 pb-2">
               Store Location
             </h4>
-            <div className="space-y-3.5 font-body text-xs sm:text-sm">
+            <div className="space-y-3 font-body text-xs sm:text-sm">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                 <div className="space-y-1">
@@ -141,19 +154,22 @@ export default function Footer() {
                   href={business.googleListingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-accent hover:text-amber-300 font-heading font-semibold transition-colors"
+                  className="inline-flex items-center gap-1.5 text-accent hover:text-amber-300 font-heading font-semibold transition-colors min-h-[44px] py-1.5"
                 >
                   <Navigation className="w-3.5 h-3.5" />
                   <span>Get Directions on Google Maps →</span>
                 </a>
               </div>
 
-              <div className="pt-1 flex items-center gap-1.5 text-xs text-slate-300">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
-                <span className="font-bold text-white">{business.googleRating}</span>
-                <span className="text-slate-500">·</span>
-                <span>{business.reviewCount} Google reviews</span>
-              </div>
+              {/* Show review chip on other pages, but omit on Contact page to avoid duplication */}
+              {!isContactPage && (
+                <div className="pt-1 flex items-center gap-1.5 text-xs text-slate-300">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
+                  <span className="font-bold text-white">{business.googleRating}</span>
+                  <span className="text-slate-500">·</span>
+                  <span>{business.reviewCount} Google reviews</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -179,13 +195,13 @@ export default function Footer() {
                   href={business.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-heading font-bold text-xs sm:text-sm text-accent hover:text-amber-400 transition-colors block mt-0.5"
+                  className="font-heading font-bold text-xs sm:text-sm text-accent hover:text-amber-400 transition-colors inline-flex items-center min-h-[44px] py-1 mt-0.5"
                 >
                   Message us on WhatsApp →
                 </a>
                 <a
                   href={`tel:${business.phone}`}
-                  className="font-heading font-semibold text-xs text-slate-300 hover:text-accent transition-colors block mt-1.5"
+                  className="font-heading font-semibold text-xs text-slate-300 hover:text-accent transition-colors inline-flex items-center min-h-[44px] py-1 mt-0.5"
                 >
                   Call: {business.phoneDisplay}
                 </a>
@@ -195,15 +211,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar: Copyright & Back to Top */}
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-body text-slate-400">
-          <div className="text-center sm:text-left space-y-1">
-            <p>
-              © {new Date().getFullYear()} <strong className="text-white font-medium">{business.name}</strong>. All rights reserved.
+        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col items-center justify-center gap-4 text-xs font-body text-slate-400">
+          <div className="text-center space-y-1 text-balance [text-wrap:balance]">
+            <p className="text-slate-300">
+              © 2026 Dilip Optics Grand. All rights reserved.
             </p>
-            <p className="text-[11px] text-slate-300/80">
-              {business.claims.establishedYear != null
-                ? `Established in ${business.claims.establishedYear} in Rajahmundry • Eye Testing & Eyewear`
-                : 'Optical Showroom on JN Road, Rajahmundry • Eye Testing & Eyewear'}
+            <p className="text-slate-400 text-xs">
+              Eye Testing & Eyewear · JN Road, Rajahmundry
             </p>
           </div>
 
@@ -211,7 +225,7 @@ export default function Footer() {
           <button
             type="button"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-2 text-xs font-heading font-semibold text-slate-300 hover:text-accent px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 transition-all duration-200 cursor-pointer"
+            className="min-h-[44px] inline-flex items-center gap-2 text-xs font-heading font-semibold text-slate-300 hover:text-accent px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 transition-all duration-200 cursor-pointer"
             aria-label="Scroll back to top"
           >
             <span>Back to Top</span>

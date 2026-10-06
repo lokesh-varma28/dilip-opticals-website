@@ -25,7 +25,7 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          {/* Left Column: Heading, Subheading, CTAs, Verified Chips */}
+          {/* Left Column: Heading, Subheading, CTAs, Trust Chips */}
           <div
             className={`lg:col-span-7 space-y-5 sm:space-y-6 transition-all duration-700 ease-out ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
@@ -55,9 +55,9 @@ export default function Hero() {
               {/* Primary CTA: Book Appointment */}
               <Link
                 to="/contact"
-                className="bg-accent hover:bg-accent-400 active:scale-95 text-primary font-heading font-bold text-base px-7 py-3.5 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer group"
+                className="w-full sm:w-auto min-h-12 bg-accent hover:bg-accent-400 active:scale-95 text-primary font-heading font-bold text-base px-7 py-3 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer group text-center"
               >
-                <Calendar className="w-5 h-5 text-primary transition-transform group-hover:scale-110" />
+                <Calendar className="w-5 h-5 text-primary transition-transform group-hover:scale-110 shrink-0" />
                 <span>Book Appointment</span>
               </Link>
 
@@ -66,14 +66,14 @@ export default function Hero() {
                 href={business.googleListingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-2 border-primary text-primary hover:bg-primary hover:text-white active:scale-95 font-heading font-semibold text-base px-7 py-3.5 rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer group"
+                className="w-full sm:w-auto min-h-12 border-2 border-primary text-primary hover:bg-primary hover:text-white active:scale-95 font-heading font-semibold text-base px-7 py-3 rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2.5 cursor-pointer group text-center"
               >
-                <Navigation className="w-5 h-5 text-primary group-hover:text-accent transition-colors" />
+                <Navigation className="w-5 h-5 text-primary group-hover:text-accent transition-colors shrink-0" />
                 <span>Get Directions</span>
               </a>
             </div>
 
-            {/* Verified Facts Chips */}
+            {/* Trust Facts Chips */}
             <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs sm:text-sm">
               <a
                 href={business.googleListingUrl}

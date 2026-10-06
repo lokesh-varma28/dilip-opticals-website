@@ -27,7 +27,9 @@ export const business = {
     instagram: "https://www.instagram.com/dilip_optics_grand/",
     facebook: null, // Set to valid URL when available to display Facebook icon
   },
-  // Unverified marketing claims centralized for easy verification, editing, or removal.
+  // TODO: Owner to confirm if walk-ins are officially welcome without appointment ("Walk-ins & Appointments Welcome")
+  walkInsWelcome: null,
+  // Unconfirmed marketing claims centralized for easy review, editing, or removal.
   // All set to null per policy until confirmed by owner.
   claims: {
     // TODO: Owner to confirm customer count claim before promoting
@@ -51,6 +53,9 @@ export const business = {
   },
   get yearsInBusiness() {
     return this.claims.yearsInBusiness
+  },
+  get instagram() {
+    return this.social?.instagram
   },
 }
 

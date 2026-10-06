@@ -10,6 +10,7 @@ import {
   Star,
   ArrowRight,
 } from 'lucide-react'
+import TrustStrip from '../components/TrustStrip'
 import business from '../data/business'
 
 export default function About() {
@@ -26,7 +27,7 @@ export default function About() {
     {
       icon: ShieldCheck,
       title: 'Accurate Eye Testing',
-      description: 'Every prescription is checked using computerized auto-refractometers and verified for optical accuracy.',
+      description: 'Every prescription is checked using computerized auto-refractometers and confirmed for optical accuracy.',
     },
     {
       icon: HeartHandshake,
@@ -57,34 +58,77 @@ export default function About() {
   return (
     <div className="space-y-0">
       {/* 1. Page Header & Hero Banner */}
-      <section className="bg-gradient-to-b from-primary-50/70 to-white py-12 sm:py-14 lg:py-16 border-b border-slate-100">
+      <section className="bg-gradient-to-b from-primary-50/70 to-white py-12 md:py-16 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-accent" />
-              Our Story & Heritage
+          {/* Mobile-only dispensary image card with thin gold border above text */}
+          <div className="md:hidden mb-6">
+            <div className="relative rounded-2xl overflow-hidden border border-[#D4A017]/40 shadow-soft aspect-[4/3] bg-slate-100">
+              <img
+                src={business.images.dispensary}
+                alt={`${business.name} optical dispensary`}
+                className="w-full h-full object-cover"
+                width="400"
+                height="300"
+                loading="eager"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column: Heading & 3 Key Items */}
+            <div className="md:col-span-7 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
+                <Sparkles className="w-3.5 h-3.5 text-accent" />
+                Our Story
+              </div>
+
+              <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary tracking-tight leading-[1.15]">
+                About Dilip Optics Grand
+              </h1>
+
+              <p className="font-body text-slate-600 text-[15px] sm:text-lg leading-relaxed">
+                Serving Rajahmundry with honest care, computerized accuracy, and personalized eyewear fitting.
+              </p>
+
+              {/* Three Small Items */}
+              <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs sm:text-sm text-slate-700">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200/80 shadow-2xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span className="font-medium text-primary">Eye Testing</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200/80 shadow-2xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span className="font-medium text-primary">Prescription Glasses</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200/80 shadow-2xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span className="font-medium text-primary">Contact Lenses</span>
+                </div>
+              </div>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-[1.12]">
-              A Legacy of Vision Care{business.claims.establishedYear != null ? ` Since ${business.claims.establishedYear}` : ' in Rajahmundry'}
-            </h1>
-
-            <p className="font-body text-slate-600 text-lg sm:text-xl leading-relaxed">
-              Serving Rajahmundry and the Godavari region with honest care, computerized accuracy, and personalized eyewear fitting.
-            </p>
-
-            <div className="pt-2 flex flex-wrap items-center gap-6 text-sm text-slate-700">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-accent" />
-                <span className="font-medium">Computerized Eye Testing</span>
+            {/* Desktop-only Right Column: Dispensary image card with thin gold border */}
+            <div className="hidden md:block md:col-span-5">
+              <div className="relative rounded-2xl overflow-hidden border border-[#D4A017]/40 shadow-soft aspect-[4/3] bg-slate-100 group">
+                <img
+                  src={business.images.dispensary}
+                  alt={`${business.name} optical dispensary`}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  width="400"
+                  height="300"
+                  loading="eager"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Heritage Story & Storefront Visual Showcase */}
-      <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
+      {/* 1.1 Trust Metrics Strip */}
+      <TrustStrip />
+
+      {/* 2. Our Story & Storefront Visual Showcase */}
+      <section className="py-12 md:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Story Text */}
@@ -106,10 +150,10 @@ export default function About() {
               </p>
 
               <p className="font-body text-slate-600 text-sm sm:text-base leading-relaxed">
-                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses computerized auto-refractometers, an eye testing area, and a vast collection of frames.
+                Located conveniently on JN Road near Ravindra Bharathi School in Gandhipuram, our dispensary houses computerized auto-refractometers, an eye testing area, and a wide range of frames.
               </p>
 
-              {/* Quick Heritage Trust Metrics */}
+              {/* Quick Trust Metrics */}
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200">
                 {business.claims.yearsInBusiness != null && (
                   <div className="border-l-2 border-accent pl-3 sm:pl-4">
@@ -130,42 +174,28 @@ export default function About() {
               </div>
             </div>
 
-            {/* Dispensary & Storefront Visual Showcase */}
+            {/* Storefront Visual Showcase */}
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-white p-3 rounded-2xl sm:rounded-3xl border-[1.5px] border-[#C9A227] shadow-[0_20px_40px_-12px_rgba(11,37,69,0.25)]">
                 <div className="aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100">
                   <img
-                    src={business.images.dispensary}
-                    alt={`${business.name} optical showroom & lens dispensary`}
+                    src={business.images.storefront}
+                    alt={`${business.name} storefront on JN Road`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                    width="400"
+                    height="300"
                     loading="lazy"
                   />
                 </div>
                 <div className="pt-3 px-1 text-center">
                   <p className="font-medium text-xs sm:text-sm text-slate-800">
-                    Showroom & Eye Testing Area
+                    Dilip Optics Grand, JN Road
                   </p>
-                  <p className="font-body text-[11px] text-slate-500">
-                    Gandhipuram, Rajamahendravaram
+                  <p className="text-[11px] text-slate-500">
+                    Near Ravindra Bharathi School, Gandhipuram
                   </p>
                 </div>
               </div>
-
-              {business.images?.storefront && (
-                <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-soft">
-                  <div className="aspect-[16/9] rounded-xl overflow-hidden bg-slate-100">
-                    <img
-                      src={business.images.storefront}
-                      alt={`${business.name} storefront on JN Road`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                      loading="lazy"
-                    />
-                  </div>
-                  <p className="pt-2 text-center text-xs font-medium text-slate-600">
-                    Storefront on JN Road (Near Ravindra Bharathi School)
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -256,20 +286,20 @@ export default function About() {
             Stop by our showroom on JN Road in Rajahmundry or book your personalized eye checkup today.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5 pt-2 max-w-md sm:max-w-none mx-auto">
             <Link
               to="/contact"
-              className="bg-accent hover:bg-accent-400 active:scale-95 text-primary font-heading font-bold text-base py-3.5 px-7 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto min-h-12 bg-accent hover:bg-accent-400 active:scale-[0.98] text-primary font-heading font-bold text-base py-3.5 px-7 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer text-center"
             >
               <span>Book Appointment & Visit Us</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </Link>
 
             <Link
               to="/products"
-              className="border-2 border-white/30 text-white hover:bg-white/10 font-heading font-semibold text-base py-3 px-6 rounded-xl transition-all duration-200 inline-flex items-center gap-2"
+              className="w-full sm:w-auto min-h-12 border-2 border-white/30 text-white hover:bg-white/10 active:scale-[0.98] font-heading font-semibold text-base py-3 px-6 rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2 text-center"
             >
-              <Glasses className="w-4 h-4 text-accent" />
+              <Glasses className="w-4 h-4 text-accent shrink-0" />
               <span>Explore Eyewear Collections</span>
             </Link>
           </div>

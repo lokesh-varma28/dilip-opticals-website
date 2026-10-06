@@ -127,7 +127,7 @@ npm run dev
 
 All business details live in **`src/data/business.js`**: name, phone, WhatsApp number, address, opening hours, social links, and image paths. Update this one file and the whole site follows.
 
-Marketing claims (years in business, customer counts, guarantees) are stored under `business.claims` and are **`null` by default**. A claim is only shown on the site once a verified value is filled in.
+Marketing claims (years in business, customer counts, guarantees) are stored under `business.claims` and are **`null` by default**. A claim is only shown on the site once a confirmed value is filled in.
 
 ---
 
@@ -151,8 +151,8 @@ Marketing claims (years in business, customer counts, guarantees) are stored und
 ## 🗺️ Roadmap
 
 - [ ] Replace illustrative images with real showroom photography
-- [ ] Add Google Maps embed with the verified location
-- [ ] Add a verified brands list and re-enable the brand filter
+- [ ] Add Google Maps embed with the confirmed location
+- [ ] Add a confirmed brands list and re-enable the brand filter
 - [ ] Add Telugu language toggle
 - [ ] Lighthouse pass for mobile performance and accessibility
 

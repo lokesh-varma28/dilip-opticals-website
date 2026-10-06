@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Glasses, Calendar, Menu, X, MessageCircle, Clock, MapPin } from 'lucide-react'
 import business from '../data/business'
 
@@ -7,6 +7,9 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const headerRef = useRef(null)
+  const menuRef = useRef(null)
+  const toggleButtonRef = useRef(null)
+  const location = useLocation()
 
   // Dynamically set --navbar-height CSS variable on root for sticky elements like filter bars
   useEffect(() => {
@@ -52,6 +55,58 @@ export default function Navbar() {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // Close mobile menu on route change
+  const currentPath = location.pathname + location.search
+  const prevPathRef = useRef(currentPath)
+  useEffect(() => {
+    if (prevPathRef.current !== currentPath) {
+      prevPathRef.current = currentPath
+      setIsOpen(false)
+    }
+  }, [currentPath])
+
+  // Lock body scroll while mobile menu is open and notify bottom action bar
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('mobile-menu-state', { detail: { isOpen } }))
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = originalOverflow
+      }
+    }
+  }, [isOpen])
+
+  // Close menu on tap/click outside
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handlePointerDownOutside = (e) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        toggleButtonRef.current &&
+        !toggleButtonRef.current.contains(e.target)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDownOutside)
+    return () => document.removeEventListener('pointerdown', handlePointerDownOutside)
+  }, [isOpen])
+
+  // Close menu if viewport expands to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   return (
@@ -139,82 +194,92 @@ export default function Navbar() {
 
             {/* Mobile Hamburger Toggle Button */}
             <button
+              ref={toggleButtonRef}
               type="button"
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-50 hover:bg-slate-100 text-primary border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
+              onClick={() => setIsOpen((prev) => !prev)}
+              className="md:hidden inline-flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 hover:bg-slate-100 text-primary border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-colors"
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isOpen}
               aria-controls="mobile-navigation"
             >
-              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5 text-primary" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer / Dropdown Menu */}
+      {/* Mobile Drawer / Overlay Panel below Header */}
       <div
+        ref={menuRef}
         id="mobile-navigation"
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-[500px] opacity-100 border-t border-slate-100 mt-2.5' : 'max-h-0 opacity-0'
+        style={{ top: 'var(--navbar-height, 72px)' }}
+        className={`md:hidden fixed inset-x-0 bottom-0 overflow-y-auto bg-white z-40 transition-all duration-300 ease-in-out ${
+          isOpen
+            ? 'opacity-100 pointer-events-auto visible'
+            : 'opacity-0 pointer-events-none invisible'
         }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile Navigation Menu"
       >
-        <div className="bg-white px-4 pt-3 pb-6 space-y-4 shadow-lg">
-          {/* Mobile Links */}
-          <nav className="flex flex-col space-y-1">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.href}
-                end={link.href === '/'}
-                onClick={() => setIsOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center justify-between px-4 py-2.5 rounded-lg text-base font-medium transition-colors ${
-                    isActive
-                      ? 'bg-primary-50 text-primary font-semibold'
-                      : 'text-slate-700 hover:bg-slate-50 hover:text-primary'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <span>{link.name}</span>
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>}
-                  </>
-                )}
-              </NavLink>
-            ))}
-          </nav>
-
-          {/* Mobile CTA */}
-          <div className="pt-2 border-t border-slate-100 space-y-3">
-            <Link
-              to="/contact"
-              onClick={() => setIsOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-400 active:scale-95 text-primary font-heading font-semibold text-base py-3 px-4 rounded-xl shadow-soft transition-all duration-200"
-            >
-              <Calendar className="w-5 h-5 text-primary" />
-              <span>Book Appointment</span>
-            </Link>
-
-            {/* Quick Contact & Store Info */}
-            <div className="bg-primary-50/60 rounded-xl p-3 text-xs text-slate-600 space-y-1.5 border border-primary-100/50">
-              <div className="flex items-center gap-2 text-primary font-medium">
-                <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
-                <span className="truncate">JN Road, Gandhipuram, Rajahmundry</span>
-              </div>
-              <div className="flex items-center justify-between text-slate-500 pt-1">
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-3 h-3 text-slate-400" /> {business.hours}
-                </span>
-                <a
-                  href={business.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-emerald-700 font-semibold hover:underline"
+        <div className="bg-white px-4 pt-4 pb-8 space-y-5 min-h-full flex flex-col justify-between border-t border-slate-100 shadow-xl max-w-lg mx-auto">
+          <div className="space-y-4">
+            {/* Mobile Links */}
+            <nav className="flex flex-col space-y-1.5">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.href}
+                  end={link.href === '/'}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    `min-h-[44px] flex items-center justify-between px-4 py-2.5 rounded-xl text-base font-medium transition-colors ${
+                      isActive
+                        ? 'bg-primary-50 text-primary font-semibold'
+                        : 'text-slate-700 hover:bg-slate-50 hover:text-primary'
+                    }`
+                  }
                 >
-                  <MessageCircle className="w-3 h-3 text-emerald-600" /> WhatsApp
-                </a>
+                  {({ isActive }) => (
+                    <>
+                      <span>{link.name}</span>
+                      {isActive && <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>}
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+
+            {/* Mobile CTA */}
+            <div className="pt-2 border-t border-slate-100 space-y-3">
+              <Link
+                to="/contact"
+                onClick={() => setIsOpen(false)}
+                className="w-full min-h-[48px] inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-400 active:scale-95 text-primary font-heading font-semibold text-base py-3 px-4 rounded-xl shadow-soft transition-all duration-200"
+              >
+                <Calendar className="w-5 h-5 text-primary shrink-0" />
+                <span>Book Appointment</span>
+              </Link>
+
+              {/* Quick Contact & Store Info */}
+              <div className="bg-primary-50/60 rounded-xl p-3.5 text-xs text-slate-600 space-y-2 border border-primary-100/50">
+                <div className="flex items-center gap-2 text-primary font-medium min-h-[24px]">
+                  <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
+                  <span className="truncate">JN Road, Gandhipuram, Rajahmundry</span>
+                </div>
+                <div className="flex items-center justify-between text-slate-500 pt-1">
+                  <span className="flex items-center gap-1.5 min-h-[44px]">
+                    <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" /> {business.hours}
+                  </span>
+                  <a
+                    href={business.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="min-h-[44px] inline-flex items-center gap-1.5 text-emerald-700 font-semibold hover:underline px-2"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> WhatsApp
+                  </a>
+                </div>
               </div>
             </div>
           </div>

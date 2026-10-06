@@ -20,26 +20,69 @@ export default function Contact() {
     name: '',
     phone: '',
     date: '',
+    slot: '',
     message: '',
   })
 
+  const [phoneError, setPhoneError] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
 
-  const todayStr = new Date().toISOString().split('T')[0]
+  // Local date in YYYY-MM-DD for min date attribute
+  const now = new Date()
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+
+  const validatePhone = (value) => {
+    const raw = value.trim()
+    if (!raw) {
+      return 'Phone number is required.'
+    }
+    const digits = raw.replace(/\D/g, '')
+    let tenDigits = digits
+    if (digits.length === 12 && digits.startsWith('91')) {
+      tenDigits = digits.slice(2)
+    } else if (digits.length === 11 && digits.startsWith('0')) {
+      tenDigits = digits.slice(1)
+    }
+
+    if (tenDigits.length !== 10) {
+      return 'Please enter a valid 10-digit mobile number.'
+    }
+    return ''
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+
+    if (name === 'phone') {
+      if (phoneError) {
+        setPhoneError(validatePhone(value))
+      }
+    }
+  }
+
+  const handlePhoneBlur = () => {
+    if (formData.phone) {
+      setPhoneError(validatePhone(formData.phone))
+    }
+  }
+
+  const getCleanPhone = (phoneStr) => {
+    const digits = phoneStr.replace(/\D/g, '')
+    if (digits.length === 12 && digits.startsWith('91')) return digits.slice(2)
+    if (digits.length === 11 && digits.startsWith('0')) return digits.slice(1)
+    return digits
   }
 
   const getAppointmentWhatsAppUrl = (data = formData) => {
     const name = data.name.trim()
-    const phone = data.phone.trim()
+    const phone = getCleanPhone(data.phone.trim())
     const date = data.date.trim()
+    const slot = data.slot.trim() || 'Not specified'
     const notes = data.message.trim() || 'None'
-    const messageText = `Hi, I'd like to book an eye test. Name: ${name}, Phone: ${phone}, Preferred date: ${date}, Notes: ${notes}`
+    const messageText = `Hi Dilip Optics Grand, I'd like to book an eye test / consultation:\n• Name: ${name}\n• Phone: ${phone}\n• Preferred Date: ${date}\n• Time Slot: ${slot}\n• Notes: ${notes}`
     return `https://wa.me/919676955558?text=${encodeURIComponent(messageText)}`
   }
 
@@ -47,13 +90,19 @@ export default function Contact() {
     e.preventDefault()
     setErrorMessage('')
 
-    if (!formData.name.trim() || !formData.phone.trim() || !formData.date) {
-      setErrorMessage('Please fill in your name, phone number, and preferred date.')
+    const phoneValidation = validatePhone(formData.phone)
+    if (phoneValidation) {
+      setPhoneError(phoneValidation)
+    } else {
+      setPhoneError('')
+    }
+
+    if (!formData.name.trim() || !formData.phone.trim() || !formData.date || !formData.slot) {
+      setErrorMessage('Please fill in your name, 10-digit phone number, preferred date, and time slot.')
       return
     }
 
-    if (formData.phone.replace(/\D/g, '').length < 10) {
-      setErrorMessage('Please enter a valid 10-digit mobile number.')
+    if (phoneValidation) {
       return
     }
 
@@ -75,10 +124,12 @@ export default function Contact() {
       name: '',
       phone: '',
       date: '',
+      slot: '',
       message: '',
     })
     setSubmitted(false)
     setErrorMessage('')
+    setPhoneError('')
   }
 
   const defaultWhatsappUrl = `${business.whatsapp}?text=${encodeURIComponent(
@@ -88,7 +139,7 @@ export default function Contact() {
   return (
     <div className="space-y-0">
       {/* 1. Header & Trust Banner */}
-      <section className="bg-gradient-to-b from-primary-50/70 to-white py-12 sm:py-14 lg:py-16 border-b border-slate-100">
+      <section className="bg-gradient-to-b from-primary-50/70 to-white py-10 sm:py-14 lg:py-16 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary text-xs font-semibold tracking-wider uppercase">
@@ -113,22 +164,13 @@ export default function Contact() {
                 <Clock className="w-4 h-4 text-accent" />
                 <span>{business.hours}</span>
               </div>
-              <a
-                href={business.googleListingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-amber-700 hover:text-amber-800"
-              >
-                <Star className="w-4 h-4 fill-amber-400 text-amber-500" />
-                <span>{business.googleRating} ({business.reviewCount} reviews)</span>
-              </a>
             </div>
           </div>
         </div>
       </section>
 
       {/* 2. Interactive Booking Form & Direct Contact */}
-      <section className="py-16 sm:py-20 bg-white border-b border-slate-100">
+      <section className="py-8 sm:py-16 lg:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: Booking Form */}
@@ -167,7 +209,7 @@ export default function Contact() {
                       href={getAppointmentWhatsAppUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-heading font-bold text-sm px-6 py-2.5 rounded-xl shadow-xs transition-colors inline-flex items-center gap-2"
+                      className="min-h-[44px] bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-heading font-bold text-sm px-6 py-2.5 rounded-xl shadow-xs transition-colors inline-flex items-center justify-center gap-2 cursor-pointer active:scale-95"
                     >
                       <MessageCircle className="w-4 h-4 text-slate-950" />
                       <span>Open WhatsApp</span>
@@ -175,7 +217,7 @@ export default function Contact() {
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-xl shadow-xs transition-colors cursor-pointer"
+                      className="min-h-[44px] bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-sm px-5 py-2.5 rounded-xl shadow-xs transition-colors inline-flex items-center justify-center cursor-pointer active:scale-95"
                     >
                       Book Another Slot
                     </button>
@@ -183,7 +225,7 @@ export default function Contact() {
                 </div>
               ) : (
                 /* Booking Form */
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                   {errorMessage && (
                     <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-body font-medium animate-fade-in">
                       {errorMessage}
@@ -209,11 +251,11 @@ export default function Contact() {
                         placeholder="e.g. Ramesh Varma"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50"
+                        className="w-full min-h-[44px] px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50"
                       />
                     </div>
 
-                    {/* Phone Number */}
+                    {/* Phone Number with inline error */}
                     <div className="space-y-1.5">
                       <label
                         htmlFor="phone"
@@ -230,30 +272,71 @@ export default function Contact() {
                         placeholder="+91 98765 XXXXX"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50"
+                        onBlur={handlePhoneBlur}
+                        aria-invalid={!!phoneError}
+                        aria-describedby={phoneError ? "phone-error" : undefined}
+                        className={`w-full min-h-[44px] px-4 py-3 rounded-xl border ${
+                          phoneError ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-slate-200 focus:border-primary focus:ring-primary/10'
+                        } text-sm text-slate-800 focus:outline-none focus:ring-2 transition-all bg-slate-50/50`}
                       />
+                      {phoneError && (
+                        <p id="phone-error" className="text-xs text-red-600 font-medium mt-1 animate-fade-in" role="alert">
+                          {phoneError}
+                        </p>
+                      )}
                     </div>
                   </div>
 
-                  {/* Preferred Date */}
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="date"
-                      className="block font-heading text-xs font-bold text-primary tracking-wide uppercase"
-                    >
-                      Preferred Date <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="date"
-                      name="date"
-                      type="date"
-                      autoComplete="off"
-                      min={todayStr}
-                      required
-                      value={formData.date}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50 cursor-pointer"
-                    />
+                  {/* Preferred Date & Time Slot in 2 cols */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    {/* Preferred Date */}
+                    <div className="space-y-1.5">
+                      <label
+                        htmlFor="date"
+                        className="block font-heading text-xs font-bold text-primary tracking-wide uppercase"
+                      >
+                        Preferred Date <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        id="date"
+                        name="date"
+                        type="date"
+                        autoComplete="off"
+                        min={todayStr}
+                        required
+                        value={formData.date}
+                        onChange={handleChange}
+                        className="w-full min-h-[44px] px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50 cursor-pointer"
+                      />
+                    </div>
+
+                    {/* Time Slot Select */}
+                    <div className="space-y-1.5">
+                      <label
+                        htmlFor="slot"
+                        className="block font-heading text-xs font-bold text-primary tracking-wide uppercase"
+                      >
+                        Time Slot <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          id="slot"
+                          name="slot"
+                          required
+                          value={formData.slot}
+                          onChange={handleChange}
+                          className="w-full min-h-[44px] px-4 py-3 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all bg-slate-50/50 cursor-pointer appearance-none pr-10"
+                        >
+                          <option value="">Select a time slot</option>
+                          <option value="Morning">Morning (9:30 AM – 1:00 PM)</option>
+                          <option value="Afternoon">Afternoon (1:00 PM – 5:00 PM)</option>
+                          <option value="Evening">Evening (5:00 PM – 9:00 PM)</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                          <Clock className="w-4 h-4" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Message / Specific Needs */}
@@ -281,17 +364,17 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-accent hover:bg-accent-400 disabled:opacity-70 text-primary font-heading font-bold text-base py-3.5 px-6 rounded-xl shadow-soft hover:shadow-card active:scale-[0.99] transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full min-h-12 bg-accent hover:bg-accent-400 disabled:opacity-70 text-primary font-heading font-bold text-base py-3 px-6 rounded-xl shadow-soft hover:shadow-card active:scale-[0.99] transition-all duration-200 inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
                     >
                       {isSubmitting ? (
                         <>
-                          <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-                          <span>Opening WhatsApp...</span>
+                          <span className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin shrink-0" />
+                          <span className="whitespace-nowrap">Opening WhatsApp...</span>
                         </>
                       ) : (
                         <>
-                          <Send className="w-4 h-4 text-primary" />
-                          <span>Confirm Appointment Request</span>
+                          <Send className="w-4 h-4 text-primary shrink-0" />
+                          <span className="whitespace-nowrap">Request Appointment</span>
                         </>
                       )}
                     </button>
@@ -316,38 +399,37 @@ export default function Contact() {
                   </p>
                 </div>
 
-                {/* WhatsApp-only CTA */}
+                {/* WhatsApp-only CTA: Navy card with thin gold border, only icon green, responsive stack */}
                 <a
                   href={defaultWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-heading font-bold text-base p-4 rounded-xl shadow-soft hover:shadow-card transition-all duration-200 flex items-center justify-between group active:scale-[0.99] cursor-pointer"
+                  className="w-full min-h-[44px] bg-[#0B2545] hover:bg-primary-800 text-white p-4 rounded-xl border border-accent/40 shadow-soft hover:shadow-card transition-all duration-200 block group active:scale-[0.99] cursor-pointer"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-lg bg-black/10 flex items-center justify-center">
-                      <MessageCircle className="w-6 h-6 text-slate-950 transition-transform group-hover:scale-110" />
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex items-center gap-2.5">
+                      <MessageCircle className="w-5 h-5 text-[#25D366] shrink-0 transition-transform group-hover:scale-110" />
+                      <span className="font-heading font-bold text-base text-white">
+                        WhatsApp us
+                      </span>
                     </div>
-                    <div className="text-left">
-                      <span className="block text-base font-bold leading-tight text-slate-950">Message us for appointment</span>
-                      <span className="block text-xs text-slate-900 font-medium mt-0.5">Instant WhatsApp chat & prescription help</span>
-                    </div>
+                    <p className="font-body text-xs text-slate-300 font-medium leading-relaxed">
+                      Chat with us for appointments and queries.
+                    </p>
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider bg-black/10 px-2.5 py-1 rounded text-slate-950 shadow-xs">
-                    WhatsApp
-                  </span>
                 </a>
 
                 {/* Direct Phone Call Button */}
                 <a
                   href={`tel:${business.phone}`}
-                  className="w-full bg-slate-50 hover:bg-slate-100 text-primary font-heading font-bold text-sm py-3 px-4 rounded-xl border border-slate-200 shadow-xs transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
+                  className="w-full min-h-[44px] bg-slate-50 hover:bg-slate-100 text-primary font-heading font-bold text-sm whitespace-nowrap py-3 px-4 rounded-xl border border-slate-200 shadow-xs transition-all duration-200 inline-flex items-center justify-center gap-2 active:scale-[0.99] cursor-pointer"
                 >
-                  <Phone className="w-4 h-4 text-primary" />
-                  <span>Call Us Directly: {business.phoneDisplay}</span>
+                  <Phone className="w-4 h-4 text-primary shrink-0" />
+                  <span className="whitespace-nowrap text-sm">Call {business.phoneDisplay}</span>
                 </a>
 
-                {/* Single Store Hours & Address */}
-                <div className="pt-2 space-y-3 border-t border-slate-100 text-xs sm:text-sm text-slate-600">
+                {/* Single Store Hours (address removed to prevent duplication with Store Location section) */}
+                <div className="pt-2 border-t border-slate-100 text-xs sm:text-sm text-slate-600">
                   <div className="flex items-start gap-2.5">
                     <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                     <div>
@@ -355,26 +437,10 @@ export default function Contact() {
                       <span>{business.hours}</span>
                     </div>
                   </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-primary block font-heading">Store Location</strong>
-                      <span className="text-slate-600">{business.address}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-2.5">
-                    <Calendar className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="text-primary block font-heading">Appointments Help You Save Time</strong>
-                      <span className="text-slate-600">Booking ahead lets our team prepare and reduce your wait at the store.</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
-              {/* Heritage / Assurance Card */}
+              {/* Trust / Assurance Card */}
               {business.claims.yearsInBusiness != null && (
                 <div className="bg-primary text-white rounded-2xl p-6 shadow-card border border-primary-800 flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center shrink-0">
@@ -431,11 +497,12 @@ export default function Contact() {
                   </div>
                 </div>
 
+                {/* Google Reviews Chip (Shown only once here on this page) */}
                 <a
                   href={business.googleListingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-slate-800 text-xs font-medium transition-colors group shadow-2xs"
+                  className="inline-flex items-center gap-2 min-h-[44px] px-3 py-2 rounded-lg bg-amber-50 hover:bg-amber-100/80 border border-amber-200/80 text-slate-800 text-xs font-medium transition-colors group shadow-2xs"
                 >
                   <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 shrink-0" />
                   <span className="font-semibold text-slate-900">{business.googleRating}</span>
@@ -477,7 +544,7 @@ export default function Contact() {
                       </strong>
                       <a
                         href={`tel:${business.phone}`}
-                        className="font-body text-xs sm:text-sm text-slate-700 font-medium hover:text-primary transition-colors block"
+                        className="font-body text-xs sm:text-sm text-slate-700 font-medium hover:text-primary transition-colors inline-flex items-center min-h-[44px] py-1"
                       >
                         {business.phoneDisplay}
                       </a>
@@ -486,11 +553,11 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons with min-h-[44px] */}
               <div className="pt-5 border-t border-slate-100 flex flex-wrap sm:flex-nowrap items-center gap-2.5">
                 <a
                   href={`tel:${business.phone}`}
-                  className="flex-1 min-w-[90px] bg-slate-50 hover:bg-slate-100 text-primary font-heading font-semibold text-xs sm:text-sm py-2.5 px-3 rounded-xl border border-slate-200 inline-flex items-center justify-center gap-1.5 transition-colors active:scale-95"
+                  className="flex-1 min-w-[90px] min-h-[44px] bg-slate-50 hover:bg-slate-100 text-primary font-heading font-semibold text-xs sm:text-sm py-3 px-3 rounded-xl border border-slate-200 inline-flex items-center justify-center gap-1.5 transition-colors active:scale-95"
                 >
                   <Phone className="w-3.5 h-3.5 text-primary" />
                   <span>Call</span>
@@ -500,17 +567,18 @@ export default function Contact() {
                   href={business.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 min-w-[105px] bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-heading font-semibold text-xs sm:text-sm py-2.5 px-3 rounded-xl border border-emerald-200 inline-flex items-center justify-center gap-1.5 transition-colors active:scale-95"
+                  className="flex-1 min-w-[105px] min-h-[44px] bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-heading font-semibold text-xs sm:text-sm py-3 px-3 rounded-xl border border-emerald-200 inline-flex items-center justify-center gap-1.5 transition-colors active:scale-95"
                 >
                   <MessageCircle className="w-4 h-4 text-emerald-600" />
                   <span>WhatsApp</span>
                 </a>
 
+                {/* Get Directions Button */}
                 <a
                   href={business.googleListingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto flex-1 min-w-[130px] bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-xs sm:text-sm py-2.5 px-3.5 rounded-xl shadow-xs inline-flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer"
+                  className="w-full sm:w-auto flex-1 min-w-[130px] min-h-[44px] bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-xs sm:text-sm py-3 px-3.5 rounded-xl shadow-xs inline-flex items-center justify-center gap-1.5 transition-all duration-200 active:scale-95 cursor-pointer"
                 >
                   <Navigation className="w-4 h-4 text-accent" />
                   <span>Get Directions</span>
@@ -518,13 +586,13 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Right Column: Embedded Google Map */}
-            <div className="lg:col-span-7 bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-card min-h-[380px] sm:min-h-[460px] relative group">
+            {/* Right Column: Embedded Google Map (Overlay button removed per specs) */}
+            <div className="lg:col-span-7 bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-card min-h-[380px] sm:min-h-[460px] relative">
               <iframe
                 src={business.mapEmbedUrl}
                 className="w-full h-full min-h-[380px] sm:min-h-[460px] border-0"
                 loading="lazy"
-                title={`${business.name} Location Map`}
+                title="Dilip Optics Grand location"
                 frameBorder="0"
                 scrolling="no"
                 marginHeight={0}
@@ -532,17 +600,6 @@ export default function Contact() {
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
               />
-              <div className="absolute bottom-3 right-3 z-10 pointer-events-auto">
-                <a
-                  href={business.googleListingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/95 backdrop-blur-xs text-primary font-heading font-semibold text-xs shadow-md border border-slate-200/80 hover:bg-white hover:text-accent-700 transition-colors"
-                >
-                  <Navigation className="w-3.5 h-3.5 text-accent" />
-                  <span>Open in Maps</span>
-                </a>
-              </div>
             </div>
           </div>
         </div>

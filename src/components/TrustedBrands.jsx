@@ -36,7 +36,7 @@ const BRANDS = [
     id: 'crizal',
     name: 'Crizal',
     accentColor: '#0072CE',
-    description: 'Global benchmark for anti-reflective, blue-cut, and scratch-free vision',
+    description: 'Clear vision and blue-cut optical lens technology',
     renderWordmark: () => (
       <div className="flex items-center gap-0.5 transition-transform duration-300 md:group-hover:scale-105">
         <span className="font-heading font-black italic text-2xl sm:text-3xl tracking-tight">
@@ -52,7 +52,7 @@ const BRANDS = [
     id: 'bausch-lomb',
     name: 'Bausch + Lomb',
     accentColor: '#00818A',
-    description: 'Ultra-breathable silicone hydrogel lenses and sterile care solutions',
+    description: 'Soft contact lenses and sterile eye care solutions',
     renderWordmark: () => (
       <div className="flex flex-col items-center text-center transition-transform duration-300 md:group-hover:scale-105">
         <span className="font-heading font-extrabold text-base sm:text-lg tracking-tight leading-tight uppercase">
@@ -67,11 +67,11 @@ const BRANDS = [
     accentColor: '#0B2545',
     description: 'Titanium frames',
     renderWordmark: () => (
-      <div className="flex items-center gap-2 transition-transform duration-300 md:group-hover:scale-105">
-        <div className="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px] font-serif font-bold">
+      <div className="flex items-center gap-2 transition-transform duration-300 md:group-hover:scale-105 whitespace-nowrap">
+        <div className="hidden sm:flex w-5 h-5 rounded-full border border-current items-center justify-center text-[10px] font-serif font-bold">
           M
         </div>
-        <span className="font-heading font-semibold text-lg sm:text-xl tracking-wider uppercase font-serif">
+        <span className="font-heading font-semibold text-base sm:text-xl tracking-wide sm:tracking-wider uppercase font-serif">
           ST. MARK'S
         </span>
       </div>

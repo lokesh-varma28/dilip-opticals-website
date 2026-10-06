@@ -13,6 +13,7 @@ import {
   Star,
 } from 'lucide-react'
 import Hero from '../components/Hero'
+import TrustStrip from '../components/TrustStrip'
 import TrustedBrands from '../components/TrustedBrands'
 import business from '../data/business'
 
@@ -104,6 +105,9 @@ export default function Home() {
     <div className="space-y-0">
       {/* 1. Hero Section */}
       <Hero />
+
+      {/* 1.1 Trust Metrics Strip */}
+      <TrustStrip />
 
       {/* 2. Trusted Brands Strip */}
       <TrustedBrands />
@@ -263,7 +267,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Heritage & Eye Care Teaser (About Preview) */}
+      {/* 5. About Us & Eye Care Teaser (About Preview) */}
       <section className="py-12 sm:py-14 lg:py-16 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-br from-primary-50/70 via-white to-amber-50/40 rounded-3xl p-8 sm:p-12 lg:p-14 border border-slate-200/90 shadow-soft">
@@ -272,7 +276,7 @@ export default function Home() {
               <div className="lg:col-span-7 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-primary-100 text-primary text-xs font-semibold tracking-wider uppercase shadow-2xs">
                   <Sparkles className="w-3.5 h-3.5 text-accent" />
-                  Our Heritage in Rajahmundry
+                  About Us
                 </div>
 
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-primary leading-[1.18]">
@@ -290,7 +294,7 @@ export default function Home() {
                       <span>{business.googleRating}</span>
                     </div>
                     <div className="font-body text-xs text-slate-500 font-medium mt-1">
-                      Google Rating ({business.reviewCount} verified reviews)
+                      Google rating ({business.reviewCount} reviews)
                     </div>
                   </div>
 
@@ -320,9 +324,9 @@ export default function Home() {
                 <div className="pt-2 flex flex-wrap items-center gap-4">
                   <Link
                     to="/about"
-                    className="bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-sm sm:text-base py-3.5 px-6 rounded-xl shadow-soft hover:shadow-card active:scale-95 transition-all duration-200 inline-flex items-center gap-2 cursor-pointer"
+                    className="w-full sm:w-auto bg-primary hover:bg-primary-800 text-white font-heading font-semibold text-sm sm:text-base py-3.5 px-6 rounded-xl shadow-soft hover:shadow-card active:scale-95 transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <span>Read Our Heritage Story</span>
+                    <span>More About Us</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
@@ -414,9 +418,9 @@ export default function Home() {
                 href={business.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-heading font-semibold text-base py-4 px-8 rounded-xl shadow-soft transition-all duration-200 inline-flex items-center justify-center gap-2"
+                className="w-full sm:w-auto min-h-12 border-2 border-white/30 text-white hover:bg-white/10 active:scale-[0.98] font-heading font-semibold text-base py-3.5 px-8 rounded-xl transition-all duration-200 inline-flex items-center justify-center gap-2"
               >
-                <MessageCircle className="w-5 h-5 text-white" />
+                <MessageCircle className="w-5 h-5 text-emerald-400 shrink-0" />
                 <span>WhatsApp: {business.phoneDisplay}</span>
               </a>
             </div>

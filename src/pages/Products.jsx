@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   Eye,
@@ -15,9 +15,8 @@ import {
   Feather,
 } from 'lucide-react'
 import TrustedBrands from '../components/TrustedBrands'
+import { useReveal } from '../hooks/useReveal'
 import business from '../data/business'
-
-const SHOW_BRAND_FILTER = false
 
 const productImages = import.meta.glob('../assets/products/*.webp', { eager: true })
 
@@ -45,11 +44,137 @@ function getProductPhotoUrl(filename, aliases = []) {
   return null
 }
 
+function ProductCard({ item, index, onSelectProduct, isImageLoaded, onImageLoad }) {
+  const { ref, style } = useReveal(index)
+
+  return (
+    <div
+      ref={ref}
+      style={style}
+      className="bg-white rounded-xl border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] hover:shadow-[0_12px_32px_rgba(11,37,69,0.08)] hover:border-slate-300 transition-all duration-300 flex flex-col h-full overflow-hidden group active:scale-[0.98]"
+    >
+      {/* Product Image Container: fills container with aspect-[4/3], object-cover, bg-[#F2F3F5], rounded-t-xl */}
+      <div
+        onClick={() => onSelectProduct(item)}
+        className="relative w-full aspect-[4/3] rounded-t-xl bg-[#F2F3F5] overflow-hidden cursor-pointer"
+      >
+        {/* Shimmer skeleton until image loads */}
+        {!isImageLoaded && (
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-200 via-slate-100 to-slate-200 animate-pulse" />
+        )}
+        <img
+          src={item.photo}
+          alt={item.alt || item.name}
+          width="400"
+          height="300"
+          loading="lazy"
+          onLoad={() => onImageLoad(item.id)}
+          className={`w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] ${
+            isImageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        {/* Small tag badge if exists */}
+        {item.tag && (
+          <span className="absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-white/95 text-primary border border-slate-200/80 shadow-2xs">
+            {item.tag}
+          </span>
+        )}
+
+        {/* Quick View Hover Badge on desktop */}
+        <div className="absolute inset-0 bg-primary-950/15 backdrop-blur-[0.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-center justify-center pointer-events-none">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 text-primary text-xs font-body font-semibold shadow-card transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300 border border-slate-200/80">
+            <Eye className="w-3.5 h-3.5 text-[#D4A017]" />
+            Quick View
+          </span>
+        </div>
+      </div>
+
+      {/* Card Content: Compact layout below md */}
+      <div className="p-4 sm:p-5 flex flex-col flex-1">
+        {item.showBrand && (
+          <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.18em] uppercase font-body block mb-1">
+            {item.brand}
+          </span>
+        )}
+
+        {/* Product Name */}
+        <h3
+          onClick={() => onSelectProduct(item)}
+          className="font-serif text-base sm:text-lg font-semibold text-primary leading-snug group-hover:text-accent-700 transition-colors mb-1 cursor-pointer"
+        >
+          {item.name}
+        </h3>
+
+        {/* Material line: generic type */}
+        <p className="text-xs text-slate-500 font-medium mb-2">
+          {item.material}
+        </p>
+
+        {/* Description: 1 line below md (line-clamp-1), 2 lines on desktop */}
+        <p className="text-xs sm:text-sm text-slate-600 font-body leading-relaxed mb-3 line-clamp-1 md:line-clamp-2">
+          {item.description}
+        </p>
+
+        {/* Bullets moved to Quick View modal on mobile; shown on desktop */}
+        <div className="hidden md:block space-y-1.5 mb-4 pt-3 border-t border-slate-100">
+          {item.features.map((feat, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs text-slate-600">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#D4A017] shrink-0" />
+              <span>{feat}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom Actions */}
+        <div className="mt-auto pt-3 border-t border-slate-100 space-y-2">
+          {/* WhatsApp inquiry: navy background with emerald icon only */}
+          <a
+            href={`${business.whatsapp}?text=${encodeURIComponent(
+              `Hi ${business.name}, I am interested in "${item.name}" (${item.material}). Could you please share availability and pricing?`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="w-full min-h-10 bg-[#0B2545] hover:bg-primary-800 active:scale-[0.98] text-white text-xs font-body font-semibold py-2.5 px-3 rounded-lg shadow-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+            aria-label={`Inquire about ${item.name} on WhatsApp`}
+          >
+            <MessageCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <span>Inquire on WhatsApp</span>
+          </a>
+
+          {/* View details button: opens Quick View bottom sheet / modal */}
+          <button
+            type="button"
+            onClick={() => onSelectProduct(item)}
+            className="w-full min-h-9 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98] text-primary text-xs font-body font-semibold py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+          >
+            <Eye className="w-3.5 h-3.5 text-[#D4A017]" />
+            <span>View details</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
   const activeBrand = searchParams.get('brand') || 'all'
   const activeCategory = searchParams.get('category') || 'all'
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [loadedImages, setLoadedImages] = useState({})
+  const tabsContainerRef = useRef(null)
+
+  // Scroll active tab into view horizontally on mobile
+  useEffect(() => {
+    if (tabsContainerRef.current) {
+      const activeBtn = tabsContainerRef.current.querySelector('[data-active="true"]')
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+      }
+    }
+  }, [activeCategory])
 
   // Close Quick View modal on Escape key press and lock background scroll
   useEffect(() => {
@@ -79,16 +204,7 @@ export default function Products() {
     { id: 'contacts', name: 'Contact Lenses' },
   ]
 
-  const brandOptions = [
-    { id: 'all', name: 'All Brands' },
-    { id: 'Fastrack', name: 'Fastrack' },
-    { id: 'IDEE', name: 'IDEE' },
-    { id: 'Crizal', name: 'Crizal' },
-    { id: 'Bausch + Lomb', name: 'Bausch + Lomb' },
-    { id: "St. Mark's", name: "St. Mark's" },
-  ]
-
-  // TODO: Owner to confirm brand mapping and verified marketing tags after real photos are added.
+  // TODO: Owner to confirm specifications, materials, and marketing claims
   const catalogProducts = [
     {
       id: 1,
@@ -96,13 +212,15 @@ export default function Products() {
       brand: "St. Mark's",
       showBrand: false,
       bgColor: '#F2F3F5',
-      name: 'Classic Round Titanium Spectacles',
+      name: 'Classic Round Metal Spectacles',
       photo: 'st-marks-titanium.webp',
-      alt: "Titanium round spectacles",
-      material: 'Titanium frame',
+      alt: 'Metal round spectacles',
+      // TODO: Owner to confirm frame material
+      material: 'Metal frame',
       tag: null,
-      description: 'Round eyeglasses with flexible titanium temples designed for lightweight everyday comfort.',
-      features: ['Beta titanium build', 'Flexible spring hinges', 'Nose pads'],
+      description: 'Round eyeglasses designed for lightweight everyday comfort.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Flexible spring hinges', 'Adjustable nose pads'],
     },
     {
       id: 2,
@@ -110,14 +228,16 @@ export default function Products() {
       brand: 'IDEE',
       showBrand: false,
       bgColor: '#F2F3F5',
-      name: 'Classic Acetate Square Spectacles',
+      name: 'Classic Square Spectacles',
       photo: 'idee-wayfarer.webp',
       aliases: ['idee-round.webp', 'idee-classic.webp'],
-      alt: 'Classic acetate square spectacles',
+      alt: 'Classic square spectacles',
+      // TODO: Owner to confirm frame material
       material: 'Acetate frame',
       tag: null,
-      description: 'Glossy black square profile with sturdy temple wire reinforcement for durable daily wear.',
-      features: ['Glossy acetate frame', 'Reinforced temple core', 'Comfort bridge fit'],
+      description: 'Square profile spectacles with sturdy temple reinforcement for durable daily wear.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Classic square profile', 'Comfort bridge fit'],
     },
     {
       id: 3,
@@ -128,11 +248,13 @@ export default function Products() {
       name: 'Blue-Cut Computer Glasses',
       photo: 'crizal-shield.webp',
       aliases: ['crizal-bluecut.webp', 'crizal-blue-cut.webp'],
-      alt: 'Blue-cut rectangular computer glasses',
-      material: 'Polycarbonate blue-cut lenses',
+      alt: 'Blue-cut computer glasses',
+      // TODO: Owner to confirm lens material
+      material: 'Blue-cut lenses',
       tag: null,
-      description: 'Rectangular computer spectacles filtering digital screen glare for professionals and students during long work hours.',
-      features: ['Blue light filter', 'Anti-reflective coating', 'Scratch resistant surface'],
+      description: 'Computer spectacles filtering digital screen glare during screen work.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Blue light filter', 'Screen comfort'],
     },
     {
       id: 4,
@@ -143,11 +265,13 @@ export default function Products() {
       name: 'Polarized Aviator Sunglasses',
       photo: 'fastrack-aviator.webp',
       aliases: ['fastrack-navigator.webp'],
-      alt: 'Gold polarized aviator sunglasses',
-      material: 'Stainless steel frame',
+      alt: 'Polarized aviator sunglasses',
+      // TODO: Owner to confirm sunglass material
+      material: 'Sunglasses',
       tag: null,
-      description: 'Classic double-bridge gold sunglasses with polarized lenses to cut outdoor glare on roads and water.',
-      features: ['Polarized sun lenses', 'Double bridge design', 'UV protection'],
+      description: 'Classic double-bridge sunglasses with polarized lenses to cut outdoor glare.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Polarized sun lenses', 'Double bridge design'],
     },
     {
       id: 5,
@@ -157,11 +281,13 @@ export default function Products() {
       bgColor: '#F2F3F5',
       name: 'Minimalist Rimless Spectacles',
       photo: 'st-marks-rimless.webp',
-      alt: 'Minimalist rimless titanium spectacles',
-      material: 'Titanium rimless frame',
+      alt: 'Minimalist rimless spectacles',
+      // TODO: Owner to confirm frame material
+      material: 'Rimless frame',
       tag: null,
-      description: 'Lightweight rimless spectacles with sleek titanium bridge and temples for an unobstructed clear view.',
-      features: ['Titanium bridge construction', 'Rimless lightweight profile', 'Adjustable nose pads'],
+      description: 'Lightweight rimless spectacles with sleek bridge and temples for an unobstructed view.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Lightweight rimless profile', 'Adjustable nose pads'],
     },
     {
       id: 6,
@@ -171,11 +297,13 @@ export default function Products() {
       bgColor: '#F2F3F5',
       name: 'Progressive Eyewear Lenses',
       photo: 'crizal-progressive.webp',
-      alt: 'Progressive precision optical lenses',
-      material: 'Progressive optical lenses',
+      alt: 'Progressive optical lenses',
+      // TODO: Owner to confirm lens material
+      material: 'Progressive lenses',
       tag: null,
-      description: 'Smooth vision transitions between distance, computer, and reading zones without visible bifocal divider lines.',
-      features: ['Seamless multifocal transition', 'Wide reading zone', 'Anti-glare protection'],
+      description: 'Vision transitions between distance, computer, and reading zones without bifocal lines.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Seamless multifocal transition', 'Wide reading zone'],
     },
     {
       id: 7,
@@ -186,11 +314,13 @@ export default function Products() {
       name: 'Hexagonal Blue-Cut Spectacles',
       photo: 'idee-hexagonal.webp',
       aliases: ['idee-blue-blocker.webp'],
-      alt: 'Hexagonal rose gold blue-cut spectacles',
-      material: 'Metal alloy frame',
+      alt: 'Hexagonal blue-cut spectacles',
+      // TODO: Owner to confirm frame material
+      material: 'Metal frame',
       tag: null,
-      description: 'Geometric hexagonal rose gold frame fitted with blue light filtering lenses for screen work.',
-      features: ['Blue light protection', 'Silicone nose pads', 'Slim metal temples'],
+      description: 'Geometric hexagonal frame fitted with blue light filtering lenses for screen work.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Blue light protection', 'Slim metal temples'],
     },
     {
       id: 8,
@@ -198,14 +328,16 @@ export default function Products() {
       brand: 'Bausch + Lomb',
       showBrand: false,
       bgColor: '#F2F3F5',
-      name: 'Soft Hydrogel Contact Lenses',
+      name: 'Daily Soft Contact Lenses',
       photo: 'bausch-lomb-purevision.webp',
       aliases: ['bausch-lomb.webp', 'bausch-lomb-contacts.webp'],
-      alt: 'Soft hydrogel contact lenses',
-      material: 'Silicone hydrogel lenses',
+      alt: 'Daily soft contact lenses',
+      // TODO: Owner to confirm contact lens material
+      material: 'Contact lenses',
       tag: null,
-      description: 'Breathable contact lenses providing daily hydration, clear vision, and comfortable wear throughout the day.',
-      features: ['High moisture content', 'Breathable silicone material', 'Clear daily vision'],
+      description: 'Contact lenses providing clear vision and comfortable wear throughout the day.',
+      // TODO: Owner to confirm specifications (max 2 bullets, no spec claims)
+      features: ['Clear daily vision', 'Soft comfortable wear'],
     },
   ]
 
@@ -253,6 +385,10 @@ export default function Products() {
     setSearchParams(newParams, { replace: true })
   }
 
+  const handleImageLoad = (id) => {
+    setLoadedImages((prev) => ({ ...prev, [id]: true }))
+  }
+
   const filteredProducts = products.filter((p) => {
     const matchesCategory = activeCategory === 'all' || p.category === activeCategory
     const matchesBrand =
@@ -260,51 +396,51 @@ export default function Products() {
     return matchesCategory && matchesBrand
   })
 
+  // Lens options: max 12 words each, plain wording
   const lensTech = [
     {
       icon: Shield,
       title: 'Digital Blue-Cut Shield',
-      desc: 'Filters harmful blue light from digital screens to alleviate everyday eye strain.',
+      desc: 'Reduces glare from digital screens.',
     },
     {
       icon: Sparkles,
       title: 'Anti-Reflective Clarity (AR)',
-      desc: 'Eliminates night driving headlight glare and removes distracting surface reflections.',
+      desc: 'Reduces reflections and headlight glare.',
     },
     {
       icon: SunMedium,
       title: 'Photochromic Lenses',
-      desc: 'Light-reactive lenses that darken under outdoor sunlight and clear swiftly indoors.',
+      desc: 'Lenses that darken under sunlight and clear quickly indoors.',
     },
     {
       icon: Feather,
       title: 'High-Index Ultra Thin',
-      desc: 'Refined high-index materials keep stronger prescriptions exceptionally lightweight and sleek.',
+      desc: 'Slimmer, lightweight lenses designed for higher power prescriptions.',
     },
   ]
 
   return (
     <div className="space-y-0 bg-white">
-      {/* 1. Header & Hero - Optical Showroom Aesthetic */}
-      <section className="bg-gradient-to-b from-[#F5F6F8] to-white py-12 sm:py-14 lg:py-16 border-b border-slate-200">
+      {/* 1. Header & Hero */}
+      <section className="bg-gradient-to-b from-[#F5F6F8] to-white py-12 md:py-16 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-3xl mx-auto space-y-4">
             <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.22em] uppercase font-body block">
               Optical Showroom & Eye Testing
             </span>
 
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-primary tracking-tight leading-[1.15]">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary tracking-tight leading-[1.15]">
               The Eyewear Collection
             </h1>
 
-            {/* Thin gold divider line under section heading */}
             <div className="w-12 h-[2px] bg-[#D4A017] mx-auto my-3" />
 
-            <p className="font-body text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-              Browse titanium frames, acetate frames, blue-cut lenses and sunglasses at {business.name}.
+            <p className="font-body text-slate-600 text-[15px] sm:text-lg leading-relaxed max-w-2xl mx-auto">
+              Browse spectacles, frames, blue-cut lenses and sunglasses at {business.name}.
             </p>
 
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 font-medium">
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 font-medium">
               {business.claims.inStoreStyles != null && (
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#D4A017]" />
@@ -320,7 +456,7 @@ export default function Products() {
         </div>
       </section>
 
-      {/* 2. Unified Sticky Filter Bar with Two Dedicated Rows */}
+      {/* 2. Products Filter Tabs: Pill style, horizontally scrollable, right-edge fade gradient */}
       <nav
         id="filter-bar"
         aria-label="Filter products"
@@ -328,20 +464,27 @@ export default function Products() {
         className="sticky z-40 bg-white border-b border-slate-200 shadow-[0_2px_8px_rgba(11,37,69,0.03)]"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Row 1: Category Underline Tabs */}
-          <div className={`${SHOW_BRAND_FILTER ? 'border-b border-slate-100' : ''} py-3 flex items-center justify-between gap-4`}>
-            <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto no-scrollbar scroll-smooth pr-4 sm:pr-0 after:content-[''] after:w-4 after:shrink-0">
+          <div className="py-2.5 flex items-center justify-between gap-4 relative">
+            {/* Right edge fade gradient on mobile */}
+            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent md:hidden z-10" />
+
+            {/* Filter Tabs Container */}
+            <div
+              ref={tabsContainerRef}
+              className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1 pr-8 md:pr-0 w-full"
+            >
               {categories.map((cat) => {
                 const isActive = activeCategory === cat.id
                 return (
                   <button
                     key={cat.id}
                     type="button"
+                    data-active={isActive ? 'true' : 'false'}
                     onClick={() => handleCategoryChange(cat.id)}
-                    className={`font-body text-xs sm:text-sm whitespace-nowrap transition-colors pb-1.5 cursor-pointer border-b-2 shrink-0 ${
+                    className={`shrink-0 font-body text-xs sm:text-sm font-semibold rounded-full px-4 py-2 transition-all cursor-pointer whitespace-nowrap active:scale-[0.98] ${
                       isActive
-                        ? 'font-bold text-primary border-primary'
-                        : 'font-medium text-slate-500 hover:text-primary border-transparent'
+                        ? 'bg-[#0B2545] text-white shadow-xs'
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                     }`}
                   >
                     {cat.name}
@@ -350,94 +493,47 @@ export default function Products() {
               })}
             </div>
 
-            {!SHOW_BRAND_FILTER && (activeCategory !== 'all' || activeBrand !== 'all') && (
+            {/* Reset button if filter is active */}
+            {(activeCategory !== 'all' || activeBrand !== 'all') && (
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#D4A017] hover:underline cursor-pointer shrink-0 pl-2 ml-auto"
+                className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-[#D4A017] hover:underline cursor-pointer shrink-0 pl-2 ml-auto z-20"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Reset</span>
               </button>
             )}
           </div>
-
-          {/* Row 2: Brand Underline Selector */}
-          {SHOW_BRAND_FILTER && (
-            <div className="py-2.5 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4 overflow-x-auto no-scrollbar scroll-smooth flex-1 min-w-0 pr-4 sm:pr-0 after:content-[''] after:w-4 after:shrink-0">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">
-                  Brand:
-                </span>
-                <div className="flex items-center gap-4 shrink-0">
-                  {brandOptions.map((brand) => {
-                    const isSelected = activeBrand.toLowerCase() === brand.id.toLowerCase()
-                    return (
-                      <button
-                        key={brand.id}
-                        type="button"
-                        onClick={() => handleBrandChange(brand.id)}
-                        className={`font-body text-xs whitespace-nowrap transition-colors pb-1 cursor-pointer border-b-2 shrink-0 ${
-                          isSelected
-                            ? 'font-bold text-[#D4A017] border-[#D4A017]'
-                            : 'font-normal text-slate-500 hover:text-primary border-transparent'
-                        }`}
-                      >
-                        {brand.name}
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {(activeCategory !== 'all' || activeBrand !== 'all') && (
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#D4A017] hover:underline cursor-pointer shrink-0 pl-2 ml-auto"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  <span>Reset</span>
-                </button>
-              )}
-            </div>
-          )}
         </div>
       </nav>
 
-      {/* 3. Small Note under Filter Bar */}
-      <div className="bg-[#FAFBFD] border-b border-slate-100 py-2.5 px-4 text-center">
-        <p className="text-xs text-slate-500 font-body">
-          Images are for illustration. Visit our store to see actual frames.
-        </p>
-      </div>
-
-      {/* 4. Product Showcase Grid (Mobile 1, Tablet 2, Desktop 4) */}
-      <section id="products-showcase" className="py-16 sm:py-20 bg-white border-b border-slate-200 scroll-mt-36">
+      {/* 3. Product Showcase Grid (Tightened top spacing to remove blank gap) */}
+      <section id="products-showcase" className="pt-5 pb-12 sm:pb-16 bg-white border-b border-slate-200 scroll-mt-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header count summary */}
-          <div className="flex items-center justify-between mb-8 pb-3 border-b border-slate-100 text-xs text-slate-500">
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100 text-xs text-slate-500">
             <span>
               Displaying <strong className="font-semibold text-primary">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'eyewear style' : 'eyewear styles'}
             </span>
             <span className="hidden sm:inline-block font-body text-slate-400">
-              Visit our showroom to try frames.
+              Visit our showroom to try frames in person.
             </span>
           </div>
 
-          {/* Empty State when no items match both filters */}
+          {/* Empty State */}
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-20 px-4 bg-[#F5F6F8] rounded-xl border border-slate-200 max-w-md mx-auto space-y-4">
+            <div className="text-center py-16 px-4 bg-[#F5F6F8] rounded-xl border border-slate-200 max-w-md mx-auto space-y-4">
               <h3 className="font-serif text-xl font-normal text-primary">
                 No styles found in this collection
               </h3>
               <p className="font-body text-xs sm:text-sm text-slate-600 leading-relaxed">
-                We couldn't locate any eyewear matching the active category and brand filters.
+                We couldn't locate any eyewear matching the active category filter.
               </p>
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="bg-primary hover:bg-primary-800 text-white font-body font-semibold text-xs py-2.5 px-5 rounded-lg transition-colors cursor-pointer"
+                className="bg-primary hover:bg-primary-800 text-white font-body font-semibold text-xs py-2.5 px-5 rounded-lg transition-colors cursor-pointer active:scale-[0.98]"
               >
                 Reset Filters
               </button>
@@ -446,171 +542,61 @@ export default function Products() {
             /* Product Grid: 1 col mobile, 2 col tablet, 4 col desktop */
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
               {filteredProducts.map((item, index) => (
-                <div
+                <ProductCard
                   key={item.id}
-                  role="button"
-                  tabIndex={0}
-                  aria-haspopup="dialog"
-                  aria-label={`Quick view ${item.name}`}
-                  onClick={() => setSelectedProduct(item)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault()
-                      setSelectedProduct(item)
-                    }
-                  }}
-                  style={{ animationDelay: `${index * 60}ms` }}
-                  className="product-card-enter bg-white rounded-xl border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] hover:shadow-[0_12px_32px_rgba(11,37,69,0.08)] hover:border-slate-300 transition-all duration-300 flex flex-col h-full overflow-hidden group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-                >
-                  {/* Fixed aspect-[4/3] image container matching product image background with #F2F3F5, p-4, object-contain */}
-                  <div
-                    className="relative w-full aspect-[4/3] p-4 bg-[#F2F3F5] overflow-hidden flex items-center justify-center border-b border-slate-100"
-                    style={{ backgroundColor: '#F2F3F5' }}
-                  >
-                    <img
-                      src={item.photo}
-                      alt={item.alt || item.name}
-                      className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                      loading="lazy"
-                    />
-
-                    {/* Small badge on top-left corner (only rendered if verified tag exists) */}
-                    {item.tag && (
-                      <span className="absolute top-3 left-3 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-white/95 text-primary border border-slate-200/80 shadow-2xs backdrop-blur-xs">
-                        {item.tag}
-                      </span>
-                    )}
-
-                    {/* Subtle Quick View Hover Badge */}
-                    <div className="absolute inset-0 bg-primary-950/15 backdrop-blur-[0.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 text-primary text-xs font-body font-semibold shadow-card transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300 border border-slate-200/80">
-                        <Eye className="w-3.5 h-3.5 text-[#D4A017]" />
-                        Quick View
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Content: brand label (conditional) -> product name -> material -> description -> features -> buttons */}
-                  <div className="p-6 flex flex-col flex-1">
-                    {/* 1. Small uppercase brand label (only rendered when showBrand is true) */}
-                    {/* TODO: Owner must confirm brand mapping after real photos are added */}
-                    {item.showBrand && (
-                      <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.18em] uppercase font-body block mb-2">
-                        {item.brand}
-                      </span>
-                    )}
-
-                    {/* 2. Product Name: font-serif, allow natural wrapping, no truncation */}
-                    <h3 className="font-serif text-lg sm:text-xl font-semibold text-primary leading-snug group-hover:text-accent-700 transition-colors mb-1.5">
-                      {item.name}
-                    </h3>
-
-                    {/* 3. Plain material wording (no sparkle icon, no truncation) */}
-                    <p className="text-xs text-slate-500 font-medium mb-3">
-                      {item.material}
-                    </p>
-
-                    {/* 4. Description (no line-clamp, rewritten under 18 words) */}
-                    <p className="text-xs sm:text-sm text-slate-600 font-body leading-relaxed mb-4">
-                      {item.description}
-                    </p>
-
-                    {/* 5. Features (no truncation, plain wording under 4 words) */}
-                    <div className="space-y-1.5 mb-6 pt-3 border-t border-slate-100">
-                      {item.features.map((feat, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-slate-600">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#D4A017] shrink-0" />
-                          <span>{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* 6. Buttons pinned at bottom: Primary WhatsApp in Navy (#0B2545) + Secondary Try In-Store text link with arrow */}
-                    <div className="mt-auto pt-4 border-t border-slate-100 flex flex-col gap-2">
-                      <a
-                        href={`${business.whatsapp}?text=${encodeURIComponent(
-                          `Hi ${business.name}, I am interested in "${item.name}" (${item.material}). Could you please share availability and pricing?`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-full bg-[#0B2545] hover:bg-primary-800 active:scale-[0.98] text-white text-xs font-body font-semibold py-2.5 px-3 rounded-lg shadow-xs flex items-center justify-center gap-2 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2545]"
-                        aria-label={`Inquire about ${item.name} on WhatsApp`}
-                      >
-                        <MessageCircle className="w-3.5 h-3.5 text-white shrink-0" />
-                        <span>Inquire on WhatsApp</span>
-                      </a>
-
-                      <div className="flex justify-center pt-1">
-                        <Link
-                          to="/contact"
-                          onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-xs font-body font-medium text-primary hover:text-[#D4A017] transition-colors cursor-pointer group/link py-1"
-                          aria-label={`Try ${item.name} in store on JN Road`}
-                        >
-                          <span>Try In-Store</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5" />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  item={item}
+                  index={index}
+                  onSelectProduct={setSelectedProduct}
+                  isImageLoaded={Boolean(loadedImages[item.id])}
+                  onImageLoad={handleImageLoad}
+                />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* Quick View Modal */}
+      {/* 4. Quick View Bottom Sheet / Modal (Bottom sheet on mobile, dialog on desktop) */}
       {selectedProduct && (
         <div
-          className="fixed inset-0 z-50 bg-primary-950/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-fade-in"
+          className="fixed inset-0 z-50 bg-primary-950/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden animate-fade-in"
           onClick={() => setSelectedProduct(null)}
           role="presentation"
         >
           <div
-            className="relative w-full max-w-3xl bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden my-auto animate-fade-in-up"
+            className="relative w-full max-h-[85vh] sm:max-h-[90vh] sm:max-w-3xl bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl border border-slate-200 overflow-y-auto animate-fade-in-up"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-product-title"
           >
+            {/* Mobile drag handle */}
+            <div className="w-12 h-1 bg-slate-300 rounded-full mx-auto mt-3 mb-1 sm:hidden" />
+
             {/* Close Button */}
             <button
               type="button"
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/90 hover:bg-white text-slate-500 hover:text-primary border border-slate-200 shadow-xs flex items-center justify-center transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 sm:bg-white/90 hover:bg-slate-200 sm:hover:bg-white text-slate-500 hover:text-primary border border-slate-200 shadow-xs flex items-center justify-center transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label="Close product quick view"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-12">
-              {/* Left Side: Consistent Aspect-[4/3] Image Container matching product background with #F2F3F5 and p-4 */}
-              <div
-                className="md:col-span-6 p-4 sm:p-6 bg-[#F2F3F5] flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 min-h-[260px] sm:min-h-[340px] relative"
-                style={{ backgroundColor: '#F2F3F5' }}
-              >
-                <div className="w-full h-full max-h-[320px] aspect-[4/3] p-4 bg-[#F2F3F5] flex items-center justify-center">
-                  <img
-                    src={selectedProduct.photo}
-                    alt={selectedProduct.alt || selectedProduct.name}
-                    className="w-full h-full object-contain"
-                    loading="lazy"
-                  />
-                </div>
-
-                <div className="mt-4 inline-flex items-center gap-1.5 text-xs text-slate-500 bg-white/90 backdrop-blur-xs px-3 py-1 rounded-full border border-slate-200/80 shadow-2xs">
-                  <MapPin className="w-3.5 h-3.5 text-[#D4A017]" />
-                  <span>Available for in-person fitting on JN Road</span>
-                </div>
+              {/* Product Image Container */}
+              <div className="md:col-span-6 bg-[#F2F3F5] aspect-[4/3] sm:aspect-square flex items-center justify-center relative border-b md:border-b-0 md:border-r border-slate-200 overflow-hidden">
+                <img
+                  src={selectedProduct.photo}
+                  alt={selectedProduct.alt || selectedProduct.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
 
-              {/* Right Side: Details & Actions */}
-              <div className="md:col-span-6 p-6 sm:p-8 flex flex-col justify-between space-y-6">
-                <div className="space-y-4">
-                  {/* Small gold brand label */}
-                  {/* TODO: Owner must confirm brand mapping after real photos are added */}
+              {/* Details & Actions */}
+              <div className="md:col-span-6 p-5 sm:p-7 flex flex-col justify-between space-y-5">
+                <div className="space-y-3">
                   {selectedProduct.showBrand && (
                     <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.2em] uppercase font-body block">
                       {selectedProduct.brand}
@@ -620,20 +606,20 @@ export default function Products() {
                   <div>
                     <h2
                       id="modal-product-title"
-                      className="font-serif text-2xl sm:text-3xl font-normal text-primary leading-tight"
+                      className="font-serif text-xl sm:text-2xl font-bold text-primary leading-tight"
                     >
                       {selectedProduct.name}
                     </h2>
-                    <p className="font-body text-xs sm:text-sm font-medium text-slate-500 mt-1.5">
+                    <p className="font-body text-xs sm:text-sm font-medium text-slate-500 mt-1">
                       {selectedProduct.material}
                     </p>
                   </div>
 
-                  <p className="font-body text-slate-600 text-sm leading-relaxed">
+                  <p className="font-body text-slate-600 text-xs sm:text-sm leading-relaxed">
                     {selectedProduct.description}
                   </p>
 
-                  {/* Feature Checklist */}
+                  {/* Feature Checklist (bullets moved to modal) */}
                   <div className="pt-3 border-t border-slate-100 space-y-2">
                     <div className="font-body text-[11px] uppercase font-bold text-slate-400 tracking-wider">
                       Key Highlights
@@ -647,6 +633,11 @@ export default function Products() {
                       ))}
                     </div>
                   </div>
+
+                  <div className="inline-flex items-center gap-1.5 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200/80">
+                    <MapPin className="w-3.5 h-3.5 text-[#D4A017] shrink-0" />
+                    <span>Available for in-person fitting on JN Road</span>
+                  </div>
                 </div>
 
                 {/* Quick View Actions */}
@@ -657,16 +648,16 @@ export default function Products() {
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 bg-[#0B2545] hover:bg-primary-800 active:scale-[0.98] text-white text-xs sm:text-sm font-body font-semibold py-3 px-4 rounded-lg shadow-xs inline-flex items-center justify-center gap-2 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B2545]"
+                    className="flex-1 min-h-11 bg-[#0B2545] hover:bg-primary-800 active:scale-[0.98] text-white text-xs sm:text-sm font-body font-semibold py-2.5 px-4 rounded-lg shadow-xs inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
                   >
-                    <MessageCircle className="w-4 h-4 shrink-0 text-white" />
+                    <MessageCircle className="w-4 h-4 shrink-0 text-emerald-400" />
                     <span>Inquire on WhatsApp</span>
                   </a>
 
                   <Link
                     to="/contact"
                     onClick={() => setSelectedProduct(null)}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-body font-semibold text-primary hover:text-accent transition-colors py-3 px-4 cursor-pointer"
+                    className="flex-1 min-h-11 border border-slate-200 hover:bg-slate-50 active:scale-[0.98] inline-flex items-center justify-center gap-1.5 text-xs sm:text-sm font-body font-semibold text-primary hover:text-accent transition-colors py-2.5 px-4 rounded-lg cursor-pointer"
                   >
                     <span>Try In-Store</span>
                     <ArrowRight className="w-4 h-4" />
@@ -678,17 +669,16 @@ export default function Products() {
         </div>
       )}
 
-      {/* 5. Lens Technology Breakdown - Refined Whitespace & Hairline Borders */}
-      <section className="py-12 sm:py-14 lg:py-16 bg-[#F5F6F8] border-b border-slate-200">
+      {/* 5. Lens Technology Breakdown (Alternating bg-slate-50) */}
+      <section className="py-12 md:py-16 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
             <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.2em] uppercase font-body block">
               Lens Options
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-primary">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-primary">
               Choose the right lenses
             </h2>
-            {/* Thin gold divider line */}
             <div className="w-12 h-[2px] bg-[#D4A017] mx-auto my-2" />
           </div>
 
@@ -698,7 +688,7 @@ export default function Products() {
               return (
                 <div
                   key={lt.title}
-                  className="bg-white rounded-xl p-7 border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] space-y-3"
+                  className="bg-white rounded-xl p-6 sm:p-7 border border-slate-200 shadow-[0_2px_12px_rgba(11,37,69,0.04)] space-y-3"
                 >
                   <div className="w-10 h-10 rounded-lg bg-primary-50 text-accent flex items-center justify-center border border-primary-100/80">
                     <IconComponent className="w-5 h-5 text-[#D4A017]" />
@@ -720,20 +710,19 @@ export default function Products() {
       <TrustedBrands onSelectBrand={handleBrandChange} selectedBrand={activeBrand} />
 
       {/* 7. In-Store Trial Call to Action */}
-      <section className="bg-primary text-white py-12 sm:py-14 lg:py-16">
+      <section className="bg-primary text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <span className="text-[11px] font-bold text-[#D4A017] tracking-[0.22em] uppercase font-body block">
             Personalized Frame Fitting
           </span>
 
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             Find the Perfect Frame for Your Face
           </h2>
 
-          {/* Thin gold divider line */}
           <div className="w-12 h-[2px] bg-[#D4A017] mx-auto my-3" />
 
-          <p className="font-body text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="font-body text-slate-300 text-[15px] sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Visit our Rajahmundry showroom on JN Road to try on frames in person. Our optometrists verify your prescription and ensure your frames fit with pinpoint accuracy.
           </p>
 
