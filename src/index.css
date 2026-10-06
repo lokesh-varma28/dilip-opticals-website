@@ -149,3 +149,11 @@ h3.font-heading {
   scrollbar-width: none;
 }
 
+/* Brand card hover effect (md+ only) - uses --brand-color CSS variable */
+@media (min-width: 768px) {
+  .brand-card:hover {
+    border-color: color-mix(in srgb, var(--brand-color) 40%, transparent);
+    background-color: color-mix(in srgb, var(--brand-color) 3%, transparent);
+  }
+}
+
