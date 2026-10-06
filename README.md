@@ -29,9 +29,12 @@
 ## 📑 Table of Contents
 
 - [Overview & Architecture](#-overview--architecture)
+- [Interface Showcase](#-interface-showcase)
+  - [1. Physical Showroom](#1-physical-showroom-experience)
+  - [2. Mobile-First Application](#2-mobile-first-application-viewports)
+  - [3. Desktop Experience](#3-desktop-experience-full-width)
 - [Key Features & UX Engineering](#-key-features--ux-engineering)
 - [Design System & Aesthetics](#-design-system--aesthetics)
-- [Interface Showcase](#-interface-showcase)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
 - [Quick Start & Developer Workflow](#-quick-start--developer-workflow)
@@ -44,20 +47,72 @@
 
 ## 💎 Overview & Architecture
 
-**Dilip Optics Grand** (located on JN Road, Gandhipuram, Rajahmundry) is built to deliver a luxury boutique optical experience directly on the mobile web.
+**Dilip Optics Grand** (located on JN Road, Gandhipuram, Rajahmundry) is engineered to deliver a luxury optical boutique experience on the web.
 
-Rather than a generic corporate website, this application is engineered around **local retail conversion funnels**:
+Rather than a generic corporate website, this application is structured around **friction-free local customer conversion**:
 
 ```
-Visitor Discovers Eyewear ──► Views Details / Quick View ──► One-Tap WhatsApp Inquiry (Pre-filled context)
-                                                          └─► One-Tap Phone Call / GPS Navigation
+Eyewear Discovery ──► Filter by Category ──► Quick View Inspection ──► One-Tap WhatsApp Inquiry (Auto-filled)
+                                                                    └──► One-Tap Direct Call / GPS Route
 ```
 
 ### Core Architectural Pillars
 - **Decoupled Single Source of Truth (`src/data/business.js`)**: All physical store metadata (phone numbers, WhatsApp URLs, Google Review scores, business hours, geo-coordinates, and marketing claims) is isolated from UI components. Updating store details takes under 60 seconds.
 - **Defensive Marketing Policy**: Marketing claims (years in business, customer numbers, warranties) default to `null` under `business.claims`. Unverified claims are strictly hidden from UI components until confirmed by store ownership.
-- **Micro-Bundle Asset Pipeline**: Images are aggressively compressed into WebP format (`<200KB` store visuals, `<12KB` product cards) with a custom Sharp optimization script (`scripts/optimize-products.js`).
+- **Micro-Bundle Asset Pipeline**: Images are aggressively compressed into WebP format (`<200KB` store visuals, `<12KB` product cards) with an automated Sharp optimization script (`scripts/optimize-products.js`).
 - **Zero-Latency Static Routing**: Single Page Application (SPA) bundled via Vite 8 and Tailwind CSS v4, deployed with instant edge rewrites via `vercel.json`.
+
+---
+
+## 🖼️ Interface Showcase
+
+### 1. Physical Showroom Experience
+
+The real brick-and-mortar showroom situated on Jawaharlal Nehru Road, Rajahmundry.
+
+| Exterior Storefront (JN Road Entrance) | Dispensary & Consultation Suite |
+|:---:|:---:|
+| <a href="docs/screenshots/storefront.webp" target="_blank"><img src="docs/screenshots/storefront.webp" width="100%" alt="Dilip Optics Grand Storefront" /></a> | <a href="docs/screenshots/dispensary.webp" target="_blank"><img src="docs/screenshots/dispensary.webp" width="100%" alt="Optical Dispensary Interior" /></a> |
+
+<br/>
+
+### 2. Mobile-First Application Viewports
+
+Designed primarily for mobile visitors with ergonomic thumb-reach actions, slide-down navigation drawer, and clear typography.
+
+| Eyewear Catalog | Clinical Optometry | Navigation Drawer & Actions |
+|:---:|:---:|:---:|
+| <a href="docs/screenshots/mobile-products.png" target="_blank"><img src="docs/screenshots/mobile-products.png" width="100%" alt="Mobile Eyewear Catalog" /></a> | <a href="docs/screenshots/mobile-services.png" target="_blank"><img src="docs/screenshots/mobile-services.png" width="100%" alt="Mobile Clinical Services" /></a> | <a href="docs/screenshots/mobile-menu.png" target="_blank"><img src="docs/screenshots/mobile-menu.png" width="100%" alt="Mobile Navigation Menu" /></a> |
+| *Category tabs & WhatsApp inquiry* | *Prescription checks & eye care* | *Quick-action bar (Call, WhatsApp, Maps)* |
+
+<br/>
+
+### 3. Desktop Experience (Full Width)
+
+Full-resolution desktop viewports designed for high-resolution displays and tablet browsing.  
+*(Click any image to view in native 4K resolution)*
+
+<details open>
+<summary><b>🔍 Expand Desktop Eyewear Catalog & Filters</b></summary>
+<br/>
+
+<a href="docs/screenshots/desktop-catalog.png" target="_blank">
+  <img src="docs/screenshots/desktop-catalog.png" width="100%" alt="Eyewear Catalog Desktop View" />
+</a>
+
+</details>
+
+<br/>
+
+<details>
+<summary><b>🔍 Expand Desktop Clinical Services & Eye Testing</b></summary>
+<br/>
+
+<a href="docs/screenshots/desktop-services.png" target="_blank">
+  <img src="docs/screenshots/desktop-services.png" width="100%" alt="Clinical Services Desktop View" />
+</a>
+
+</details>
 
 ---
 
@@ -100,22 +155,6 @@ Body & Data       ──► Inter             (Maximum legibility across high-de
 - **WCAG 2.1 AA Compliance**: All text-to-background combinations maintain contrast ratios $> 4.5:1$.
 - **Ergonomic Tap Targets**: All interactive triggers satisfy the minimum 48×48px mobile touch guideline.
 - **Motion Accessibility**: `@media (prefers-reduced-motion: reduce)` automatically deactivates custom fade and translation animations.
-
----
-
-## 🖼️ Interface Showcase
-
-<div align="center">
-
-| Real Showroom & Storefront | Eyewear Catalog & Filters |
-|:---:|:---:|
-| <img src="docs/screenshots/storefront.webp" width="460" alt="Showroom Storefront" /> | <img src="docs/screenshots/products.png" width="460" alt="Eyewear Catalog" /> |
-
-| Clinical Services & Eye Testing | Mobile Thumb-Zone Experience |
-|:---:|:---:|
-| <img src="docs/screenshots/services.png" width="460" alt="Services Overview" /> | <img src="docs/screenshots/mobile-menu.png" width="460" alt="Mobile Navigation" /> |
-
-</div>
 
 ---
 
